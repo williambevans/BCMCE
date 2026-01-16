@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCMCE | Bosque County Mineral & Commodities Exchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --accent-amber: #ff9500;
+            --accent-green: #00ff88;
+            --accent-red: #ff3b3b;
+            --accent-blue: #00a8ff;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border-color: #2a2a2a;
+            --grid-line: #1f1f1f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* CRT Glow Effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Header Bar */
+        .header {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-amber) 0%, #ff6600 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #000;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-amber);
+        }
+
+        .logo-subtitle {
+            font-size: 10px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+        }
+
+        .datetime {
+            font-size: 12px;
+            color: var(--accent-amber);
+            font-weight: 500;
+        }
+
+        /* Ticker Tape */
+        .ticker-container {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-container::before,
+        .ticker-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 80px;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .ticker-container::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--bg-secondary) 0%, transparent 100%);
+        }
+
+        .ticker-container::after {
+            right: 0;
+            background: linear-gradient(270deg, var(--bg-secondary) 0%, transparent 100%);
+        }
+
+        .ticker-tape {
+            display: flex;
+            animation: scroll 60s linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 24px;
+            border-right: 1px solid var(--border-color);
+            gap: 12px;
+        }
+
+        .ticker-symbol {
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--accent-amber);
+            min-width: 60px;
+        }
+
+        .ticker-price {
+            font-size: 14px;
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        .ticker-change {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+
+        .ticker-change.up {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-green);
+        }
+
+        .ticker-change.down {
+            background: rgba(255, 59, 59, 0.15);
+            color: var(--accent-red);
+        }
+
+        .ticker-location {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 0;
+            min-height: calc(100vh - 100px);
+        }
+
+        /* Commodity Board */
+        .commodity-board {
+            padding: 20px;
+            background: var(--bg-primary);
+        }
+
+        .board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .board-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .board-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Commodity Grid */
+        .commodity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .commodity-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 16px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .commodity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent-amber);
+        }
+
+        .commodity-card:hover {
+            border-color: var(--accent-amber);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 149, 0, 0.1);
+        }
+
+        .commodity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .commodity-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .commodity-code {
+            font-size: 10px;
+            color: var(--accent-amber);
+            letter-spacing: 1px;
+        }
+
+        .commodity-grade {
+            font-size: 9px;
+            color: var(--text-muted);
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        .commodity-prices {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .price-item {
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .price-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .price-value.option {
+            color: var(--accent-blue);
+            font-size: 14px;
+        }
+
+        .commodity-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .location-tag {
+            font-size: 10px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .location-tag::before {
+            content: '📍';
+            font-size: 10px;
+        }
+
+        .availability {
+            font-size: 10px;
+            color: var(--accent-green);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .availability::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-section {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .panel-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        /* Coming Soon Banner */
+        .coming-soon {
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.1) 0%, rgba(255, 102, 0, 0.05) 100%);
+            border: 1px dashed var(--accent-amber);
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--accent-amber);
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 2px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 149, 0, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 149, 0, 0.8); }
+        }
+
+        .coming-soon h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .coming-soon p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Market Stats */
+        .market-stats {
+            display: grid;
+            gap: 12px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--grid-line);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-value.highlight {
+            color: var(--accent-amber);
+        }
+
+        /* Supplier Feed */
+        .supplier-feed {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .feed-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--grid-line);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .feed-supplier {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-amber);
+        }
+
+        .feed-time {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .feed-content {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .feed-tag {
+            display: inline-block;
+            font-size: 9px;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            padding: 2px 6px;
+            border-radius: 2px;
+            margin-top: 6px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-item {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .footer-item span {
+            color: var(--text-secondary);
+            margin-left: 6px;
+        }
+
+        .footer-right {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .footer-right a {
+            color: var(--accent-amber);
+            text-decoration: none;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeOut 0.5s ease 3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; pointer-events: none; }
+        }
+
+        .loading-logo {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            animation: flicker 0.1s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.95; }
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 2px;
+            background: var(--bg-tertiary);
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--accent-amber);
+            width: 0%;
+            animation: load 2.5s ease forwards;
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            20% { width: 20%; }
+            40% { width: 45%; }
+            60% { width: 70%; }
+            80% { width: 85%; }
+            100% { width: 100%; }
+        }
+
+        .loading-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .loading-status {
+            font-size: 10px;
+            color: var(--accent-green);
+            margin-top: 10px;
+            animation: blink 0.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .right-panel {
+                border-left: none;
+                border-top: 1px solid var(--border-color);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                padding: 12px;
+            }
+            
+            .commodity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .footer-left {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-logo">BCMCE</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        <div class="loading-text">INITIALIZING MARKET DATA</div>
+        <div class="loading-status">● CONNECTING TO SUPPLIERS...</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">BC</div>
+            <div>
+                <div class="logo-text">BCMCE</div>
+                <div class="logo-subtitle">BOSQUE COUNTY MINERAL & COMMODITIES EXCHANGE</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>MARKET ACTIVE</span>
+            </div>
+            <div class="datetime" id="datetime">--:--:-- CST</div>
+        </div>
+    </header>
+
+    <!-- Ticker Tape -->
+    <div class="ticker-container">
+        <div class="ticker-tape" id="ticker">
+            <!-- Ticker items will be duplicated for infinite scroll -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Commodity Board -->
+        <section class="commodity-board">
+            <div class="board-header">
+                <div>
+                    <div class="board-title">Live Commodity Pricing</div>
+                    <div class="board-subtitle">Real-time prices from Central Texas suppliers</div>
+                </div>
+                <div class="board-subtitle">Last updated: <span id="lastUpdate">--:--</span></div>
+            </div>
+
+            <div class="commodity-grid" id="commodityGrid">
+                <!-- Commodity cards will be generated by JS -->
+            </div>
+        </section>
+
+        <!-- Right Panel -->
+        <aside class="right-panel">
+            <div class="panel-section">
+                <div class="coming-soon">
+                    <div class="coming-soon-badge">COMING Q1 2026</div>
+                    <h3>County Options Trading</h3>
+                    <p>Lock in material prices for 30, 90, or 365 days. Submit bids directly to Bosque County Commissioners Court.</p>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="panel-title">Market Overview</div>
+                <div class="market-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Active Suppliers</span>
+                        <span class="stat-value highlight">7</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Materials Listed</span>
+                        <span class="stat-value">12</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Delivery Radius</span>
+                        <span class="stat-value">50 mi</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Avg. Daily Volume</span>
+                        <span class="stat-value">~450 tons</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">County Budget YTD</span>
+                        <span class="stat-value highlight">$287,500</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section supplier-feed">
+                <div class="panel-title">Supplier Activity</div>
+                <div id="supplierFeed">
+                    <!-- Feed items generated by JS -->
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-left">
+            <div class="footer-item">EXCHANGE:<span>BCMCE-TX</span></div>
+            <div class="footer-item">REGION:<span>CENTRAL TEXAS</span></div>
+            <div class="footer-item">JURISDICTION:<span>BOSQUE COUNTY</span></div>
+        </div>
+        <div class="footer-right">
+            Operated by <a href="#">HH Holdings</a> | <a href="#">Bevans Real Estate</a> | Clifton, TX
+        </div>
+    </footer>
+
+    <script>
+        // Commodity Data
+        const commodities = [
+            {
+                name: "Road Base Gravel",
+                code: "GRVL-RB",
+                grade: "TxDOT Type A",
+                spot: 28.50,
+                option30: 30.25,
+                option90: 32.00,
+                location: "Clifton Quarry",
+                change: 1.2,
+                available: true
+            },
+            {
+                name: "Flex Base Grade 1-2",
+                code: "FLEX-12",
+                grade: "TxDOT Item 247",
+                spot: 32.00,
+                option30: 34.50,
+                option90: 36.00,
+                location: "Central TX Stone",
+                change: -0.5,
+                available: true
+            },
+            {
+                name: "Caliche",
+                code: "CALC-STD",
+                grade: "Standard Grade",
+                spot: 45.00,
+                option30: 48.00,
+                option90: 52.00,
+                location: "Bosque River Pit",
+                change: 2.1,
+                available: true
+            },
+            {
+                name: "Lime Slurry",
+                code: "LIME-SLR",
+                grade: "Hydrated Commercial",
+                spot: 143.00,
+                option30: 152.00,
+                option90: 165.00,
+                location: "LAT Certified",
+                change: 0.8,
+                available: true
+            },
+            {
+                name: "Crushed Limestone",
+                code: "LMST-CR",
+                grade: "3/4\" Minus",
+                spot: 35.00,
+                option30: 37.50,
+                option90: 40.00,
+                location: "Meridian Pit",
+                change: -0.3,
+                available: true
+            },
+            {
+                name: "Pea Gravel",
+                code: "GRVL-PEA",
+                grade: "3/8\" Washed",
+                spot: 42.00,
+                option30: 44.50,
+                option90: 47.00,
+                location: "Morgan Quarry",
+                change: 0.5,
+                available: true
+            },
+            {
+                name: "Topping Gravel",
+                code: "GRVL-TOP",
+                grade: "Surface Grade",
+                spot: 38.00,
+                option30: 40.50,
+                option90: 43.00,
+                location: "Clifton Quarry",
+                change: 1.8,
+                available: true
+            },
+            {
+                name: "Fill Clay",
+                code: "CLAY-FIL",
+                grade: "Compactable",
+                spot: 18.00,
+                option30: 19.50,
+                option90: 21.00,
+                location: "Cranfills Gap",
+                change: 0.0,
+                available: true
+            },
+            {
+                name: "Cement",
+                code: "CMNT-PRT",
+                grade: "Portland Type I",
+                spot: 153.25,
+                option30: 158.00,
+                option90: 165.00,
+                location: "Waco Dist",
+                change: -1.2,
+                available: true
+            },
+            {
+                name: "Crusher Run",
+                code: "CRSH-RUN",
+                grade: "Dense Grade Agg",
+                spot: 26.00,
+                option30: 28.00,
+                option90: 30.50,
+                location: "Valley Mills",
+                change: 0.7,
+                available: true
+            },
+            {
+                name: "Quicklime Dry",
+                code: "LIME-QK",
+                grade: "TxDOT Type C",
+                spot: 170.85,
+                option30: 178.00,
+                option90: 188.00,
+                location: "LAT Member",
+                change: 1.5,
+                available: true
+            },
+            {
+                name: "Hot Mix Asphalt",
+                code: "HMAC-STD",
+                grade: "Type D PG64",
+                spot: 109.58,
+                option30: 115.00,
+                option90: 122.00,
+                location: "Waco Plant",
+                change: -2.3,
+                available: false
+            }
+        ];
+
+        // Supplier Activity Feed
+        const supplierActivity = [
+            { supplier: "LOFTIN DIRT WORKS", time: "2m ago", content: "Posted 500 tons Road Base available", tag: "INVENTORY" },
+            { supplier: "CLIFTON QUARRY", time: "8m ago", content: "Price update: Crushed Limestone -$0.30/ton", tag: "PRICE CHANGE" },
+            { supplier: "CENTRAL TX STONE", time: "15m ago", content: "New delivery slot available Jan 18", tag: "DELIVERY" },
+            { supplier: "BOSQUE MATERIALS", time: "32m ago", content: "90-day option contracts now available", tag: "OPTIONS" },
+            { supplier: "LAT CERTIFIED", time: "1h ago", content: "Lime slurry inventory restocked", tag: "INVENTORY" }
+        ];
+
+        // Update datetime
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                timeZone: 'America/Chicago'
+            };
+            document.getElementById('datetime').textContent = now.toLocaleTimeString('en-US', options) + ' CST';
+            document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // Generate Ticker
+        function generateTicker() {
+            const ticker = document.getElementById('ticker');
+            let tickerHTML = '';
+            
+            // Duplicate for infinite scroll
+            for (let i = 0; i < 2; i++) {
+                commodities.forEach(c => {
+                    const changeClass = c.change >= 0 ? 'up' : 'down';
+                    const changeSymbol = c.change >= 0 ? '+' : '';
+                    tickerHTML += `
+                        <div class="ticker-item">
+                            <span class="ticker-symbol">${c.code}</span>
+                            <span class="ticker-price">$${c.spot.toFixed(2)}</span>
+                            <span class="ticker-change ${changeClass}">${changeSymbol}${c.change.toFixed(1)}%</span>
+                            <span class="ticker-location">${c.location.split(' ')[0]}</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            ticker.innerHTML = tickerHTML;
+        }
+
+        // Generate Commodity Grid
+        function generateCommodityGrid() {
+            const grid = document.getElementById('commodityGrid');
+            let gridHTML = '';
+            
+            commodities.forEach(c => {
+                const changeClass = c.change >= 0 ? 'up' : 'down';
+                const availClass = c.available ? '' : 'style="color: var(--accent-red);"';
+                const availText = c.available ? 'In Stock' : 'Limited';
+                
+                gridHTML += `
+                    <div class="commodity-card">
+                        <div class="commodity-header">
+                            <div>
+                                <div class="commodity-name">${c.name}</div>
+                                <div class="commodity-code">${c.code}</div>
+                            </div>
+                            <div class="commodity-grade">${c.grade}</div>
+                        </div>
+                        <div class="commodity-prices">
+                            <div class="price-item">
+                                <div class="price-label">Spot /ton</div>
+                                <div class="price-value">$${c.spot.toFixed(2)}</div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-label">30d Opt</div>
+                                <div class="price-value option">$${c.option30.toFixed(2)}</div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-label">90d Opt</div>
+                                <div class="price-value option">$${c.option90.toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <div class="commodity-footer">
+                            <span class="location-tag">${c.location}</span>
+                            <span class="availability" ${availClass}>${availText}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = gridHTML;
+        }
+
+        // Generate Supplier Feed
+        function generateSupplierFeed() {
+            const feed = document.getElementById('supplierFeed');
+            let feedHTML = '';
+            
+            supplierActivity.forEach(item => {
+                feedHTML += `
+                    <div class="feed-item">
+                        <div class="feed-header">
+                            <span class="feed-supplier">${item.supplier}</span>
+                            <span class="feed-time">${item.time}</span>
+                        </div>
+                        <div class="feed-content">${item.content}</div>
+                        <span class="feed-tag">${item.tag}</span>
+                    </div>
+                `;
+            });
+            
+            feed.innerHTML = feedHTML;
+        }
+
+        // Simulate price updates
+        function simulatePriceUpdate() {
+            const randomIndex = Math.floor(Math.random() * commodities.length);
+            const commodity = commodities[randomIndex];
+            const change = (Math.random() - 0.5) * 2;
+            commodity.spot = Math.max(5, commodity.spot + change);
+            commodity.change = parseFloat(((change / commodity.spot) * 100).toFixed(1));
+            
+            generateCommodityGrid();
+            generateTicker();
+        }
+
+        // Initialize
+        generateTicker();
+        generateCommodityGrid();
+        generateSupplierFeed();
+        
+        // Update prices every 30 seconds
+        setInterval(simulatePriceUpdate, 30000);
+    </script>
+</body>
+</html>
