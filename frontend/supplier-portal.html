@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCMCE Supplier Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stat-change {
+            color: #28a745;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .stat-change.negative {
+            color: #dc3545;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        button.secondary:hover {
+            background: #5a6268;
+        }
+
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .inventory-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .inventory-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .inventory-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-fulfilled {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .notification {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        .price-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .price-input-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">BCMCE Supplier Portal</div>
+            <div class="user-info">
+                <span id="supplierName">Clifton Quarry & Materials</span>
+                <div class="user-avatar">CQ</div>
+            </div>
+        </header>
+
+        <div id="notification" class="notification">
+            <span id="notificationText"></span>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card stat-card">
+                <h2>Active Listings</h2>
+                <div class="stat-value" id="activeListings">12</div>
+                <div class="stat-label">Materials Available</div>
+                <div class="stat-change">+2 this week</div>
+            </div>
+
+            <div class="card stat-card">
+                <h2>Options Sold</h2>
+                <div class="stat-value" id="optionsSold">23</div>
+                <div class="stat-label">Active Contracts</div>
+                <div class="stat-change">+5 this month</div>
+            </div>
+
+            <div class="card stat-card">
+                <h2>Monthly Revenue</h2>
+                <div class="stat-value" id="monthlyRevenue">$47.2K</div>
+                <div class="stat-label">January 2026</div>
+                <div class="stat-change">+18% vs last month</div>
+            </div>
+
+            <div class="card stat-card">
+                <h2>Pending Orders</h2>
+                <div class="stat-value" id="pendingOrders">8</div>
+                <div class="stat-label">Awaiting Fulfillment</div>
+                <div class="stat-change negative">2 due this week</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('inventory')">Inventory Management</button>
+            <button class="tab" onclick="switchTab('pricing')">Pricing & Options</button>
+            <button class="tab" onclick="switchTab('orders')">Orders & Bids</button>
+            <button class="tab" onclick="switchTab('analytics')">Analytics</button>
+        </div>
+
+        <div id="inventory" class="tab-content active">
+            <div class="card">
+                <h2>Current Inventory</h2>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTableBody">
+                        <tr>
+                            <td>Road Base Gravel</td>
+                            <td>2,450</td>
+                            <td>Tons</td>
+                            <td>Pit #1 - Clifton</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>
+                                <button class="action-btn">Edit</button>
+                                <button class="action-btn secondary">Update</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Caliche</td>
+                            <td>1,850</td>
+                            <td>Tons</td>
+                            <td>Pit #2 - Meridian</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>
+                                <button class="action-btn">Edit</button>
+                                <button class="action-btn secondary">Update</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Limestone</td>
+                            <td>3,200</td>
+                            <td>Tons</td>
+                            <td>Quarry - Valley Mills</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td>
+                                <button class="action-btn">Edit</button>
+                                <button class="action-btn secondary">Update</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button style="margin-top: 20px;" onclick="showAddInventory()">+ Add New Material</button>
+            </div>
+        </div>
+
+        <div id="pricing" class="tab-content">
+            <div class="card">
+                <h2>Update Pricing</h2>
+                <form onsubmit="updatePricing(event)">
+                    <div class="form-group">
+                        <label>Select Material</label>
+                        <select id="materialSelect">
+                            <option>Road Base Gravel</option>
+                            <option>Caliche</option>
+                            <option>Limestone</option>
+                            <option>Hot Mix Asphalt</option>
+                            <option>Lime Slurry</option>
+                        </select>
+                    </div>
+
+                    <div class="price-input-group">
+                        <div class="form-group">
+                            <label>Spot Price ($/ton)</label>
+                            <input type="number" step="0.01" id="spotPrice" value="28.50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Order (tons)</label>
+                            <input type="number" id="minOrder" value="50" required>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 20px 0 10px 0; color: #333;">Option Pricing</h3>
+
+                    <div class="price-input-group">
+                        <div class="form-group">
+                            <label>30-Day Option ($/ton)</label>
+                            <input type="number" step="0.01" id="option30" value="30.00" required>
+                        </div>
+                        <div class="form-group">
+                            <label>90-Day Option ($/ton)</label>
+                            <input type="number" step="0.01" id="option90" value="31.50" required>
+                        </div>
+                    </div>
+
+                    <div class="price-input-group">
+                        <div class="form-group">
+                            <label>180-Day Option ($/ton)</label>
+                            <input type="number" step="0.01" id="option180" value="33.00" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Annual Option ($/ton)</label>
+                            <input type="number" step="0.01" id="optionAnnual" value="35.00" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Radius (miles)</label>
+                        <input type="number" id="deliveryRadius" value="50" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="pricingNotes" placeholder="Any special conditions or notes..."></textarea>
+                    </div>
+
+                    <button type="submit">Update Pricing</button>
+                    <button type="button" class="secondary" style="margin-left: 10px;">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="orders" class="tab-content">
+            <div class="card">
+                <h2>Recent Orders & Bids</h2>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Material</th>
+                            <th>Quantity</th>
+                            <th>Value</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#ORD-2601-001</td>
+                            <td>Bosque County</td>
+                            <td>Road Base Gravel</td>
+                            <td>250 tons</td>
+                            <td>$7,125</td>
+                            <td><span class="status-badge status-pending">Pending</span></td>
+                            <td>
+                                <button class="action-btn">Accept</button>
+                                <button class="action-btn secondary">Decline</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-2601-002</td>
+                            <td>Hill County</td>
+                            <td>Caliche</td>
+                            <td>180 tons</td>
+                            <td>$8,100</td>
+                            <td><span class="status-badge status-active">Accepted</span></td>
+                            <td>
+                                <button class="action-btn">View Details</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-2512-087</td>
+                            <td>Bosque County</td>
+                            <td>Limestone</td>
+                            <td>300 tons</td>
+                            <td>$12,900</td>
+                            <td><span class="status-badge status-fulfilled">Fulfilled</span></td>
+                            <td>
+                                <button class="action-btn">View Details</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="analytics" class="tab-content">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h2>Sales Trends</h2>
+                    <p style="color: #666; margin: 10px 0;">Your top-selling materials this month:</p>
+                    <ul style="list-style: none;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Road Base Gravel</strong> - 1,240 tons ($35,340)
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Caliche</strong> - 890 tons ($40,050)
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Limestone</strong> - 620 tons ($26,660)
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>Customer Breakdown</h2>
+                    <p style="color: #666; margin: 10px 0;">Orders by county:</p>
+                    <ul style="list-style: none;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Bosque County</strong> - 14 orders (62%)
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Hill County</strong> - 6 orders (26%)
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>McLennan County</strong> - 3 orders (12%)
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>Options Performance</h2>
+                    <p style="color: #666; margin: 10px 0;">Options contracts this quarter:</p>
+                    <ul style="list-style: none;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>30-Day Options</strong> - 8 sold ($2,400)
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>90-Day Options</strong> - 12 sold ($4,200)
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Annual Options</strong> - 3 sold ($2,100)
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2>Market Position</h2>
+                    <p style="color: #666; margin: 10px 0;">Your competitive standing:</p>
+                    <ul style="list-style: none;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Price Rank</strong> - #2 of 7 suppliers
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Delivery Rating</strong> - 4.8/5.0
+                        </li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid #eee;">
+                            <strong>Fulfillment Rate</strong> - 96%
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Update pricing form
+        function updatePricing(event) {
+            event.preventDefault();
+
+            const material = document.getElementById('materialSelect').value;
+            const spotPrice = document.getElementById('spotPrice').value;
+
+            showNotification(`Pricing updated successfully for ${material} at $${spotPrice}/ton`);
+
+            // In production, this would make an API call
+            console.log('Pricing update:', {
+                material,
+                spotPrice,
+                option30: document.getElementById('option30').value,
+                option90: document.getElementById('option90').value,
+                option180: document.getElementById('option180').value,
+                optionAnnual: document.getElementById('optionAnnual').value
+            });
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+
+            notificationText.textContent = message;
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Add inventory item
+        function showAddInventory() {
+            alert('Add inventory form would open here. In production, this would be a modal or new page.');
+        }
+
+        // Simulate real-time updates
+        function updateStats() {
+            // In production, this would fetch from API
+            const updates = [
+                'New bid request from Bosque County',
+                'Option contract exercised - 120 tons Caliche',
+                'Payment received - $8,100',
+                'Price alert: Competitor lowered Hot Mix pricing'
+            ];
+
+            const randomUpdate = updates[Math.floor(Math.random() * updates.length)];
+
+            if (Math.random() > 0.7) {
+                showNotification(randomUpdate);
+            }
+        }
+
+        // Check for updates every 30 seconds
+        setInterval(updateStats, 30000);
+
+        // Initialize tooltips and other UI elements
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('BCMCE Supplier Portal loaded');
+            console.log('API endpoint:', 'http://localhost:8000/api/v1');
+        });
+    </script>
+</body>
+</html>
