@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCMCE Commissioner Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .county-badge {
+            background: #1e3c72;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #1e3c72;
+            padding-bottom: 10px;
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1e3c72;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stat-change {
+            color: #28a745;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pricing-table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            color: #333;
+            border-bottom: 2px solid #1e3c72;
+        }
+
+        .pricing-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .pricing-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .price-cell {
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .best-price {
+            color: #28a745;
+            font-weight: 700;
+        }
+
+        .option-price {
+            font-size: 11px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        button {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2a5298;
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        button.success {
+            background: #28a745;
+        }
+
+        button.success:hover {
+            background: #218838;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: white;
+            color: #1e3c72;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .budget-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .budget-used {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .budget-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .option-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1e3c72;
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .option-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .option-status {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .option-details {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .supplier-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .supplier-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .supplier-price {
+            font-size: 24px;
+            color: #1e3c72;
+            font-weight: 700;
+        }
+
+        .supplier-rating {
+            color: #ffc107;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">BCMCE Commissioner Dashboard</div>
+            <div class="county-badge">Bosque County</div>
+        </header>
+
+        <div class="alert">
+            <div class="alert-title">Budget Alert</div>
+            You have $125,000 remaining in your Q1 2026 road materials budget. Consider locking in prices with option contracts.
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card stat-card">
+                <h2>Budget Allocated</h2>
+                <div class="stat-value">$450K</div>
+                <div class="stat-label">FY 2026 Road Materials</div>
+                <div class="stat-change">$325K spent (72%)</div>
+            </div>
+
+            <div class="card stat-card">
+                <h2>Active Options</h2>
+                <div class="stat-value">18</div>
+                <div class="stat-label">Locked Price Contracts</div>
+                <div class="stat-change">5 expiring this month</div>
+            </div>
+
+            <div class="card stat-card">
+                <h2>Cost Savings</h2>
+                <div class="stat-value">$47.2K</div>
+                <div class="stat-label">vs Market Rates</div>
+                <div class="stat-change">12.6% below average</div>
+            </div>
+
+            <div class="card stat-card">
+                <h2>Projects Active</h2>
+                <div class="stat-value">6</div>
+                <div class="stat-label">Road Maintenance</div>
+                <div class="stat-change">2 pending approval</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('pricing')">Current Pricing</button>
+            <button class="tab" onclick="switchTab('options')">My Options</button>
+            <button class="tab" onclick="switchTab('request')">New Request</button>
+            <button class="tab" onclick="switchTab('budget')">Budget Tracking</button>
+        </div>
+
+        <div id="pricing" class="tab-content active">
+            <div class="card">
+                <h2>Real-Time Market Pricing</h2>
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Spot Price</th>
+                            <th>30-Day</th>
+                            <th>90-Day</th>
+                            <th>Annual</th>
+                            <th>Best Supplier</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Road Base Gravel</strong></td>
+                            <td class="price-cell">$28.50/ton</td>
+                            <td class="price-cell">$30.00</td>
+                            <td class="price-cell">$31.50</td>
+                            <td class="price-cell">$35.00</td>
+                            <td>Clifton Quarry</td>
+                            <td>
+                                <button class="action-btn success">Buy Option</button>
+                                <button class="action-btn secondary">Compare</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Caliche</strong></td>
+                            <td class="price-cell">$45.00/ton</td>
+                            <td class="price-cell">$47.25</td>
+                            <td class="price-cell">$49.50</td>
+                            <td class="price-cell">$54.00</td>
+                            <td>Loftin Dirt Works</td>
+                            <td>
+                                <button class="action-btn success">Buy Option</button>
+                                <button class="action-btn secondary">Compare</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hot Mix Asphalt</strong></td>
+                            <td class="price-cell best-price">$109.58/ton</td>
+                            <td class="price-cell">$115.00</td>
+                            <td class="price-cell">$120.00</td>
+                            <td class="price-cell">$130.00</td>
+                            <td>Williams Paving</td>
+                            <td>
+                                <button class="action-btn success">Buy Option</button>
+                                <button class="action-btn secondary">Compare</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lime Slurry</strong></td>
+                            <td class="price-cell">$143.00/ton</td>
+                            <td class="price-cell">$150.15</td>
+                            <td class="price-cell">$157.30</td>
+                            <td class="price-cell">$171.60</td>
+                            <td>Texas Lime Co.</td>
+                            <td>
+                                <button class="action-btn success">Buy Option</button>
+                                <button class="action-btn secondary">Compare</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>P-Gravel</strong></td>
+                            <td class="price-cell">$32.00/ton</td>
+                            <td class="price-cell">$33.60</td>
+                            <td class="price-cell">$35.20</td>
+                            <td class="price-cell">$38.40</td>
+                            <td>Bosque River Pit</td>
+                            <td>
+                                <button class="action-btn success">Buy Option</button>
+                                <button class="action-btn secondary">Compare</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 15px; color: #666; font-size: 12px;">
+                    Prices updated every 30 minutes. Last update: <span id="lastUpdate">2:45 PM</span>
+                </p>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h2>Supplier Comparison - Road Base Gravel</h2>
+                <div class="comparison-grid">
+                    <div class="supplier-card">
+                        <div class="supplier-name">Clifton Quarry</div>
+                        <div class="supplier-price">$28.50</div>
+                        <div style="font-size: 11px; color: #666;">per ton</div>
+                        <div class="supplier-rating">★★★★★ 4.9</div>
+                        <button class="action-btn success" style="margin-top: 10px;">Select</button>
+                    </div>
+                    <div class="supplier-card">
+                        <div class="supplier-name">Bosque River Pit</div>
+                        <div class="supplier-price">$29.75</div>
+                        <div style="font-size: 11px; color: #666;">per ton</div>
+                        <div class="supplier-rating">★★★★☆ 4.6</div>
+                        <button class="action-btn success" style="margin-top: 10px;">Select</button>
+                    </div>
+                    <div class="supplier-card">
+                        <div class="supplier-name">Valley Mills AG</div>
+                        <div class="supplier-price">$31.00</div>
+                        <div style="font-size: 11px; color: #666;">per ton</div>
+                        <div class="supplier-rating">★★★★☆ 4.4</div>
+                        <button class="action-btn success" style="margin-top: 10px;">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="options" class="tab-content">
+            <div class="card">
+                <h2>Active Option Contracts</h2>
+
+                <div class="option-card">
+                    <div class="option-header">
+                        <div class="option-title">Road Base Gravel - 500 tons @ $30/ton</div>
+                        <div class="option-status">Active</div>
+                    </div>
+                    <div class="option-details">
+                        <strong>Supplier:</strong> Clifton Quarry<br>
+                        <strong>Purchased:</strong> December 15, 2025<br>
+                        <strong>Expires:</strong> March 15, 2026 (57 days)<br>
+                        <strong>Total Value:</strong> $15,000<br>
+                        <strong>Current Market:</strong> $28.50/ton (Saving: $750)
+                    </div>
+                    <button class="action-btn success" style="margin-top: 10px;">Exercise Option</button>
+                    <button class="action-btn secondary">View Details</button>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-header">
+                        <div class="option-title">Caliche - 300 tons @ $47.25/ton</div>
+                        <div class="option-status">Active</div>
+                    </div>
+                    <div class="option-details">
+                        <strong>Supplier:</strong> Loftin Dirt Works<br>
+                        <strong>Purchased:</strong> January 5, 2026<br>
+                        <strong>Expires:</strong> April 5, 2026 (78 days)<br>
+                        <strong>Total Value:</strong> $14,175<br>
+                        <strong>Current Market:</strong> $45.00/ton (Option is above market)
+                    </div>
+                    <button class="action-btn">Monitor</button>
+                    <button class="action-btn secondary">View Details</button>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-header">
+                        <div class="option-title">Hot Mix Asphalt - 200 tons @ $115/ton</div>
+                        <div class="option-status" style="background: #fff3cd; color: #856404;">Expiring Soon</div>
+                    </div>
+                    <div class="option-details">
+                        <strong>Supplier:</strong> Williams Paving<br>
+                        <strong>Purchased:</strong> October 20, 2025<br>
+                        <strong>Expires:</strong> January 20, 2026 (3 days!) <br>
+                        <strong>Total Value:</strong> $23,000<br>
+                        <strong>Current Market:</strong> $109.58/ton (Let expire)
+                    </div>
+                    <button class="action-btn success" style="margin-top: 10px;">Exercise Now</button>
+                    <button class="action-btn secondary">Let Expire</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="request" class="tab-content">
+            <div class="card">
+                <h2>Submit Material Requirement</h2>
+                <form onsubmit="submitRequest(event)">
+                    <div class="form-group">
+                        <label>Project Name</label>
+                        <input type="text" placeholder="e.g., FM 219 Resurfacing" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Material Type</label>
+                        <select required>
+                            <option value="">Select material...</option>
+                            <option>Road Base Gravel</option>
+                            <option>Caliche</option>
+                            <option>Hot Mix Asphalt</option>
+                            <option>Lime Slurry</option>
+                            <option>P-Gravel</option>
+                            <option>Limestone</option>
+                            <option>Concrete</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quantity Needed (tons)</label>
+                        <input type="number" placeholder="e.g., 500" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Location</label>
+                        <input type="text" placeholder="e.g., County Road 1740" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Needed By Date</label>
+                        <input type="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Budget Code</label>
+                        <input type="text" placeholder="e.g., RD-2026-Q1-003" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Specifications / Notes</label>
+                        <textarea rows="4" placeholder="TxDOT specifications, delivery instructions, etc."></textarea>
+                    </div>
+
+                    <button type="submit" class="success">Submit Requirement</button>
+                    <button type="button" class="secondary" style="margin-left: 10px;">Save Draft</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="budget" class="tab-content">
+            <div class="card">
+                <h2>FY 2026 Budget Overview</h2>
+
+                <div class="budget-bar">
+                    <div class="budget-used" style="width: 72%;">$325,000 Used (72%)</div>
+                </div>
+                <div class="budget-details">
+                    <span><strong>Allocated:</strong> $450,000</span>
+                    <span><strong>Remaining:</strong> $125,000</span>
+                </div>
+
+                <h3 style="margin: 30px 0 15px 0; color: #333;">Budget Breakdown by Quarter</h3>
+
+                <div class="option-card">
+                    <div class="option-header">
+                        <div class="option-title">Q1 2026 (Jan - Mar)</div>
+                        <div class="option-status" style="background: #fff3cd; color: #856404;">Current</div>
+                    </div>
+                    <div class="option-details">
+                        <strong>Allocated:</strong> $125,000<br>
+                        <strong>Spent:</strong> $89,500 (71.6%)<br>
+                        <strong>Remaining:</strong> $35,500<br>
+                        <strong>Projected:</strong> $118,000 (95%)
+                    </div>
+                </div>
+
+                <div class="option-card">
+                    <div class="option-header">
+                        <div class="option-title">Q2 2026 (Apr - Jun)</div>
+                        <div class="option-status">Planned</div>
+                    </div>
+                    <div class="option-details">
+                        <strong>Allocated:</strong> $125,000<br>
+                        <strong>Committed:</strong> $42,000 (options)<br>
+                        <strong>Available:</strong> $83,000
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 15px 0; color: #333;">Spending by Material</h3>
+
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Quantity</th>
+                            <th>Avg Price</th>
+                            <th>Total Spent</th>
+                            <th>% of Budget</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Road Base Gravel</strong></td>
+                            <td>2,840 tons</td>
+                            <td>$29.15/ton</td>
+                            <td class="price-cell">$82,786</td>
+                            <td>25.5%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hot Mix Asphalt</strong></td>
+                            <td>1,620 tons</td>
+                            <td>$112.40/ton</td>
+                            <td class="price-cell">$182,088</td>
+                            <td>56.0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Caliche</strong></td>
+                            <td>890 tons</td>
+                            <td>$46.20/ton</td>
+                            <td class="price-cell">$41,118</td>
+                            <td>12.7%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lime Slurry</strong></td>
+                            <td>132 tons</td>
+                            <td>$144.30/ton</td>
+                            <td class="price-cell">$19,048</td>
+                            <td>5.9%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Submit material requirement
+        function submitRequest(event) {
+            event.preventDefault();
+            alert('Material requirement submitted successfully! You will receive bids from suppliers within 24 hours.');
+            event.target.reset();
+        }
+
+        // Update last update time
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            document.getElementById('lastUpdate').textContent = timeString;
+        }
+
+        // Update time every minute
+        setInterval(updateTime, 60000);
+        updateTime();
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('BCMCE Commissioner Dashboard loaded');
+            console.log('API endpoint:', 'http://localhost:8000/api/v1');
+        });
+    </script>
+</body>
+</html>
