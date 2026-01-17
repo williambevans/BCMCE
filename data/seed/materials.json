@@ -1,0 +1,122 @@
+[
+  {
+    "code": "GRVL-RB",
+    "name": "Road Base Gravel",
+    "category": "Aggregate",
+    "grade": "Type A",
+    "txdot_spec": "TxDOT Type A",
+    "unit": "TON",
+    "description": "Road base material for foundation and stabilization",
+    "typical_use": "Road foundation, parking lots, driveways"
+  },
+  {
+    "code": "FLEX-12",
+    "name": "Flexible Base Grade 1-2",
+    "category": "Base Material",
+    "grade": "Grade 1-2",
+    "txdot_spec": "TxDOT Item 247",
+    "unit": "TON",
+    "description": "Flexible base course material",
+    "typical_use": "Road base, flexible pavement foundation"
+  },
+  {
+    "code": "CALC-STD",
+    "name": "Caliche",
+    "category": "Base Material",
+    "grade": "Standard",
+    "txdot_spec": null,
+    "unit": "TON",
+    "description": "Natural calcium carbonate material",
+    "typical_use": "Road base, unpaved roads, stabilization"
+  },
+  {
+    "code": "LIME-SLR",
+    "name": "Lime Slurry",
+    "category": "Stabilization",
+    "grade": "Hydrated Commercial",
+    "txdot_spec": "TxDOT DMS-6350",
+    "unit": "TON",
+    "description": "Hydrated lime in slurry form for soil stabilization",
+    "typical_use": "Soil stabilization, pH adjustment"
+  },
+  {
+    "code": "LMST-CR",
+    "name": "Crushed Limestone",
+    "category": "Aggregate",
+    "grade": "3/4 Minus",
+    "txdot_spec": null,
+    "unit": "TON",
+    "description": "Crushed limestone aggregate",
+    "typical_use": "Drainage, base material, concrete aggregate"
+  },
+  {
+    "code": "GRVL-PEA",
+    "name": "Pea Gravel",
+    "category": "Aggregate",
+    "grade": "3/8 Washed",
+    "txdot_spec": null,
+    "unit": "TON",
+    "description": "Small, rounded stones for drainage and landscaping",
+    "typical_use": "Drainage, pipe bedding, walkways"
+  },
+  {
+    "code": "GRVL-TOP",
+    "name": "Topping Gravel",
+    "category": "Aggregate",
+    "grade": "Surface Grade",
+    "txdot_spec": null,
+    "unit": "TON",
+    "description": "Surface gravel for unpaved roads",
+    "typical_use": "Road surface, driveway topping"
+  },
+  {
+    "code": "CLAY-FIL",
+    "name": "Fill Clay",
+    "category": "Fill Material",
+    "grade": "Compactable",
+    "txdot_spec": null,
+    "unit": "TON",
+    "description": "Compactable clay for fill and grading",
+    "typical_use": "Fill, grading, embankments"
+  },
+  {
+    "code": "CMNT-PRT",
+    "name": "Portland Cement",
+    "category": "Cement",
+    "grade": "Type I",
+    "txdot_spec": "ASTM C150",
+    "unit": "TON",
+    "description": "General purpose portland cement",
+    "typical_use": "Concrete, mortar, stabilization"
+  },
+  {
+    "code": "CRSH-RUN",
+    "name": "Crusher Run",
+    "category": "Aggregate",
+    "grade": "Dense Grade",
+    "txdot_spec": null,
+    "unit": "TON",
+    "description": "Dense grade aggregate with fines",
+    "typical_use": "Compactable base, driveways, trails"
+  },
+  {
+    "code": "LIME-QK",
+    "name": "Quicklime (Dry)",
+    "category": "Stabilization",
+    "grade": "TxDOT Type C",
+    "txdot_spec": "TxDOT Item 260",
+    "unit": "TON",
+    "description": "Dry quicklime for soil treatment",
+    "typical_use": "Soil stabilization, drying"
+  },
+  {
+    "code": "HMAC-STD",
+    "name": "Hot Mix Asphalt",
+    "category": "Asphalt",
+    "grade": "Type D PG64",
+    "txdot_spec": "TxDOT Item 340",
+    "unit": "TON",
+    "description": "Hot mix asphalt concrete",
+    "typical_use": "Paving, road surface"
+  }
+]
