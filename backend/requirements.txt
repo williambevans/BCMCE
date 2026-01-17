@@ -1,0 +1,77 @@
+# BCMCE Backend Dependencies
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.25
+psycopg2-binary==2.9.9
+alembic==1.13.1
+asyncpg==0.29.0
+
+# Redis
+redis==5.0.1
+hiredis==2.3.2
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+cryptography==41.0.7
+
+# Data Validation
+pydantic==2.5.3
+pydantic-settings==2.1.0
+email-validator==2.1.0
+
+# HTTP Client
+httpx==0.26.0
+requests==2.31.0
+
+# Web Scraping
+beautifulsoup4==4.12.3
+lxml==5.1.0
+selenium==4.16.0
+
+# Data Processing
+pandas==2.1.4
+numpy==1.26.3
+
+# PDF Processing
+pypdf2==3.0.1
+
+# Excel Processing
+openpyxl==3.1.2
+
+# Date/Time
+python-dateutil==2.8.2
+pytz==2023.3.post1
+
+# Background Tasks
+celery==5.3.4
+flower==2.0.1
+
+# Email
+fastapi-mail==1.4.1
+
+# Monitoring & Logging
+sentry-sdk==1.39.2
+python-logging-loki==0.3.1
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+httpx==0.26.0
+
+# Development
+black==23.12.1
+flake8==7.0.0
+mypy==1.8.0
+isort==5.13.2
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.5.3
