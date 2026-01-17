@@ -1,10 +1,49 @@
 <!DOCTYPE html>
+<!--
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║   ██╗  ██╗    ██╗  ██╗          ██╗  ██╗ ██████╗ ██╗     ██████╗ ██╗███╗   ██╗ ██████╗ ███████╗  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║██╔═══██╗██║     ██╔══██╗██║████╗  ██║██╔════╝ ██╔════╝  ║
+║   ███████║    ███████║          ███████║██║   ██║██║     ██║  ██║██║██╔██╗ ██║██║  ███╗███████╗  ║
+║   ██╔══██║    ██╔══██║          ██╔══██║██║   ██║██║     ██║  ██║██║██║╚██╗██║██║   ██║╚════██║  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║╚██████╔╝███████╗██████╔╝██║██║ ╚████║╚██████╔╝███████║  ║
+║   ╚═╝  ╚═╝    ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝  ║
+║                                                                           ║
+║                       BCMCE COMMISSIONER DASHBOARD                       ║
+║                    County Procurement & Budget Management                ║
+║                                                                           ║
+║   Operator:    HH Holdings LLC / Bevans Real Estate                      ║
+║   Location:    397 Highway 22, Clifton, TX 76634                         ║
+║   Broker:      Biri Bevans, Designated Broker                            ║
+║   Module:      County Requirements & Options Management                  ║
+║                                                                           ║
+║   Features:    Pricing • Options • Budgets • Bids • Analytics            ║
+║   Version:     1.0.0 - Production Ready                                  ║
+║   Copyright:   © 2026 HH Holdings LLC. All rights reserved.              ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCMCE Commissioner Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --accent-amber: #ff9500;
+            --accent-green: #00ff88;
+            --accent-red: #ff3b3b;
+            --accent-blue: #00a8ff;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border-color: #2a2a2a;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,10 +51,44 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* CRT Glow Effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+            z-index: 999;
         }
 
         .container {
@@ -24,11 +97,11 @@
         }
 
         header {
-            background: white;
+            background: var(--bg-secondary);
             padding: 20px 30px;
-            border-radius: 10px;
+            border-radius: 4px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -37,7 +110,7 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
-            color: #1e3c72;
+            color: var(--accent-green);
         }
 
         .county-badge {
@@ -56,15 +129,15 @@
         }
 
         .card {
-            background: white;
-            border-radius: 10px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
         }
 
         .card h2 {
             font-size: 18px;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 15px;
             border-bottom: 2px solid #1e3c72;
             padding-bottom: 10px;
@@ -77,12 +150,12 @@
         .stat-value {
             font-size: 36px;
             font-weight: bold;
-            color: #1e3c72;
+            color: var(--accent-green);
             margin: 10px 0;
         }
 
         .stat-label {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
@@ -103,7 +176,7 @@
             text-align: left;
             font-weight: 600;
             font-size: 12px;
-            color: #333;
+            color: var(--text-primary);
             border-bottom: 2px solid #1e3c72;
         }
 
@@ -119,7 +192,7 @@
 
         .price-cell {
             font-weight: 600;
-            color: #1e3c72;
+            color: var(--accent-green);
         }
 
         .best-price {
@@ -129,7 +202,7 @@
 
         .option-price {
             font-size: 11px;
-            color: #666;
+            color: var(--text-secondary);
             margin-top: 3px;
         }
 
@@ -187,8 +260,8 @@
         }
 
         .tab.active {
-            background: white;
-            color: #1e3c72;
+            background: var(--bg-secondary);
+            color: var(--accent-green);
         }
 
         .tab-content {
@@ -206,7 +279,7 @@
         label {
             display: block;
             margin-bottom: 5px;
-            color: #333;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
@@ -244,7 +317,7 @@
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            color: #666;
+            color: var(--text-secondary);
             margin-top: 5px;
         }
 
@@ -265,7 +338,7 @@
 
         .option-title {
             font-weight: 600;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .option-status {
@@ -279,7 +352,7 @@
 
         .option-details {
             font-size: 13px;
-            color: #666;
+            color: var(--text-secondary);
             line-height: 1.6;
         }
 
@@ -313,13 +386,13 @@
 
         .supplier-name {
             font-weight: 600;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 10px;
         }
 
         .supplier-price {
             font-size: 24px;
-            color: #1e3c72;
+            color: var(--accent-green);
             font-weight: 700;
         }
 
@@ -472,7 +545,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <p style="margin-top: 15px; color: #666; font-size: 12px;">
+                <p style="margin-top: 15px; color: var(--text-secondary); font-size: 12px;">
                     Prices updated every 30 minutes. Last update: <span id="lastUpdate">2:45 PM</span>
                 </p>
             </div>
@@ -483,21 +556,21 @@
                     <div class="supplier-card">
                         <div class="supplier-name">Clifton Quarry</div>
                         <div class="supplier-price">$28.50</div>
-                        <div style="font-size: 11px; color: #666;">per ton</div>
+                        <div style="font-size: 11px; color: var(--text-secondary);">per ton</div>
                         <div class="supplier-rating">★★★★★ 4.9</div>
                         <button class="action-btn success" style="margin-top: 10px;">Select</button>
                     </div>
                     <div class="supplier-card">
                         <div class="supplier-name">Bosque River Pit</div>
                         <div class="supplier-price">$29.75</div>
-                        <div style="font-size: 11px; color: #666;">per ton</div>
+                        <div style="font-size: 11px; color: var(--text-secondary);">per ton</div>
                         <div class="supplier-rating">★★★★☆ 4.6</div>
                         <button class="action-btn success" style="margin-top: 10px;">Select</button>
                     </div>
                     <div class="supplier-card">
                         <div class="supplier-name">Valley Mills AG</div>
                         <div class="supplier-price">$31.00</div>
-                        <div style="font-size: 11px; color: #666;">per ton</div>
+                        <div style="font-size: 11px; color: var(--text-secondary);">per ton</div>
                         <div class="supplier-rating">★★★★☆ 4.4</div>
                         <button class="action-btn success" style="margin-top: 10px;">Select</button>
                     </div>
@@ -625,7 +698,7 @@
                     <span><strong>Remaining:</strong> $125,000</span>
                 </div>
 
-                <h3 style="margin: 30px 0 15px 0; color: #333;">Budget Breakdown by Quarter</h3>
+                <h3 style="margin: 30px 0 15px 0; color: var(--text-primary);">Budget Breakdown by Quarter</h3>
 
                 <div class="option-card">
                     <div class="option-header">
@@ -652,7 +725,7 @@
                     </div>
                 </div>
 
-                <h3 style="margin: 30px 0 15px 0; color: #333;">Spending by Material</h3>
+                <h3 style="margin: 30px 0 15px 0; color: var(--text-primary);">Spending by Material</h3>
 
                 <table class="pricing-table">
                     <thead>

@@ -1,10 +1,49 @@
 <!DOCTYPE html>
+<!--
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║   ██╗  ██╗    ██╗  ██╗          ██╗  ██╗ ██████╗ ██╗     ██████╗ ██╗███╗   ██╗ ██████╗ ███████╗  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║██╔═══██╗██║     ██╔══██╗██║████╗  ██║██╔════╝ ██╔════╝  ║
+║   ███████║    ███████║          ███████║██║   ██║██║     ██║  ██║██║██╔██╗ ██║██║  ███╗███████╗  ║
+║   ██╔══██║    ██╔══██║          ██╔══██║██║   ██║██║     ██║  ██║██║██║╚██╗██║██║   ██║╚════██║  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║╚██████╔╝███████╗██████╔╝██║██║ ╚████║╚██████╔╝███████║  ║
+║   ╚═╝  ╚═╝    ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝  ║
+║                                                                           ║
+║                          BCMCE SUPPLIER PORTAL                           ║
+║                    Materials Marketplace for Suppliers                   ║
+║                                                                           ║
+║   Operator:    HH Holdings LLC / Bevans Real Estate                      ║
+║   Location:    397 Highway 22, Clifton, TX 76634                         ║
+║   Broker:      Biri Bevans, Designated Broker                            ║
+║   Module:      Supplier Inventory & Pricing Management                   ║
+║                                                                           ║
+║   Features:    Inventory • Pricing • Options • Bids • Analytics          ║
+║   Version:     1.0.0 - Production Ready                                  ║
+║   Copyright:   © 2026 HH Holdings LLC. All rights reserved.              ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BCMCE Supplier Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --accent-amber: #ff9500;
+            --accent-green: #00ff88;
+            --accent-red: #ff3b3b;
+            --accent-blue: #00a8ff;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border-color: #2a2a2a;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,10 +51,44 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* CRT Glow Effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+            z-index: 999;
         }
 
         .container {
@@ -24,20 +97,24 @@
         }
 
         header {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 10px;
+            background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+            padding: 15px 30px;
+            border-radius: 4px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .user-info {
@@ -66,18 +143,23 @@
         }
 
         .card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
         }
 
         .card h2 {
-            font-size: 18px;
-            color: #333;
+            font-size: 14px;
+            color: var(--accent-amber);
             margin-bottom: 15px;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
         }
 
         .stat-card {
@@ -86,24 +168,27 @@
 
         .stat-value {
             font-size: 36px;
-            font-weight: bold;
-            color: #667eea;
+            font-weight: 700;
+            color: var(--accent-green);
             margin: 10px 0;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
 
         .stat-label {
-            color: #666;
-            font-size: 14px;
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .stat-change {
-            color: #28a745;
-            font-size: 12px;
+            color: var(--accent-green);
+            font-size: 11px;
             margin-top: 5px;
         }
 
         .stat-change.negative {
-            color: #dc3545;
+            color: var(--accent-red);
         }
 
         .form-group {
@@ -113,16 +198,28 @@
         label {
             display: block;
             margin-bottom: 5px;
-            color: #333;
+            color: var(--text-secondary);
             font-weight: 500;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input, select, textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            font-size: 13px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-amber);
+            box-shadow: 0 0 0 2px rgba(255, 149, 0, 0.1);
         }
 
         textarea {
@@ -131,27 +228,33 @@
         }
 
         button {
-            background: #667eea;
-            color: white;
+            background: var(--accent-amber);
+            color: #000;
             border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 2px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background 0.3s;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         button:hover {
-            background: #5568d3;
+            background: #ffaa00;
+            box-shadow: 0 0 15px rgba(255, 149, 0, 0.5);
         }
 
         button.secondary {
-            background: #6c757d;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
         }
 
         button.secondary:hover {
-            background: #5a6268;
+            background: var(--border-color);
         }
 
         .inventory-table {
@@ -161,43 +264,53 @@
         }
 
         .inventory-table th {
-            background: #f8f9fa;
+            background: var(--bg-tertiary);
             padding: 12px;
             text-align: left;
             font-weight: 600;
-            color: #333;
-            border-bottom: 2px solid #667eea;
+            color: var(--accent-amber);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .inventory-table td {
             padding: 12px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 12px;
         }
 
         .inventory-table tr:hover {
-            background: #f8f9fa;
+            background: var(--bg-tertiary);
         }
 
         .status-badge {
             padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
+            border-radius: 2px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .status-active {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
         }
 
         .status-pending {
-            background: #fff3cd;
-            color: #856404;
+            background: rgba(255, 149, 0, 0.2);
+            color: var(--accent-amber);
+            border: 1px solid var(--accent-amber);
         }
 
         .status-fulfilled {
-            background: #cce5ff;
-            color: #004085;
+            background: rgba(0, 168, 255, 0.2);
+            color: var(--accent-blue);
+            border: 1px solid var(--accent-blue);
         }
 
         .action-btn {
@@ -208,26 +321,37 @@
 
         .tabs {
             display: flex;
-            gap: 10px;
+            gap: 5px;
             margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
         }
 
         .tab {
             padding: 12px 24px;
-            background: none;
-            border: none;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: var(--accent-amber);
+            background: var(--bg-tertiary);
+            border-bottom: 2px solid var(--accent-amber);
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
         }
 
         .tab-content {
@@ -239,16 +363,33 @@
         }
 
         .notification {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-green);
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 2px;
             margin-bottom: 20px;
             display: none;
+            border-left: 3px solid var(--accent-green);
+            position: relative;
+            z-index: 10;
+            font-size: 12px;
         }
 
         .notification.show {
             display: block;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 2px;
+            background: var(--accent-amber);
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
         }
 
         .price-input-group {

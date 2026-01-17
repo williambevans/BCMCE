@@ -1,4 +1,27 @@
 """
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║   ██╗  ██╗    ██╗  ██╗          ██╗  ██╗ ██████╗ ██╗     ██████╗ ██╗███╗   ██╗ ██████╗ ███████╗  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║██╔═══██╗██║     ██╔══██╗██║████╗  ██║██╔════╝ ██╔════╝  ║
+║   ███████║    ███████║          ███████║██║   ██║██║     ██║  ██║██║██╔██╗ ██║██║  ███╗███████╗  ║
+║   ██╔══██║    ██╔══██║          ██╔══██║██║   ██║██║     ██║  ██║██║██║╚██╗██║██║   ██║╚════██║  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║╚██████╔╝███████╗██████╔╝██║██║ ╚████║╚██████╔╝███████║  ║
+║   ╚═╝  ╚═╝    ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝  ║
+║                                                                           ║
+║                 BOSQUE COUNTY MINERAL & COMMODITIES EXCHANGE             ║
+║                        Main FastAPI Application                          ║
+║                                                                           ║
+║   Operator:    HH Holdings LLC / Bevans Real Estate                      ║
+║   Location:    397 Highway 22, Clifton, TX 76634                         ║
+║   Broker:      Biri Bevans, Designated Broker                            ║
+║   Module:      Backend API Server                                        ║
+║                                                                           ║
+║   Stack:       FastAPI • PostgreSQL • Redis • WebSocket                  ║
+║   Version:     1.0.0 - Production Ready                                  ║
+║   Copyright:   © 2026 HH Holdings LLC. All rights reserved.              ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
 BCMCE Platform - Main FastAPI Application
 Bosque County Mineral & Commodities Exchange
 """
