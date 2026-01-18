@@ -423,6 +423,10 @@ def check_db_health() -> bool:
         return False
 
 
+# Alias for compatibility
+check_database_health = check_db_health
+
+
 if __name__ == "__main__":
     # Test database connection
     print("Testing database connection...")

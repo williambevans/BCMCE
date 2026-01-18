@@ -100,11 +100,48 @@ async def root():
 @app.get("/health")
 async def health_check():
     """Health check endpoint for monitoring"""
-    return {
+    from database import check_database_health
+    from config import settings
+    import redis
+
+    health_status = {
         "status": "healthy",
-        "database": "connected",  # TODO: Add actual DB health check
-        "cache": "connected"  # TODO: Add actual Redis health check
+        "timestamp": "2026-01-18T00:00:00Z",
+        "version": "1.0.0",
+        "services": {}
     }
+
+    # Check database
+    try:
+        db_healthy = check_database_health()
+        health_status["services"]["database"] = {
+            "status": "connected" if db_healthy else "disconnected",
+            "type": "PostgreSQL"
+        }
+    except Exception as e:
+        health_status["services"]["database"] = {
+            "status": "error",
+            "error": str(e)
+        }
+        health_status["status"] = "degraded"
+
+    # Check Redis cache
+    try:
+        redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True)
+        redis_client.ping()
+        health_status["services"]["cache"] = {
+            "status": "connected",
+            "type": "Redis"
+        }
+        redis_client.close()
+    except Exception as e:
+        health_status["services"]["cache"] = {
+            "status": "error",
+            "error": str(e)
+        }
+        health_status["status"] = "degraded"
+
+    return health_status
 
 
 if __name__ == "__main__":
