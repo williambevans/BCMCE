@@ -26,7 +26,7 @@ BCMCE Platform - Main FastAPI Application
 Bosque County Mineral & Commodities Exchange
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from contextlib import asynccontextmanager
@@ -35,6 +35,7 @@ from dotenv import load_dotenv
 import os
 
 from api import pricing, options, suppliers, county
+from websocket import websocket_endpoint
 
 # Load environment variables
 load_dotenv()
@@ -145,6 +146,23 @@ async def health_check():
         health_status["status"] = "degraded"
 
     return health_status
+
+
+@app.websocket("/ws/{channel}")
+async def websocket_route(websocket: WebSocket, channel: str = "all"):
+    """
+    WebSocket endpoint for real-time updates
+
+    Channels:
+    - pricing: Real-time pricing updates from TxDOT
+    - options: Option contract updates and alerts
+    - bids: Bid submission status updates
+    - orders: Order fulfillment updates
+    - all: Subscribe to all channels
+
+    For H.H. Holdings internal use - real-time RFP alerts and option expiry warnings
+    """
+    await websocket_endpoint(websocket, channel)
 
 
 if __name__ == "__main__":
