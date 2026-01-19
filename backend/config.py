@@ -5,7 +5,8 @@ Centralized configuration for BCMCE platform
 
 import os
 from typing import Optional
-from pydantic import BaseSettings, Field, validator
+from pydantic import Field, validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
 
 
@@ -123,10 +124,11 @@ class Settings(BaseSettings):
         """Check if running in development"""
         return self.ENVIRONMENT == "development"
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        case_sensitive = True
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True
+    )
 
 
 @lru_cache()

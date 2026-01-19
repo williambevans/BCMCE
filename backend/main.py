@@ -101,12 +101,15 @@ async def root():
 async def health_check():
     """Health check endpoint for monitoring"""
     from database import check_database_health
-    from config import settings
+    from config import get_settings
     import redis
+    from datetime import datetime
+
+    settings = get_settings()
 
     health_status = {
         "status": "healthy",
-        "timestamp": "2026-01-18T00:00:00Z",
+        "timestamp": datetime.utcnow().isoformat() + "Z",
         "version": "1.0.0",
         "services": {}
     }
