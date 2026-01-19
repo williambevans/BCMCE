@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<!--
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║   ██╗  ██╗    ██╗  ██╗          ██╗  ██╗ ██████╗ ██╗     ██████╗ ██╗███╗   ██╗ ██████╗ ███████╗  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║██╔═══██╗██║     ██╔══██╗██║████╗  ██║██╔════╝ ██╔════╝  ║
+║   ███████║    ███████║          ███████║██║   ██║██║     ██║  ██║██║██╔██╗ ██║██║  ███╗███████╗  ║
+║   ██╔══██║    ██╔══██║          ██╔══██║██║   ██║██║     ██║  ██║██║██║╚██╗██║██║   ██║╚════██║  ║
+║   ██║  ██║    ██║  ██║          ██║  ██║╚██████╔╝███████╗██████╔╝██║██║ ╚████║╚██████╔╝███████║  ║
+║   ╚═╝  ╚═╝    ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝  ║
+║                                                                           ║
+║                 BOSQUE COUNTY MINERAL & COMMODITIES EXCHANGE             ║
+║                      H.H. Holdings Internal Dashboard                    ║
+║                                                                           ║
+║   Operator:    HH Holdings LLC / Bevans Real Estate                      ║
+║   Location:    397 Highway 22, Clifton, TX 76634                         ║
+║   Broker:      Biri Bevans, Designated Broker                            ║
+║   Platform:    Internal Procurement Operations Tool                      ║
+║                                                                           ║
+║   Built with:  HTML5 • CSS3 • JavaScript • Real-time WebSocket          ║
+║   Version:     1.0.0 - Internal Use Only                                 ║
+║   Copyright:   © 2026 HH Holdings LLC. All rights reserved.              ║
+║                PROPRIETARY - NOT FOR PUBLIC ACCESS                        ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCMCE | H.H. Holdings Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --accent-amber: #ff9500;
+            --accent-green: #00ff88;
+            --accent-red: #ff3b3b;
+            --accent-blue: #00a8ff;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border-color: #2a2a2a;
+            --grid-line: #1f1f1f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* CRT Glow Effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            letter-spacing: 2px;
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .user-role {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--bg-secondary);
+            border-color: var(--accent-amber);
+            color: var(--accent-amber);
+        }
+
+        .btn-primary {
+            background: var(--accent-amber);
+            color: #000;
+            border-color: var(--accent-amber);
+        }
+
+        .btn-primary:hover {
+            background: #ffaa33;
+            border-color: #ffaa33;
+        }
+
+        /* Login Screen */
+        #login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 40px rgba(255, 149, 0, 0.1);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-amber);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .login-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .login-company {
+            font-size: 11px;
+            color: var(--accent-green);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-amber);
+            box-shadow: 0 0 10px rgba(255, 149, 0, 0.2);
+        }
+
+        .error-message {
+            background: rgba(255, 59, 59, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .login-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Dashboard */
+        #dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            color: var(--accent-amber);
+            border-bottom-color: var(--accent-amber);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent-amber);
+        }
+
+        /* Portfolio Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-value.green {
+            color: var(--accent-green);
+        }
+
+        .stat-value.amber {
+            color: var(--accent-amber);
+        }
+
+        .stat-value.red {
+            color: var(--accent-red);
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            text-align: left;
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--grid-line);
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .badge-active {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--accent-green);
+        }
+
+        .badge-warning {
+            background: rgba(255, 149, 0, 0.2);
+            color: var(--accent-amber);
+        }
+
+        .badge-expired {
+            background: rgba(255, 59, 59, 0.2);
+            color: var(--accent-red);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-container {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">H.H. HOLDINGS</div>
+                <div class="login-subtitle">BCMCE Platform</div>
+                <div class="login-company">Internal Procurement Dashboard</div>
+            </div>
+
+            <div id="login-error" class="error-message"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        class="form-input"
+                        placeholder="biri@hhholdings.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        class="form-input"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    LOGIN TO DASHBOARD
+                </button>
+            </form>
+
+            <div class="login-footer">
+                BCMCE Platform v1.0.0 | HH Holdings LLC / Bevans Real Estate<br>
+                © 2026 All Rights Reserved | Proprietary System
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-section">
+                    <div>
+                        <div class="logo-text">H.H. HOLDINGS</div>
+                        <div class="logo-subtitle">BCMCE PROCUREMENT DASHBOARD</div>
+                    </div>
+                </div>
+                <div class="user-section">
+                    <div class="user-info">
+                        <div class="user-name" id="user-name">Biri Bevans</div>
+                        <div class="user-role" id="user-role">Administrator</div>
+                    </div>
+                    <button class="btn" onclick="logout()">LOGOUT</button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('portfolio')">OPTIONS PORTFOLIO</button>
+                <button class="tab" onclick="switchTab('rfps')">COUNTY RFPs</button>
+                <button class="tab" onclick="switchTab('bids')">BID CALCULATOR</button>
+                <button class="tab" onclick="switchTab('history')">BID HISTORY</button>
+            </div>
+
+            <!-- Portfolio Tab -->
+            <div id="tab-portfolio" class="tab-content active">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Active Options</div>
+                        <div class="stat-value green" id="stat-active-options">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Locked Value</div>
+                        <div class="stat-value amber" id="stat-total-value">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Expiring Soon (7d)</div>
+                        <div class="stat-value red" id="stat-expiring">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Available Capacity</div>
+                        <div class="stat-value" id="stat-capacity">0 tons</div>
+                    </div>
+                </div>
+
+                <!-- Options Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">YOUR OPTIONS CONTRACTS</div>
+                        <button class="btn btn-primary" onclick="addOption()">+ ADD OPTION</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="options-table">
+                            <thead>
+                                <tr>
+                                    <th>MATERIAL</th>
+                                    <th>SUPPLIER</th>
+                                    <th>STRIKE PRICE</th>
+                                    <th>QUANTITY</th>
+                                    <th>PREMIUM</th>
+                                    <th>EXPIRY</th>
+                                    <th>STATUS</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="options-tbody">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; color: var(--text-secondary);">
+                                        No options loaded. Click "+ ADD OPTION" to create your first option contract.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RFPs Tab -->
+            <div id="tab-rfps" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">DETECTED COUNTY RFPs</div>
+                        <button class="btn" onclick="refreshRFPs()">REFRESH</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="rfps-table">
+                            <thead>
+                                <tr>
+                                    <th>COUNTY</th>
+                                    <th>MATERIAL</th>
+                                    <th>QUANTITY</th>
+                                    <th>DEADLINE</th>
+                                    <th>DETECTED</th>
+                                    <th>MATCHING OPTIONS</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rfps-tbody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-secondary);">
+                                        No RFPs detected yet. System monitors county websites 24/7.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bid Calculator Tab -->
+            <div id="tab-bids" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">BID CALCULATOR</div>
+                    </div>
+                    <div style="color: var(--text-secondary); text-align: center; padding: 40px;">
+                        Bid calculator interface coming soon. This will calculate competitive bids using your option-locked prices.
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Tab -->
+            <div id="tab-history" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">BID SUBMISSION HISTORY</div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>DATE</th>
+                                    <th>COUNTY</th>
+                                    <th>MATERIAL</th>
+                                    <th>BID AMOUNT</th>
+                                    <th>STATUS</th>
+                                    <th>PROFIT/LOSS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-tbody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: var(--text-secondary);">
+                                        No bid history yet.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:8000/api/v1';
+        let authToken = localStorage.getItem('authToken');
+        let currentUser = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if already logged in
+            if (authToken) {
+                verifyAuth();
+            }
+
+            // Login form handler
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+        });
+
+        // Login handler
+        async function handleLogin(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Invalid credentials');
+                }
+
+                const data = await response.json();
+                authToken = data.access_token;
+                localStorage.setItem('authToken', authToken);
+
+                // Get user info
+                await verifyAuth();
+
+                // Show dashboard
+                showDashboard();
+
+            } catch (error) {
+                errorDiv.textContent = '❌ Login failed. Please check your credentials.';
+                errorDiv.classList.add('show');
+                console.error('Login error:', error);
+            }
+        }
+
+        // Verify authentication
+        async function verifyAuth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Auth verification failed');
+                }
+
+                currentUser = await response.json();
+                showDashboard();
+
+            } catch (error) {
+                // Auth failed, show login
+                authToken = null;
+                localStorage.removeItem('authToken');
+                showLogin();
+            }
+        }
+
+        // Show/hide screens
+        function showLogin() {
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+
+            // Update user info
+            if (currentUser) {
+                document.getElementById('user-name').textContent = currentUser.full_name;
+                document.getElementById('user-role').textContent = currentUser.role.toUpperCase();
+            }
+
+            // Load data
+            loadPortfolio();
+            loadRFPs();
+        }
+
+        // Logout
+        function logout() {
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('authToken');
+            showLogin();
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            // Load data for tab
+            if (tabName === 'portfolio') loadPortfolio();
+            if (tabName === 'rfps') loadRFPs();
+        }
+
+        // Load portfolio data
+        async function loadPortfolio() {
+            // TODO: Implement API call to fetch options
+            console.log('Loading portfolio...');
+        }
+
+        // Load RFPs
+        async function loadRFPs() {
+            // TODO: Implement API call to fetch RFPs
+            console.log('Loading RFPs...');
+        }
+
+        // Refresh RFPs
+        function refreshRFPs() {
+            loadRFPs();
+        }
+
+        // Add option
+        function addOption() {
+            alert('Add Option modal will be implemented in the next phase');
+        }
+    </script>
+</body>
+</html>

@@ -26,7 +26,7 @@ BCMCE Platform - Main FastAPI Application
 Bosque County Mineral & Commodities Exchange
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from contextlib import asynccontextmanager
@@ -34,7 +34,8 @@ import logging
 from dotenv import load_dotenv
 import os
 
-from api import pricing, options, suppliers, county
+from api import pricing, options, suppliers, county, auth
+from websocket import websocket_endpoint
 
 # Load environment variables
 load_dotenv()
@@ -80,6 +81,7 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Include API routers
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
 app.include_router(pricing.router, prefix="/api/v1/pricing", tags=["Pricing"])
 app.include_router(options.router, prefix="/api/v1/options", tags=["Options"])
 app.include_router(suppliers.router, prefix="/api/v1/suppliers", tags=["Suppliers"])
@@ -101,12 +103,15 @@ async def root():
 async def health_check():
     """Health check endpoint for monitoring"""
     from database import check_database_health
-    from config import settings
+    from config import get_settings
     import redis
+    from datetime import datetime
+
+    settings = get_settings()
 
     health_status = {
         "status": "healthy",
-        "timestamp": "2026-01-18T00:00:00Z",
+        "timestamp": datetime.utcnow().isoformat() + "Z",
         "version": "1.0.0",
         "services": {}
     }
@@ -142,6 +147,23 @@ async def health_check():
         health_status["status"] = "degraded"
 
     return health_status
+
+
+@app.websocket("/ws/{channel}")
+async def websocket_route(websocket: WebSocket, channel: str = "all"):
+    """
+    WebSocket endpoint for real-time updates
+
+    Channels:
+    - pricing: Real-time pricing updates from TxDOT
+    - options: Option contract updates and alerts
+    - bids: Bid submission status updates
+    - orders: Order fulfillment updates
+    - all: Subscribe to all channels
+
+    For H.H. Holdings internal use - real-time RFP alerts and option expiry warnings
+    """
+    await websocket_endpoint(websocket, channel)
 
 
 if __name__ == "__main__":

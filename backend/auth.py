@@ -11,6 +11,7 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 import logging
+import os
 
 from backend.config import get_settings
 from backend.database import get_db, User as UserModel
@@ -462,8 +463,6 @@ class APIKeyChecker:
 
 
 if __name__ == "__main__":
-    import os
-
     print("BCMCE Authentication System")
     print("=" * 50)
 
