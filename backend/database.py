@@ -4,8 +4,10 @@ PostgreSQL connection with SQLAlchemy
 """
 
 import os
+import uuid
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, \
     Numeric, DateTime, Date, Boolean, Text, ForeignKey, Index, event
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, Session
 from sqlalchemy.pool import QueuePool
@@ -72,7 +74,7 @@ class Material(Base):
     """Material ORM model"""
     __tablename__ = "materials"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     name = Column(String(200), nullable=False, index=True)
     material_type = Column(String(50), nullable=False, index=True)
     txdot_spec = Column(String(100))
@@ -90,7 +92,7 @@ class Supplier(Base):
     """Supplier ORM model"""
     __tablename__ = "suppliers"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     name = Column(String(200), nullable=False, index=True)
     contact_name = Column(String(200), nullable=False)
     email = Column(String(200), nullable=False, unique=True, index=True)
@@ -120,9 +122,9 @@ class Pricing(Base):
     """Pricing ORM model"""
     __tablename__ = "pricing"
 
-    id = Column(Integer, primary_key=True, index=True)
-    supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=False)
-    material_id = Column(Integer, ForeignKey("materials.id"), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    supplier_id = Column(UUID(as_uuid=True), ForeignKey("suppliers.id"), nullable=False)
+    material_id = Column(UUID(as_uuid=True), ForeignKey("materials.id"), nullable=False)
     spot_price = Column(Numeric(10, 2), nullable=False)
     minimum_order = Column(Numeric(10, 2), nullable=False)
     delivery_radius_miles = Column(Integer, nullable=False)
@@ -143,8 +145,8 @@ class PricingHistory(Base):
     """Pricing history for analytics"""
     __tablename__ = "pricing_history"
 
-    id = Column(Integer, primary_key=True, index=True)
-    pricing_id = Column(Integer, ForeignKey("pricing.id"), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    pricing_id = Column(UUID(as_uuid=True), ForeignKey("pricing.id"), nullable=False)
     price = Column(Numeric(10, 2), nullable=False)
     recorded_at = Column(DateTime, default=datetime.utcnow, index=True)
 
@@ -157,7 +159,7 @@ class County(Base):
     """County ORM model"""
     __tablename__ = "counties"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     name = Column(String(200), nullable=False, index=True)
     state = Column(String(2), default="TX")
     contact_name = Column(String(200), nullable=False)
@@ -177,10 +179,10 @@ class Requirement(Base):
     """County requirement ORM model"""
     __tablename__ = "requirements"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     requirement_number = Column(String(50), unique=True, nullable=False, index=True)
-    county_id = Column(Integer, ForeignKey("counties.id"), nullable=False)
-    material_id = Column(Integer, ForeignKey("materials.id"), nullable=False)
+    county_id = Column(UUID(as_uuid=True), ForeignKey("counties.id"), nullable=False)
+    material_id = Column(UUID(as_uuid=True), ForeignKey("materials.id"), nullable=False)
     project_name = Column(String(200), nullable=False)
     quantity = Column(Numeric(10, 2), nullable=False)
     needed_by_date = Column(Date, nullable=False, index=True)
@@ -201,9 +203,9 @@ class OptionPrice(Base):
     """Option price ORM model"""
     __tablename__ = "option_prices"
 
-    id = Column(Integer, primary_key=True, index=True)
-    supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=False)
-    material_id = Column(Integer, ForeignKey("materials.id"), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    supplier_id = Column(UUID(as_uuid=True), ForeignKey("suppliers.id"), nullable=False)
+    material_id = Column(UUID(as_uuid=True), ForeignKey("materials.id"), nullable=False)
     duration = Column(String(20), nullable=False)  # 30_DAYS, 90_DAYS, etc.
     strike_price = Column(Numeric(10, 2), nullable=False)
     premium = Column(Numeric(10, 2), nullable=False)
@@ -224,10 +226,10 @@ class OptionContract(Base):
     """Option contract ORM model"""
     __tablename__ = "option_contracts"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     contract_number = Column(String(50), unique=True, nullable=False, index=True)
-    county_id = Column(Integer, ForeignKey("counties.id"), nullable=False)
-    option_price_id = Column(Integer, ForeignKey("option_prices.id"), nullable=False)
+    county_id = Column(UUID(as_uuid=True), ForeignKey("counties.id"), nullable=False)
+    option_price_id = Column(UUID(as_uuid=True), ForeignKey("option_prices.id"), nullable=False)
     quantity = Column(Numeric(10, 2), nullable=False)
     total_value = Column(Numeric(10, 2), nullable=False)
     purchase_date = Column(Date, nullable=False)
@@ -246,10 +248,10 @@ class Bid(Base):
     """Bid ORM model"""
     __tablename__ = "bids"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     bid_number = Column(String(50), unique=True, nullable=False, index=True)
-    requirement_id = Column(Integer, ForeignKey("requirements.id"), nullable=False)
-    supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=False)
+    requirement_id = Column(UUID(as_uuid=True), ForeignKey("requirements.id"), nullable=False)
+    supplier_id = Column(UUID(as_uuid=True), ForeignKey("suppliers.id"), nullable=False)
     quoted_price = Column(Numeric(10, 2), nullable=False)
     quantity_available = Column(Numeric(10, 2), nullable=False)
     delivery_date = Column(Date, nullable=False)
@@ -267,11 +269,11 @@ class Order(Base):
     """Order ORM model"""
     __tablename__ = "orders"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     order_number = Column(String(50), unique=True, nullable=False, index=True)
-    county_id = Column(Integer, ForeignKey("counties.id"), nullable=False)
-    supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=False)
-    material_id = Column(Integer, ForeignKey("materials.id"), nullable=False)
+    county_id = Column(UUID(as_uuid=True), ForeignKey("counties.id"), nullable=False)
+    supplier_id = Column(UUID(as_uuid=True), ForeignKey("suppliers.id"), nullable=False)
+    material_id = Column(UUID(as_uuid=True), ForeignKey("materials.id"), nullable=False)
     quantity = Column(Numeric(10, 2), nullable=False)
     unit_price = Column(Numeric(10, 2), nullable=False)
     total_amount = Column(Numeric(10, 2), nullable=False)
@@ -293,8 +295,8 @@ class Budget(Base):
     """Budget ORM model"""
     __tablename__ = "budgets"
 
-    id = Column(Integer, primary_key=True, index=True)
-    county_id = Column(Integer, ForeignKey("counties.id"), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    county_id = Column(UUID(as_uuid=True), ForeignKey("counties.id"), nullable=False)
     fiscal_year = Column(Integer, nullable=False, index=True)
     quarter = Column(Integer)  # 1-4, or NULL for annual
     category = Column(String(100), nullable=False)
@@ -316,14 +318,14 @@ class User(Base):
     """User ORM model for authentication"""
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     email = Column(String(200), unique=True, nullable=False, index=True)
     hashed_password = Column(String(200), nullable=False)
     full_name = Column(String(200), nullable=False)
     role = Column(String(50), nullable=False, index=True)  # supplier, county, admin
     is_active = Column(Boolean, default=True)
-    supplier_id = Column(Integer, ForeignKey("suppliers.id"))
-    county_id = Column(Integer, ForeignKey("counties.id"))
+    supplier_id = Column(UUID(as_uuid=True), ForeignKey("suppliers.id"))
+    county_id = Column(UUID(as_uuid=True), ForeignKey("counties.id"))
     created_at = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime)
 
@@ -332,8 +334,8 @@ class AuditLog(Base):
     """Audit log for tracking changes"""
     __tablename__ = "audit_logs"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     action = Column(String(100), nullable=False, index=True)
     entity_type = Column(String(50), nullable=False)
     entity_id = Column(Integer, nullable=False)
