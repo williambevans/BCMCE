@@ -185,9 +185,9 @@
         .terminal-grid {
             display: grid;
             grid-template-columns: 1fr 350px;
-            grid-template-rows: 60vh auto;
+            grid-template-rows: 60vh auto auto;
             gap: 0;
-            height: 100vh;
+            min-height: 100vh;
             padding: 0;
         }
 
@@ -364,7 +364,91 @@
             border-right: 1px solid var(--border-color);
             border-top: 1px solid var(--border-color);
             overflow-y: auto;
-            max-height: 40vh;
+            min-height: 50vh;
+        }
+
+        /* Market Activity Panel */
+        .market-activity {
+            grid-column: 1 / 3;
+            grid-row: 3;
+            background: var(--bg-primary);
+            border-top: 1px solid var(--border-color);
+            padding: 20px;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .activity-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .activity-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent-orange);
+            letter-spacing: 1px;
+        }
+
+        .activity-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .activity-subtitle {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .trend-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .trend-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+        }
+
+        .trend-item:last-child {
+            border-bottom: none;
+        }
+
+        .trend-name {
+            color: var(--text-secondary);
+        }
+
+        .trend-change {
+            font-weight: 700;
+        }
+
+        .trend-change.up {
+            color: var(--accent-green);
+        }
+
+        .trend-change.down {
+            color: var(--accent-red);
         }
 
         .news-header {
@@ -602,6 +686,221 @@
                 <!-- Populated by JavaScript -->
             </div>
         </div>
+
+        <!-- Market Activity Panel -->
+        <div class="market-activity">
+            <div class="portal-header">
+                <div class="portal-title">MARKET ACTIVITY & ANALYTICS</div>
+                <div class="portal-time" id="activity-time">24H SNAPSHOT</div>
+            </div>
+            <div class="activity-grid">
+                <!-- Trading Volume -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">TRADING VOLUME</div>
+                    </div>
+                    <div class="activity-value">12,450</div>
+                    <div class="activity-subtitle">Tons traded today</div>
+                    <div style="margin-top: 15px;">
+                        <ul class="trend-list">
+                            <li class="trend-item">
+                                <span class="trend-name">Road Base</span>
+                                <span class="trend-change up">+3,200 tons</span>
+                            </li>
+                            <li class="trend-item">
+                                <span class="trend-name">Flex Base</span>
+                                <span class="trend-change up">+2,800 tons</span>
+                            </li>
+                            <li class="trend-item">
+                                <span class="trend-name">Limestone</span>
+                                <span class="trend-change up">+1,950 tons</span>
+                            </li>
+                            <li class="trend-item">
+                                <span class="trend-name">Hot Mix</span>
+                                <span class="trend-change up">+1,500 tons</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Top Movers -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">TOP MOVERS (24H)</div>
+                    </div>
+                    <ul class="trend-list">
+                        <li class="trend-item">
+                            <span class="trend-name">LIME-SLR</span>
+                            <span class="trend-change up">+3.5%</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">CMNT-PRT</span>
+                            <span class="trend-change up">+5.2%</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">GRVL-RB</span>
+                            <span class="trend-change up">+2.7%</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">CRSH-RUN</span>
+                            <span class="trend-change up">+1.8%</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">CLAY-FIL</span>
+                            <span class="trend-change down">-2.1%</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">HMAC-STD</span>
+                            <span class="trend-change down">-1.5%</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">FLEX-12</span>
+                            <span class="trend-change down">-1.2%</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">GRVL-PEA</span>
+                            <span class="trend-change down">-0.5%</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Active Counties -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">MOST ACTIVE COUNTIES</div>
+                    </div>
+                    <ul class="trend-list">
+                        <li class="trend-item">
+                            <span class="trend-name">BOSQUE COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">8 RFPs</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">MCLENNAN COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">6 RFPs</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">HILL COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">5 RFPs</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">HAMILTON COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">4 RFPs</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">ERATH COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">3 RFPs</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">JOHNSON COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">3 RFPs</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">SOMERVELL COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">2 RFPs</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">CORYELL COUNTY</span>
+                            <span class="trend-change" style="color: var(--accent-blue);">2 RFPs</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Market Sentiment -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">MARKET SENTIMENT</div>
+                    </div>
+                    <div class="activity-value" style="color: var(--accent-green);">BULLISH</div>
+                    <div class="activity-subtitle">Strong demand signals</div>
+                    <div style="margin-top: 15px;">
+                        <ul class="trend-list">
+                            <li class="trend-item">
+                                <span class="trend-name">Avg. Bid Premium</span>
+                                <span class="trend-change up">+12.3%</span>
+                            </li>
+                            <li class="trend-item">
+                                <span class="trend-name">RFP Volume</span>
+                                <span class="trend-change up">+18.5%</span>
+                            </li>
+                            <li class="trend-item">
+                                <span class="trend-name">Supply Availability</span>
+                                <span class="trend-change down">-5.2%</span>
+                            </li>
+                            <li class="trend-item">
+                                <span class="trend-name">Options Premium</span>
+                                <span class="trend-change up">+8.7%</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Supplier Activity -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">TOP SUPPLIERS (VOLUME)</div>
+                    </div>
+                    <ul class="trend-list">
+                        <li class="trend-item">
+                            <span class="trend-name">Central TX Stone</span>
+                            <span class="trend-change" style="color: var(--accent-amber);">3,200T</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Clifton Quarry</span>
+                            <span class="trend-change" style="color: var(--accent-amber);">2,850T</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Bosque River Pit</span>
+                            <span class="trend-change" style="color: var(--accent-amber);">2,400T</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Waco Concrete</span>
+                            <span class="trend-change" style="color: var(--accent-amber);">1,900T</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Texas Lime Solutions</span>
+                            <span class="trend-change" style="color: var(--accent-amber);">1,650T</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Morgan Quarry</span>
+                            <span class="trend-change" style="color: var(--accent-amber);">1,200T</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Loftin Dirt Works</span>
+                            <span class="trend-change" style="color: var(--accent-amber);">950T</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Recent Awards -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <div class="activity-title">RECENT CONTRACT AWARDS</div>
+                    </div>
+                    <ul class="trend-list">
+                        <li class="trend-item">
+                            <span class="trend-name">Bosque - Road Base</span>
+                            <span class="trend-change" style="color: var(--accent-green);">$14,250</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Hill - Flex Base</span>
+                            <span class="trend-change" style="color: var(--accent-green);">$23,438</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Hamilton - Limestone</span>
+                            <span class="trend-change" style="color: var(--accent-green);">$35,700</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">Erath - Hot Mix</span>
+                            <span class="trend-change" style="color: var(--accent-green);">$131,000</span>
+                        </li>
+                        <li class="trend-item">
+                            <span class="trend-name">McLennan - Cement</span>
+                            <span class="trend-change" style="color: var(--accent-green);">$18,750</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Timestamp Bar -->
@@ -667,7 +966,23 @@
             { county: 'ERATH', material: 'Hot Mix Asphalt', quantity: 2000, deadline: '10 days', time: '4h ago', tag: 'HIGH VALUE' },
             { county: 'JOHNSON', material: 'Pea Gravel', quantity: 400, deadline: '6 days', time: '5h ago', tag: 'ACTIVE' },
             { county: 'MCLENNAN', material: 'Portland Cement', quantity: 150, deadline: '8 days', time: '6h ago', tag: 'SPECIALTY' },
-            { county: 'CORYELL', material: 'Caliche', quantity: 800, deadline: '12 days', time: '8h ago', tag: 'ACTIVE' }
+            { county: 'CORYELL', material: 'Caliche', quantity: 800, deadline: '12 days', time: '8h ago', tag: 'ACTIVE' },
+            { county: 'BOSQUE', material: 'Topping Gravel', quantity: 350, deadline: '4 days', time: '9h ago', tag: 'URGENT' },
+            { county: 'BELL', material: 'Crusher Run', quantity: 900, deadline: '9 days', time: '10h ago', tag: 'ACTIVE' },
+            { county: 'MCLENNAN', material: 'Road Base Gravel', quantity: 1500, deadline: '11 days', time: '11h ago', tag: 'HIGH VALUE' },
+            { county: 'HILL', material: 'Fill Clay', quantity: 600, deadline: '6 days', time: '12h ago', tag: 'ACTIVE' },
+            { county: 'HAMILTON', material: 'Quicklime', quantity: 250, deadline: '8 days', time: '14h ago', tag: 'SPECIALTY' },
+            { county: 'NAVARRO', material: 'Hot Mix Asphalt', quantity: 1800, deadline: '13 days', time: '15h ago', tag: 'HIGH VALUE' },
+            { county: 'FREESTONE', material: 'Flexible Base', quantity: 850, deadline: '10 days', time: '16h ago', tag: 'ACTIVE' },
+            { county: 'BOSQUE', material: 'Crushed Limestone', quantity: 950, deadline: '5 days', time: '17h ago', tag: 'URGENT' },
+            { county: 'JOHNSON', material: 'Caliche', quantity: 700, deadline: '7 days', time: '18h ago', tag: 'ACTIVE' },
+            { county: 'ERATH', material: 'Road Base Gravel', quantity: 1100, deadline: '12 days', time: '19h ago', tag: 'ACTIVE' },
+            { county: 'COMANCHE', material: 'Lime Slurry', quantity: 400, deadline: '6 days', time: '20h ago', tag: 'SPECIALTY' },
+            { county: 'HOOD', material: 'Pea Gravel', quantity: 550, deadline: '8 days', time: '21h ago', tag: 'ACTIVE' },
+            { county: 'PALO PINTO', material: 'Portland Cement', quantity: 200, deadline: '14 days', time: '22h ago', tag: 'SPECIALTY' },
+            { county: 'SOMERVELL', material: 'Crusher Run', quantity: 650, deadline: '9 days', time: '23h ago', tag: 'ACTIVE' },
+            { county: 'FALLS', material: 'Hot Mix Asphalt', quantity: 2200, deadline: '15 days', time: '1d ago', tag: 'HIGH VALUE' },
+            { county: 'LIMESTONE', material: 'Flexible Base', quantity: 900, deadline: '11 days', time: '1d ago', tag: 'ACTIVE' }
         ];
 
         // Render tickers
