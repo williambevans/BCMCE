@@ -92,6 +92,111 @@
             z-index: 999;
         }
 
+        /* Hamburger Menu */
+        .hamburger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-amber);
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .hamburger:hover {
+            background: var(--accent-amber);
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Side Navigation */
+        .sidenav {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--accent-amber);
+            z-index: 9998;
+            transition: left 0.3s;
+            padding: 80px 20px 20px;
+        }
+
+        .sidenav.active {
+            left: 0;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--accent-amber);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: var(--accent-amber);
+            color: #000;
+            border-color: var(--accent-amber);
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9997;
+            display: none;
+        }
+
+        .nav-overlay.active {
+            display: block;
+        }
+
         .container {
             position: relative;
             z-index: 1;
@@ -464,6 +569,48 @@
     </style>
 </head>
 <body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Side Navigation -->
+    <div class="sidenav" id="sidenav">
+        <div class="nav-item" onclick="window.location.href='market-terminal.html'">
+            <span class="nav-icon">📊</span>
+            <span>Market Terminal</span>
+        </div>
+        <div class="nav-item active" onclick="window.location.href='hh-dashboard.html'">
+            <span class="nav-icon">📈</span>
+            <span>Portfolio Dashboard</span>
+        </div>
+        <div class="nav-item" onclick="alert('Coming soon')">
+            <span class="nav-icon">🔔</span>
+            <span>RFP Alerts</span>
+        </div>
+        <div class="nav-item" onclick="alert('Coming soon')">
+            <span class="nav-icon">💰</span>
+            <span>Bid Calculator</span>
+        </div>
+        <div class="nav-item" onclick="alert('Coming soon')">
+            <span class="nav-icon">📋</span>
+            <span>Contract History</span>
+        </div>
+        <div class="nav-item" onclick="alert('Coming soon')">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+        </div>
+        <div class="nav-item" onclick="logout()">
+            <span class="nav-icon">🚪</span>
+            <span>Logout</span>
+        </div>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" id="nav-overlay"></div>
+
     <!-- Login Screen -->
     <div id="login-screen">
         <div class="login-box">
@@ -673,6 +820,25 @@
         const API_BASE_URL = 'http://localhost:8000/api/v1';
         let authToken = localStorage.getItem('authToken');
         let currentUser = null;
+
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const sidenav = document.getElementById('sidenav');
+        const overlay = document.getElementById('nav-overlay');
+
+        if (hamburger && sidenav && overlay) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                sidenav.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+
+            overlay.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                sidenav.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+        }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
