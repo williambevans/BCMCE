@@ -556,6 +556,50 @@ class TokenData(BaseModel):
 
 
 # ============================================================================
+# SCRAPED BID MODELS
+# ============================================================================
+
+class ScrapedBidBase(BaseModel):
+    """Base scraped bid model"""
+    county_name: str = Field(..., min_length=1, max_length=200)
+    title: str = Field(..., min_length=1, max_length=500)
+    url: Optional[str] = None
+    description: Optional[str] = None
+    date_posted: Optional[str] = None
+    deadline: Optional[str] = None
+    category: Optional[str] = None
+    source: Optional[str] = None
+    section: Optional[str] = None
+
+
+class ScrapedBidCreate(ScrapedBidBase):
+    """Create scraped bid"""
+    pass
+
+
+class ScrapedBid(ScrapedBidBase):
+    """Scraped bid response model"""
+    id: str
+    is_processed: bool = False
+    scraped_at: datetime
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ScrapeSummary(BaseModel):
+    """Summary of scraping operation"""
+    county_name: str
+    total_bids: int
+    new_bids: int
+    failed: bool = False
+    error_message: Optional[str] = None
+    scraped_at: datetime
+
+
+# ============================================================================
 # RESPONSE MODELS
 # ============================================================================
 

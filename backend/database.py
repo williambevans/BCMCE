@@ -348,6 +348,31 @@ class AuditLog(Base):
     )
 
 
+class ScrapedBid(Base):
+    """Scraped bid from county websites"""
+    __tablename__ = "scraped_bids"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    county_name = Column(String(200), nullable=False, index=True)
+    title = Column(String(500), nullable=False)
+    url = Column(String(1000))
+    description = Column(Text)
+    date_posted = Column(String(100))  # Stored as string since formats vary
+    deadline = Column(String(100))
+    category = Column(String(100))
+    source = Column(String(50))  # 'table', 'link', 'mock', etc.
+    section = Column(String(200))
+    is_processed = Column(Boolean, default=False, index=True)  # If converted to requirement
+    scraped_at = Column(DateTime, default=datetime.utcnow, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        Index('idx_scraped_bid_county', 'county_name', 'scraped_at'),
+        Index('idx_scraped_bid_processed', 'is_processed', 'scraped_at'),
+    )
+
+
 # ============================================================================
 # DATABASE UTILITIES
 # ============================================================================
