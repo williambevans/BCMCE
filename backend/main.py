@@ -35,6 +35,7 @@ from dotenv import load_dotenv
 import os
 
 from api import pricing, options, suppliers, county, auth
+from api import options_mgmt
 from websocket import websocket_endpoint
 
 # Load environment variables
@@ -82,6 +83,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Include API routers
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Authentication"])
+app.include_router(options_mgmt.router, prefix="/api/v1/options-mgmt", tags=["Options Management"])
 app.include_router(pricing.router, prefix="/api/v1/pricing", tags=["Pricing"])
 app.include_router(options.router, prefix="/api/v1/options", tags=["Options"])
 app.include_router(suppliers.router, prefix="/api/v1/suppliers", tags=["Suppliers"])
