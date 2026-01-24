@@ -34,8 +34,7 @@ import logging
 from dotenv import load_dotenv
 import os
 
-from api import pricing, options, suppliers, county, auth
-from api import options_mgmt
+from api import pricing, options, suppliers, county, auth, options_mgmt, county_scraper
 from websocket import websocket_endpoint
 
 # Load environment variables
@@ -88,6 +87,7 @@ app.include_router(pricing.router, prefix="/api/v1/pricing", tags=["Pricing"])
 app.include_router(options.router, prefix="/api/v1/options", tags=["Options"])
 app.include_router(suppliers.router, prefix="/api/v1/suppliers", tags=["Suppliers"])
 app.include_router(county.router, prefix="/api/v1/county", tags=["County"])
+app.include_router(county_scraper.router, prefix="/api/v1/county-scraper", tags=["County Scraper"])
 
 
 @app.get("/")
