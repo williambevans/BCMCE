@@ -551,6 +551,91 @@
             color: var(--accent-red);
         }
 
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-amber);
+            border-radius: 8px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-amber);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-red);
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row-full {
+            grid-column: 1 / -1;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header {
@@ -564,6 +649,10 @@
 
             .table-container {
                 font-size: 11px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -930,7 +1019,9 @@
             }
 
             // Load data
+            loadFormData();
             loadPortfolio();
+            loadStats();
             loadRFPs();
         }
 
@@ -974,10 +1065,273 @@
             loadRFPs();
         }
 
-        // Add option
+        // Add option - show modal
         function addOption() {
-            alert('Add Option modal will be implemented in the next phase');
+            document.getElementById('add-option-modal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('add-option-modal').classList.remove('active');
+            document.getElementById('option-form').reset();
+        }
+
+        // Load materials and suppliers
+        async function loadFormData() {
+            try {
+                // Load materials
+                const materialsRes = await fetch(`${API_BASE_URL}/options-mgmt/materials`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const materials = await materialsRes.json();
+
+                const materialSelect = document.getElementById('material-select');
+                materialSelect.innerHTML = '<option value="">Select Material</option>' +
+                    materials.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+
+                // Load suppliers
+                const suppliersRes = await fetch(`${API_BASE_URL}/options-mgmt/suppliers`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const suppliers = await suppliersRes.json();
+
+                const supplierSelect = document.getElementById('supplier-select');
+                supplierSelect.innerHTML = '<option value="">Select Supplier</option>' +
+                    suppliers.map(s => `<option value="${s.id}">${s.name} (${s.city})</option>`).join('');
+            } catch (error) {
+                console.error('Error loading form data:', error);
+            }
+        }
+
+        // Submit option form
+        async function submitOptionForm(e) {
+            e.preventDefault();
+
+            const formData = {
+                material_id: document.getElementById('material-select').value,
+                supplier_id: document.getElementById('supplier-select').value,
+                strike_price: parseFloat(document.getElementById('strike-price').value),
+                quantity: parseFloat(document.getElementById('quantity').value),
+                premium: parseFloat(document.getElementById('premium').value),
+                duration_days: parseInt(document.getElementById('duration').value),
+                notes: document.getElementById('notes').value || null
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/options-mgmt/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to create option');
+                }
+
+                const result = await response.json();
+                console.log('Option created:', result);
+
+                // Close modal and reload portfolio
+                closeModal();
+                loadPortfolio();
+                loadStats();
+
+                // Show success message
+                alert(`✅ Option created successfully!\n\n${result.material_name}\n${result.quantity} tons @ $${result.strike_price}/ton\nCost Basis: $${result.cost_basis.toFixed(2)}/ton`);
+
+            } catch (error) {
+                console.error('Error creating option:', error);
+                alert('❌ Error creating option: ' + error.message);
+            }
+        }
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/options-mgmt/stats`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const stats = await response.json();
+
+                document.getElementById('stat-active-options').textContent = stats.active_options;
+                document.getElementById('stat-total-value').textContent = '$' + stats.total_locked_value.toLocaleString();
+                document.getElementById('stat-expiring').textContent = stats.expiring_soon;
+                document.getElementById('stat-capacity').textContent = stats.total_capacity.toLocaleString() + ' tons';
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load portfolio - UPDATED
+        async function loadPortfolio() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/options-mgmt/portfolio`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const options = await response.json();
+
+                const tbody = document.getElementById('options-tbody');
+
+                if (options.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" style="text-align: center; color: var(--text-secondary);">
+                                No options loaded. Click "+ ADD OPTION" to create your first option contract.
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    tbody.innerHTML = options.map(opt => {
+                        const statusClass = opt.days_until_expiry <= 7 ? 'badge-warning' :
+                                          opt.days_until_expiry <= 0 ? 'badge-expired' : 'badge-active';
+                        const expiryDate = new Date(opt.expires_at).toLocaleDateString();
+
+                        return `
+                            <tr>
+                                <td>${opt.material_name}</td>
+                                <td>${opt.supplier_name}</td>
+                                <td>$${opt.strike_price.toFixed(2)}</td>
+                                <td>${opt.quantity.toLocaleString()} tons</td>
+                                <td>$${opt.premium.toLocaleString()}</td>
+                                <td>${expiryDate} (${opt.days_until_expiry}d)</td>
+                                <td><span class="badge ${statusClass}">${opt.status}</span></td>
+                                <td>
+                                    <button class="btn" style="font-size: 11px; padding: 4px 8px;"
+                                            onclick="calculateBidForOption('${opt.id}')">
+                                        CALC BID
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                loadStats();
+            } catch (error) {
+                console.error('Error loading portfolio:', error);
+            }
+        }
+
+        // Calculate bid for option
+        async function calculateBidForOption(optionId) {
+            const quantity = prompt('Enter quantity needed (tons):');
+            if (!quantity) return;
+
+            const margin = prompt('Enter target margin ($/ton):', '3.00');
+            if (!margin) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/options-mgmt/calculate-bid`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        option_id: optionId,
+                        quantity_needed: parseFloat(quantity),
+                        target_margin: parseFloat(margin)
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to calculate bid');
+                }
+
+                const calc = await response.json();
+
+                alert(
+                    `📊 BID CALCULATION\n\n` +
+                    `Material: ${calc.material_name}\n` +
+                    `Quantity: ${calc.quantity_needed} tons\n\n` +
+                    `Strike Price: $${calc.strike_price.toFixed(2)}/ton\n` +
+                    `Premium: $${calc.premium_per_ton.toFixed(2)}/ton\n` +
+                    `Cost Basis: $${calc.cost_basis.toFixed(2)}/ton\n` +
+                    `Target Margin: $${calc.target_margin.toFixed(2)}/ton\n\n` +
+                    `💰 CALCULATED BID: $${calc.calculated_bid.toFixed(2)}/ton\n` +
+                    `📈 TOTAL BID AMOUNT: $${calc.total_bid_amount.toLocaleString()}\n` +
+                    `✅ POTENTIAL PROFIT: $${calc.potential_profit.toLocaleString()}`
+                );
+            } catch (error) {
+                console.error('Error calculating bid:', error);
+                alert('❌ Error calculating bid: ' + error.message);
+            }
         }
     </script>
+
+    <!-- Add Option Modal -->
+    <div id="add-option-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">ADD OPTION CONTRACT</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 20px;">
+                    Record an option contract after completing a phone deal with a supplier.
+                </p>
+                <form id="option-form" onsubmit="submitOptionForm(event)">
+                    <div class="form-row">
+                        <div>
+                            <label class="form-label" for="material-select">Material</label>
+                            <select id="material-select" class="form-input" required>
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label" for="supplier-select">Supplier</label>
+                            <select id="supplier-select" class="form-input" required>
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <label class="form-label" for="strike-price">Strike Price ($/ton)</label>
+                            <input type="number" id="strike-price" class="form-input" step="0.01" min="0" required
+                                   placeholder="28.50">
+                        </div>
+                        <div>
+                            <label class="form-label" for="quantity">Quantity (tons)</label>
+                            <input type="number" id="quantity" class="form-input" step="0.1" min="0" required
+                                   placeholder="500">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div>
+                            <label class="form-label" for="premium">Premium Paid ($)</label>
+                            <input type="number" id="premium" class="form-input" step="0.01" min="0" required
+                                   placeholder="1000">
+                        </div>
+                        <div>
+                            <label class="form-label" for="duration">Duration (days)</label>
+                            <select id="duration" class="form-input" required>
+                                <option value="30">30 Days</option>
+                                <option value="90" selected>90 Days</option>
+                                <option value="180">180 Days</option>
+                                <option value="365">365 Days</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-row-full">
+                            <label class="form-label" for="notes">Notes (optional)</label>
+                            <textarea id="notes" class="form-input" rows="3"
+                                      placeholder="Any additional notes about this option..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" onclick="closeModal()">CANCEL</button>
+                        <button type="submit" class="btn btn-primary">CREATE OPTION</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
