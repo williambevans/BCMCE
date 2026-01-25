@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | BCMCE Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-primary: #0a0a0a; --bg-secondary: #111111; --text-primary: #ffffff;
+      --text-secondary: #888888; --accent-amber: #ff9500; --border-color: #2a2a2a;
+    }
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      background: var(--bg-primary); color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .header {
+      background: var(--bg-secondary); border-bottom: 2px solid var(--accent-amber);
+      padding: 20px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-size: 24px; font-weight: 700; color: var(--accent-amber); }
+    .btn {
+      background: var(--accent-amber); color: #000; padding: 10px 20px;
+      border: none; border-radius: 4px; cursor: pointer; font-weight: 600;
+    }
+    .container { padding: 40px; max-width: 800px; margin: 0 auto; }
+    .section {
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 8px; padding: 30px; margin-bottom: 20px;
+    }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--accent-amber); }
+    .form-group { margin-bottom: 20px; }
+    .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; display: block; }
+    .input {
+      width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid var(--border-color);
+      border-radius: 4px; color: var(--text-primary); font-family: inherit; font-size: 14px;
+    }
+    .input:focus { outline: none; border-color: var(--accent-amber); }
+    .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+    .checkbox { width: 18px; height: 18px; cursor: pointer; }
+    .btn-secondary {
+      background: transparent; border: 1px solid var(--border-color); color: var(--text-primary);
+      padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600;
+    }
+    .btn-secondary:hover { border-color: var(--accent-amber); color: var(--accent-amber); }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">⚙️ SETTINGS</div>
+    <button class="btn" onclick="window.location.href='hh-dashboard.html'">← Back to Dashboard</button>
+  </div>
+  <div class="container">
+    <h1 style="font-size: 28px; margin-bottom: 10px;">Platform Settings</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 30px;">Configure your BCMCE platform preferences</p>
+    
+    <div class="section">
+      <div class="section-title">Company Information</div>
+      <div class="form-group">
+        <label class="label">Company Name</label>
+        <input class="input" type="text" value="H.H. Holdings LLC" />
+      </div>
+      <div class="form-group">
+        <label class="label">Contact Email</label>
+        <input class="input" type="email" value="biri@hhholdings.com" />
+      </div>
+      <div class="form-group">
+        <label class="label">Phone Number</label>
+        <input class="input" type="tel" value="+1 (254) 555-0100" />
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Alert Preferences</div>
+      <div class="checkbox-group">
+        <input class="checkbox" type="checkbox" id="emailAlerts" checked />
+        <label for="emailAlerts">Email alerts for new RFPs</label>
+      </div>
+      <div class="checkbox-group">
+        <input class="checkbox" type="checkbox" id="expiryAlerts" checked />
+        <label for="expiryAlerts">Option expiry warnings (7 days)</label>
+      </div>
+      <div class="checkbox-group">
+        <input class="checkbox" type="checkbox" id="bidReminders" checked />
+        <label for="bidReminders">Bid deadline reminders</label>
+      </div>
+      <div class="checkbox-group">
+        <input class="checkbox" type="checkbox" id="priceAlerts" />
+        <label for="priceAlerts">Material price alerts</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Regional Focus</div>
+      <div class="form-group">
+        <label class="label">Primary Counties (comma-separated)</label>
+        <input class="input" type="text" value="Bosque, Hamilton, Erath, Ellis, Johnson" />
+      </div>
+      <div class="form-group">
+        <label class="label">Target Margin (%)</label>
+        <input class="input" type="number" value="8.5" step="0.1" />
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">API Configuration</div>
+      <div class="form-group">
+        <label class="label">API Base URL</label>
+        <input class="input" type="url" value="http://localhost:8000/api/v1" />
+      </div>
+      <div class="form-group">
+        <label class="label">WebSocket Endpoint</label>
+        <input class="input" type="url" value="ws://localhost:8000/ws/all" />
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 30px;">
+      <button class="btn" onclick="alert('Settings saved successfully!')">Save Settings</button>
+      <button class="btn-secondary" onclick="alert('Settings reset to defaults')">Reset to Defaults</button>
+    </div>
+  </div>
+</body>
+</html>
