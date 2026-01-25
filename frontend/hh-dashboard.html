@@ -551,6 +551,21 @@
             color: var(--accent-red);
         }
 
+        .badge-blue {
+            background: rgba(0, 168, 255, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .badge-amber {
+            background: rgba(255, 149, 0, 0.2);
+            color: var(--accent-amber);
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 11px;
+        }
+
         /* Modal */
         .modal {
             display: none;
@@ -679,6 +694,10 @@
             <span class="nav-icon">📈</span>
             <span>Portfolio Dashboard</span>
         </div>
+        <div class="nav-item" onclick="switchTab('scraper')">
+            <span class="nav-icon">🔍</span>
+            <span>County Scraper</span>
+        </div>
         <div class="nav-item" onclick="window.location.href='rfp-alerts.html'">
             <span class="nav-icon">🔔</span>
             <span>RFP Alerts</span>
@@ -773,6 +792,7 @@
             <!-- Tabs -->
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('portfolio')">OPTIONS PORTFOLIO</button>
+                <button class="tab" onclick="switchTab('scraper')">COUNTY SCRAPER</button>
                 <button class="tab" onclick="switchTab('rfps')">COUNTY RFPs</button>
                 <button class="tab" onclick="switchTab('bids')">BID CALCULATOR</button>
                 <button class="tab" onclick="switchTab('history')">BID HISTORY</button>
@@ -824,6 +844,78 @@
                                 <tr>
                                     <td colspan="8" style="text-align: center; color: var(--text-secondary);">
                                         No options loaded. Click "+ ADD OPTION" to create your first option contract.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- County Scraper Tab -->
+            <div id="tab-scraper" class="tab-content">
+                <!-- Scraper Stats -->
+                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Scraped Bids</div>
+                        <div class="stat-value amber" id="scraper-stat-total">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Unprocessed Bids</div>
+                        <div class="stat-value green" id="scraper-stat-unprocessed">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Last Scrape</div>
+                        <div class="stat-value" id="scraper-stat-lastscrape" style="font-size: 14px;">Never</div>
+                    </div>
+                </div>
+
+                <!-- Scraper Controls -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <div class="card-header">
+                        <div class="card-title">🔍 BOSQUE COUNTY BID SCRAPER</div>
+                        <button class="btn btn-primary" onclick="scrapeBosqueCounty()">SCRAPE NOW</button>
+                    </div>
+                    <div style="padding: 20px; color: var(--text-secondary);">
+                        <p style="margin-bottom: 10px;">
+                            <strong style="color: var(--accent-amber);">Source:</strong>
+                            <a href="http://107.143.183.49/minutes/index.asp" target="_blank" style="color: var(--accent-blue); text-decoration: none;">
+                                http://107.143.183.49/minutes/index.asp
+                            </a>
+                        </p>
+                        <p style="margin-bottom: 10px;">
+                            <strong style="color: var(--accent-amber);">County:</strong> Bosque County, Texas
+                        </p>
+                        <p>
+                            <strong style="color: var(--accent-amber);">Status:</strong>
+                            <span id="scraper-status">Ready</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Scraped Bids Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">SCRAPED BID REQUESTS</div>
+                        <button class="btn" onclick="loadScrapedBids()">REFRESH</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="scraped-bids-table">
+                            <thead>
+                                <tr>
+                                    <th>COUNTY</th>
+                                    <th>TITLE</th>
+                                    <th>DATE POSTED</th>
+                                    <th>DEADLINE</th>
+                                    <th>CATEGORY</th>
+                                    <th>SCRAPED</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scraped-bids-tbody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: var(--text-secondary);">
+                                        No bids scraped yet. Click "SCRAPE NOW" to fetch latest bid requests.
                                     </td>
                                 </tr>
                             </tbody>
@@ -1041,7 +1133,15 @@
         function switchTab(tabName) {
             // Update tab buttons
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            } else {
+                document.querySelectorAll('.tab').forEach(tab => {
+                    if (tab.textContent.toLowerCase().includes(tabName.toLowerCase())) {
+                        tab.classList.add('active');
+                    }
+                });
+            }
 
             // Update tab content
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -1050,6 +1150,7 @@
             // Load data for tab
             if (tabName === 'portfolio') loadPortfolio();
             if (tabName === 'rfps') loadRFPs();
+            if (tabName === 'scraper') loadScraperStats();
         }
 
         // Load portfolio data
@@ -1265,6 +1366,241 @@
                 console.error('Error calculating bid:', error);
                 alert('❌ Error calculating bid: ' + error.message);
             }
+        }
+
+        // ============================================================================
+        // COUNTY SCRAPER FUNCTIONS
+        // ============================================================================
+
+        // Load scraper stats
+        async function loadScraperStats() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/county-scraper/scrape/stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load scraper stats');
+                }
+
+                const stats = await response.json();
+
+                // Update stats display
+                document.getElementById('scraper-stat-total').textContent = stats.total_bids;
+                document.getElementById('scraper-stat-unprocessed').textContent = stats.unprocessed_bids;
+
+                // Update last scrape time
+                if (stats.last_scrapes && stats.last_scrapes.length > 0) {
+                    const bosqueScrape = stats.last_scrapes.find(s => s.county === 'BOSQUE');
+                    if (bosqueScrape) {
+                        const lastScrape = new Date(bosqueScrape.last_scraped);
+                        const now = new Date();
+                        const diffMinutes = Math.floor((now - lastScrape) / 60000);
+
+                        let timeAgo;
+                        if (diffMinutes < 1) {
+                            timeAgo = 'Just now';
+                        } else if (diffMinutes < 60) {
+                            timeAgo = `${diffMinutes}m ago`;
+                        } else if (diffMinutes < 1440) {
+                            timeAgo = `${Math.floor(diffMinutes / 60)}h ago`;
+                        } else {
+                            timeAgo = `${Math.floor(diffMinutes / 1440)}d ago`;
+                        }
+
+                        document.getElementById('scraper-stat-lastscrape').textContent = timeAgo;
+                    }
+                }
+
+                // Load scraped bids
+                loadScrapedBids();
+
+            } catch (error) {
+                console.error('Failed to load scraper stats:', error);
+            }
+        }
+
+        // Scrape Bosque County
+        async function scrapeBosqueCounty() {
+            const statusEl = document.getElementById('scraper-status');
+            const btn = event.target;
+
+            try {
+                // Update UI
+                statusEl.textContent = 'Scraping...';
+                statusEl.style.color = 'var(--accent-amber)';
+                btn.disabled = true;
+                btn.textContent = 'SCRAPING...';
+
+                // Trigger scrape
+                const response = await fetch(`${API_BASE_URL}/county-scraper/scrape/bosque`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Scraping failed');
+                }
+
+                const result = await response.json();
+
+                // Update UI with results
+                if (result.failed) {
+                    statusEl.textContent = `Failed: ${result.error_message}`;
+                    statusEl.style.color = 'var(--accent-red)';
+                    alert(`Scraping failed: ${result.error_message}`);
+                } else {
+                    statusEl.textContent = `Success! Found ${result.total_bids} bids (${result.new_bids} new)`;
+                    statusEl.style.color = 'var(--accent-green)';
+                    alert(`✓ Scraping complete!\n\nTotal bids: ${result.total_bids}\nNew bids: ${result.new_bids}`);
+
+                    // Reload stats and bids
+                    loadScraperStats();
+                }
+
+            } catch (error) {
+                console.error('Scraping error:', error);
+                statusEl.textContent = `Error: ${error.message}`;
+                statusEl.style.color = 'var(--accent-red)';
+                alert(`Scraping failed: ${error.message}`);
+
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'SCRAPE NOW';
+            }
+        }
+
+        // Load scraped bids
+        async function loadScrapedBids() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/county-scraper/scraped-bids?limit=50`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load scraped bids');
+                }
+
+                const bids = await response.json();
+                const tbody = document.getElementById('scraped-bids-tbody');
+
+                if (bids.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: var(--text-secondary);">
+                                No bids scraped yet. Click "SCRAPE NOW" to fetch latest bid requests.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                // Populate table
+                tbody.innerHTML = bids.map(bid => {
+                    const scrapedDate = new Date(bid.scraped_at);
+                    const scrapedAgo = formatTimeAgo(scrapedDate);
+
+                    return `
+                        <tr>
+                            <td><span class="badge badge-blue">${bid.county_name}</span></td>
+                            <td>
+                                ${bid.url ? `<a href="${bid.url}" target="_blank" style="color: var(--accent-blue); text-decoration: none;">${bid.title}</a>` : bid.title}
+                            </td>
+                            <td>${bid.date_posted || '-'}</td>
+                            <td>${bid.deadline || '-'}</td>
+                            <td>${bid.category ? `<span class="badge badge-amber">${bid.category}</span>` : '-'}</td>
+                            <td style="font-size: 12px;">${scrapedAgo}</td>
+                            <td>
+                                <button class="btn btn-sm" onclick="viewBidDetails('${bid.id}')" style="padding: 5px 10px; font-size: 11px;">VIEW</button>
+                                ${!bid.is_processed ? `<button class="btn btn-sm" onclick="markBidProcessed('${bid.id}')" style="padding: 5px 10px; font-size: 11px; margin-left: 5px;">MARK DONE</button>` : ''}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('Failed to load scraped bids:', error);
+            }
+        }
+
+        // View bid details
+        async function viewBidDetails(bidId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/county-scraper/scraped-bids/${bidId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load bid details');
+                }
+
+                const bid = await response.json();
+
+                // Show details in alert (can be enhanced with modal later)
+                alert(`
+BID DETAILS
+
+County: ${bid.county_name}
+Title: ${bid.title}
+
+${bid.description ? 'Description:\n' + bid.description + '\n\n' : ''}
+${bid.date_posted ? 'Posted: ' + bid.date_posted + '\n' : ''}
+${bid.deadline ? 'Deadline: ' + bid.deadline + '\n' : ''}
+${bid.category ? 'Category: ' + bid.category + '\n' : ''}
+${bid.url ? '\nURL: ' + bid.url : ''}
+
+Source: ${bid.source}
+Scraped: ${new Date(bid.scraped_at).toLocaleString()}
+                `.trim());
+
+            } catch (error) {
+                console.error('Failed to load bid details:', error);
+                alert('Failed to load bid details');
+            }
+        }
+
+        // Mark bid as processed
+        async function markBidProcessed(bidId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/county-scraper/scraped-bids/${bidId}/mark-processed`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to mark bid as processed');
+                }
+
+                alert('✓ Bid marked as processed');
+                loadScrapedBids();
+                loadScraperStats();
+
+            } catch (error) {
+                console.error('Failed to mark bid as processed:', error);
+                alert('Failed to mark bid as processed');
+            }
+        }
+
+        // Utility: Format time ago
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diffSeconds = Math.floor((now - date) / 1000);
+
+            if (diffSeconds < 60) return 'Just now';
+            if (diffSeconds < 3600) return `${Math.floor(diffSeconds / 60)}m ago`;
+            if (diffSeconds < 86400) return `${Math.floor(diffSeconds / 3600)}h ago`;
+            if (diffSeconds < 604800) return `${Math.floor(diffSeconds / 86400)}d ago`;
+            return date.toLocaleDateString();
         }
     </script>
 
