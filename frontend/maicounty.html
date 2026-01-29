@@ -1689,19 +1689,467 @@
       { name: "Zavala", seat: "Crystal City", website: "https://www.co.zavala.tx.us", population: 9670, region: "South Texas" }
     ];
 
+    // BCME Data Modules for Bosque County MVP
+    const bcmeData = {
+      taxAbatements: {
+        "Bosque": [
+          {
+            company: "CyrusOne LLC",
+            type: "Chapter 312",
+            facility: "Data Center Campus - Phase 1",
+            appraised: 1200000000,
+            abatement: 85,
+            startYear: 2023,
+            endYear: 2033,
+            status: "active",
+            jobs: 35,
+            jobsActual: 12,
+            annualReport: false,
+            alerts: ["Missing 2024 annual report", "Job creation 66% below target"]
+          },
+          {
+            company: "Bosque Solar LLC",
+            type: "Chapter 313",
+            facility: "150MW Solar Farm",
+            appraised: 45000000,
+            abatement: 100,
+            startYear: 2022,
+            endYear: 2032,
+            status: "active",
+            jobs: 5,
+            jobsActual: 3,
+            annualReport: true,
+            alerts: ["Job creation 40% below target"]
+          }
+        ]
+      },
+      commissionersCourt: {
+        "Bosque": [
+          { date: "2026-01-20", type: "Regular", agenda: "Budget amendments, Road maintenance bids, CyrusOne tax agreement review" },
+          { date: "2026-01-06", type: "Regular", agenda: "County facility improvements, Personnel changes, Bosque Solar compliance report" },
+          { date: "2025-12-16", type: "Special", agenda: "Emergency road repairs CR-1720, Winter weather preparation" },
+          { date: "2025-12-02", type: "Regular", agenda: "Annual budget review, Tax abatement performance reports, IT infrastructure" }
+        ]
+      },
+      energyInfrastructure: {
+        "Bosque": [
+          { name: "CyrusOne Data Center", type: "Data Center", capacity: "200MW", status: "Operational", year: 2023 },
+          { name: "Bosque Solar Farm", type: "Solar", capacity: "150MW", status: "Operational", year: 2022 },
+          { name: "Meridian Wind Project", type: "Wind", capacity: "50MW", status: "Proposed", year: 2027 }
+        ]
+      },
+      cadData: {
+        "Bosque": {
+          cadName: "Bosque Central Appraisal District",
+          website: "https://bosque.tfaconnect.com",
+          totalParcels: 12847,
+          totalValue: 2450000000,
+          exemptions: 340000000,
+          taxableValue: 2110000000
+        }
+      },
+      propertyRecords: {
+        "Bosque": {
+          sample: {
+            parcel: "R123456",
+            owner: "CyrusOne LLC",
+            acres: 450,
+            chain: [
+              { year: 2023, owner: "CyrusOne LLC", price: 15000000 },
+              { year: 2021, owner: "Meridian Ranch LLC", price: 4500000 },
+              { year: 2015, owner: "Smith Family Trust", price: 2100000 }
+            ]
+          }
+        }
+      }
+    };
+
+    let currentCounty = null;
+    let currentModule = 'abatements';
+    let filteredCounties = [...texasCounties];
+
     // Initialize on load
     window.addEventListener('DOMContentLoaded', function() {
       updateTimestamp();
       setInterval(updateTimestamp, 1000);
-      alert('MAICounty is currently being built out. Full functionality coming soon. Redirecting to dashboard...');
-      setTimeout(function() { window.location.href = 'hh-dashboard.html'; }, 3000);
+      init();
     });
+
+    function init() {
+      renderRegions();
+      renderTable();
+      selectCounty('Bosque');
+      setupEventListeners();
+    }
 
     function updateTimestamp() {
       const now = new Date();
       const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
       const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       document.getElementById('timestamp').textContent = timeStr + ' ' + dateStr;
+    }
+
+    function renderRegions() {
+      const regions = [...new Set(texasCounties.map(c => c.region))].sort();
+      const regionSelect = document.getElementById('regionSelect');
+      regionSelect.innerHTML = '<option value="All">All Regions</option>' +
+        regions.map(r => '<option value="' + r + '">' + r + '</option>').join('');
+
+      const regionList = document.getElementById('regionList');
+      regionList.innerHTML = regions.map(region => {
+        const count = texasCounties.filter(c => c.region === region).length;
+        return '<div class="region-item" onclick="filterByRegion(\'' + region + '\')">' +
+          '<span class="region-name">' + region + '</span>' +
+          '<span class="region-count"><span>' + count + '</span></span>' +
+          '</div>';
+      }).join('');
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = filteredCounties.map(county =>
+        '<tr onclick="selectCounty(\'' + county.name + '\')" class="' + (currentCounty && currentCounty.name === county.name ? 'selected' : '') + '">' +
+          '<td><span class="county-name">' + county.name + '</span></td>' +
+          '<td><span class="county-seat">' + county.seat + '</span></td>' +
+          '<td><span class="county-region">' + county.region + '</span></td>' +
+          '<td><span class="county-pop">' + county.population.toLocaleString() + '</span></td>' +
+          '<td><span class="county-website">' + county.website + '</span></td>' +
+        '</tr>'
+      ).join('');
+      updateFilteredStats();
+    }
+
+    function updateFilteredStats() {
+      document.getElementById('filteredCount').textContent = filteredCounties.length;
+      const totalPop = filteredCounties.reduce((sum, c) => sum + c.population, 0);
+      document.getElementById('filteredPop').textContent = totalPop.toLocaleString();
+    }
+
+    function selectCounty(name) {
+      currentCounty = texasCounties.find(c => c.name === name);
+      if (!currentCounty) return;
+
+      document.getElementById('detailPlaceholder').style.display = 'none';
+      document.getElementById('detailContent').classList.add('visible');
+
+      document.getElementById('detailName').textContent = currentCounty.name + ' County';
+      document.getElementById('detailSubtitle').textContent = 'County Seat: ' + currentCounty.seat;
+      document.getElementById('detailSeat').textContent = currentCounty.seat;
+      document.getElementById('detailPop').textContent = currentCounty.population.toLocaleString();
+      document.getElementById('detailRegion').textContent = currentCounty.region;
+
+      const abatementCount = (bcmeData.taxAbatements[currentCounty.name] || []).length;
+      document.getElementById('detailAbatements').textContent = abatementCount;
+
+      const websiteLink = document.getElementById('detailWebsite');
+      websiteLink.href = currentCounty.website;
+      document.getElementById('detailWebsiteText').textContent = currentCounty.website;
+
+      renderTable();
+      renderCurrentModule();
+    }
+
+    function switchModule(module) {
+      currentModule = module;
+      document.querySelectorAll('.bcme-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.target.closest('.bcme-tab').classList.add('active');
+
+      document.querySelectorAll('.bcme-module').forEach(mod => {
+        mod.classList.remove('active');
+      });
+      document.getElementById('module-' + module).classList.add('active');
+
+      renderCurrentModule();
+    }
+
+    function renderCurrentModule() {
+      if (!currentCounty) return;
+
+      switch(currentModule) {
+        case 'abatements':
+          renderAbatementsModule();
+          break;
+        case 'court':
+          renderCourtModule();
+          break;
+        case 'property':
+          renderPropertyModule();
+          break;
+        case 'energy':
+          renderEnergyModule();
+          break;
+        case 'cad':
+          renderCadModule();
+          break;
+      }
+    }
+
+    function renderAbatementsModule() {
+      const content = document.getElementById('abatementsContent');
+      const abatements = bcmeData.taxAbatements[currentCounty.name] || [];
+
+      document.getElementById('abatementCount').textContent = abatements.length;
+
+      if (abatements.length === 0) {
+        content.innerHTML = '<div class="bcme-empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>' +
+          '<div class="bcme-empty-text">No Tax Abatement Data</div>' +
+          '<div class="bcme-empty-subtext">This county has no recorded tax abatements</div>' +
+          '</div>';
+        return;
+      }
+
+      content.innerHTML = abatements.map(a => {
+        const alertsHTML = a.alerts && a.alerts.length > 0 ?
+          '<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-primary);">' +
+          a.alerts.map(alert =>
+            '<div class="bcme-alert">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>' +
+              '<div class="bcme-alert-content">' +
+                '<div class="bcme-alert-title">Compliance Alert</div>' +
+                '<div class="bcme-alert-text">' + alert + '</div>' +
+              '</div>' +
+            '</div>'
+          ).join('') +
+          '</div>' : '';
+
+        return '<div class="bcme-card">' +
+          '<div class="bcme-card-header">' +
+            '<div class="bcme-card-title">' + a.company + '</div>' +
+            '<div class="bcme-card-badge ' + a.status + '">' + a.status.toUpperCase() + '</div>' +
+          '</div>' +
+          '<div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">' + a.facility + '</div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Type:</span><span class="bcme-card-value">' + a.type + '</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Appraised Value:</span><span class="bcme-card-value money">$' + (a.appraised / 1000000).toFixed(1) + 'M</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Abatement:</span><span class="bcme-card-value highlight">' + a.abatement + '%</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Term:</span><span class="bcme-card-value">' + a.startYear + ' - ' + a.endYear + '</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Jobs Target/Actual:</span><span class="bcme-card-value ' + (a.jobsActual < a.jobs ? 'alert' : '') + '">' + a.jobs + ' / ' + a.jobsActual + '</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Annual Report:</span><span class="bcme-card-value ' + (a.annualReport ? '' : 'alert') + '">' + (a.annualReport ? '✓ Filed' : '✗ Missing') + '</span></div>' +
+          alertsHTML +
+        '</div>';
+      }).join('');
+    }
+
+    function renderCourtModule() {
+      const content = document.getElementById('courtContent');
+      const meetings = bcmeData.commissionersCourt[currentCounty.name] || [];
+
+      document.getElementById('courtCount').textContent = meetings.length;
+
+      if (meetings.length === 0) {
+        content.innerHTML = '<div class="bcme-empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>' +
+          '<div class="bcme-empty-text">No Court Records</div>' +
+          '<div class="bcme-empty-subtext">No commissioners court data available</div>' +
+          '</div>';
+        return;
+      }
+
+      content.innerHTML = meetings.map((m, i) =>
+        '<div class="meeting-item ' + (i === 0 ? 'recent' : '') + '">' +
+          '<div class="meeting-date">' + m.date + '</div>' +
+          '<div class="meeting-title">' + m.type + ' Meeting</div>' +
+          '<div class="agenda-items">' + m.agenda + '</div>' +
+        '</div>'
+      ).join('');
+    }
+
+    function renderPropertyModule() {
+      const content = document.getElementById('propertyContent');
+      const property = bcmeData.propertyRecords[currentCounty.name];
+
+      if (!property) {
+        content.innerHTML = '<div class="bcme-empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>' +
+          '<div class="bcme-empty-text">No Property Records</div>' +
+          '<div class="bcme-empty-subtext">No property ownership data available</div>' +
+          '</div>';
+        return;
+      }
+
+      content.innerHTML = '<div class="bcme-section">' +
+        '<div class="bcme-section-header">Sample Property Chain - Parcel ' + property.sample.parcel + '</div>' +
+        '<div class="bcme-card">' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Current Owner:</span><span class="bcme-card-value">' + property.sample.owner + '</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Total Acres:</span><span class="bcme-card-value highlight">' + property.sample.acres + '</span></div>' +
+        '</div>' +
+        '<div style="margin-top: 16px;">' +
+          '<div class="bcme-section-header">Ownership Chain</div>' +
+          '<div class="property-chain">' +
+            property.sample.chain.map((entry, i) =>
+              '<div class="chain-item">' +
+                '<div class="chain-dot"></div>' +
+                '<div class="chain-year">' + entry.year + '</div>' +
+                '<div class="chain-owner">' + entry.owner + '</div>' +
+                '<div class="chain-details">Purchase Price: $' + (entry.price / 1000000).toFixed(1) + 'M</div>' +
+              '</div>'
+            ).join('') +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function renderEnergyModule() {
+      const content = document.getElementById('energyContent');
+      const facilities = bcmeData.energyInfrastructure[currentCounty.name] || [];
+
+      document.getElementById('energyCount').textContent = facilities.length;
+
+      if (facilities.length === 0) {
+        content.innerHTML = '<div class="bcme-empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>' +
+          '<div class="bcme-empty-text">No Energy Infrastructure</div>' +
+          '<div class="bcme-empty-subtext">No energy facilities recorded</div>' +
+          '</div>';
+        return;
+      }
+
+      content.innerHTML = facilities.map(f => {
+        const iconType = f.type.toLowerCase().replace(' ', '');
+        return '<div class="bcme-card">' +
+          '<div class="bcme-card-header">' +
+            '<div style="display: flex; align-items: center; gap: 8px;">' +
+              '<div class="energy-icon ' + iconType + '">⚡</div>' +
+              '<div class="bcme-card-title">' + f.name + '</div>' +
+            '</div>' +
+            '<div class="bcme-card-badge ' + (f.status === 'Operational' ? 'active' : 'pending') + '">' + f.status.toUpperCase() + '</div>' +
+          '</div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Type:</span><span class="bcme-card-value">' + f.type + '</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Capacity:</span><span class="bcme-card-value highlight">' + f.capacity + '</span></div>' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Year:</span><span class="bcme-card-value">' + f.year + '</span></div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function renderCadModule() {
+      const content = document.getElementById('cadContent');
+      const cad = bcmeData.cadData[currentCounty.name];
+
+      if (!cad) {
+        content.innerHTML = '<div class="bcme-empty">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' +
+          '<div class="bcme-empty-text">No CAD Data</div>' +
+          '<div class="bcme-empty-subtext">Central Appraisal District data unavailable</div>' +
+          '</div>';
+        return;
+      }
+
+      content.innerHTML = '<div class="bcme-section">' +
+        '<div class="bcme-section-header">' + cad.cadName + '</div>' +
+        '<div class="bcme-card">' +
+          '<div class="bcme-card-row"><span class="bcme-card-label">Website:</span><span class="bcme-card-value"><a href="' + cad.website + '" target="_blank" style="color: var(--cyan-primary);">' + cad.website + '</a></span></div>' +
+        '</div>' +
+        '<div style="margin-top: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">' +
+          '<div class="bcme-card">' +
+            '<div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">Total Parcels</div>' +
+            '<div style="font-size: 18px; font-weight: 600; color: var(--amber-primary);">' + cad.totalParcels.toLocaleString() + '</div>' +
+          '</div>' +
+          '<div class="bcme-card">' +
+            '<div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">Total Value</div>' +
+            '<div style="font-size: 18px; font-weight: 600; color: var(--green-primary);">$' + (cad.totalValue / 1000000000).toFixed(2) + 'B</div>' +
+          '</div>' +
+          '<div class="bcme-card">' +
+            '<div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">Exemptions</div>' +
+            '<div style="font-size: 18px; font-weight: 600; color: var(--cyan-primary);">$' + (cad.exemptions / 1000000).toFixed(0) + 'M</div>' +
+          '</div>' +
+          '<div class="bcme-card">' +
+            '<div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">Taxable Value</div>' +
+            '<div style="font-size: 18px; font-weight: 600; color: var(--purple-primary);">$' + (cad.taxableValue / 1000000000).toFixed(2) + 'B</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function filterByRegion(region) {
+      if (region === 'All') {
+        filteredCounties = [...texasCounties];
+      } else {
+        filteredCounties = texasCounties.filter(c => c.region === region);
+      }
+      renderTable();
+
+      document.querySelectorAll('.region-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      event.target.closest('.region-item').classList.add('active');
+    }
+
+    function setupEventListeners() {
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        if (query === '') {
+          const regionSelect = document.getElementById('regionSelect');
+          if (regionSelect.value === 'All') {
+            filteredCounties = [...texasCounties];
+          } else {
+            filteredCounties = texasCounties.filter(c => c.region === regionSelect.value);
+          }
+        } else {
+          filteredCounties = texasCounties.filter(c =>
+            c.name.toLowerCase().includes(query) ||
+            c.seat.toLowerCase().includes(query) ||
+            c.region.toLowerCase().includes(query)
+          );
+        }
+        renderTable();
+      });
+
+      document.getElementById('regionSelect').addEventListener('change', function() {
+        if (this.value === 'All') {
+          filteredCounties = [...texasCounties];
+        } else {
+          filteredCounties = texasCounties.filter(c => c.region === this.value);
+        }
+        renderTable();
+      });
+
+      document.querySelectorAll('.bcme-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          const module = this.getAttribute('data-module');
+          currentModule = module;
+
+          document.querySelectorAll('.bcme-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+
+          document.querySelectorAll('.bcme-module').forEach(m => m.classList.remove('active'));
+          document.getElementById('module-' + module).classList.add('active');
+
+          renderCurrentModule();
+        });
+      });
+
+      const menuToggle = document.getElementById('menuToggle');
+      const leftPanel = document.getElementById('leftPanel');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const sidebarClose = document.getElementById('sidebarClose');
+      const swipeHandle = document.getElementById('swipeHandle');
+
+      menuToggle.addEventListener('click', function() {
+        leftPanel.classList.add('open');
+        sidebarOverlay.classList.add('visible');
+        swipeHandle.classList.add('hidden');
+      });
+
+      sidebarClose.addEventListener('click', function() {
+        leftPanel.classList.remove('open');
+        sidebarOverlay.classList.remove('visible');
+        swipeHandle.classList.remove('hidden');
+      });
+
+      sidebarOverlay.addEventListener('click', function() {
+        leftPanel.classList.remove('open');
+        sidebarOverlay.classList.remove('visible');
+        swipeHandle.classList.remove('hidden');
+      });
+
+      swipeHandle.addEventListener('click', function() {
+        leftPanel.classList.add('open');
+        sidebarOverlay.classList.add('visible');
+        swipeHandle.classList.add('hidden');
+      });
     }
   </script>
 </body>
