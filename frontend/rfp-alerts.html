@@ -4,95 +4,823 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RFP Alerts | BCMCE Platform</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     :root {
-      --bg-primary: #0a0a0a; --bg-secondary: #111111; --text-primary: #ffffff;
-      --text-secondary: #888888; --accent-amber: #ff9500; --accent-green: #00ff88;
-      --accent-red: #ff3b3b; --border-color: #2a2a2a;
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-tertiary: #111111;
+      --bg-hover: #1a1a1a;
+      --border-primary: #2a2a2a;
+      --border-highlight: #3a3a3a;
+      --text-primary: #e5e5e5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #666666;
+      --amber-primary: #ff9500;
+      --amber-secondary: #d97706;
+      --amber-glow: rgba(245, 158, 11, 0.15);
+      --green-primary: #00ff88;
+      --red-primary: #ff3b3b;
+      --cyan-primary: #00d9ff;
+      --blue-primary: #0066ff;
     }
+
     body {
-      font-family: 'IBM Plex Mono', monospace;
-      background: var(--bg-primary); color: var(--text-primary);
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
       min-height: 100vh;
+      overflow: hidden;
     }
+
+    /* Scanline Effect */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.03;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.4) 2px,
+        rgba(0, 0, 0, 0.4) 4px
+      );
+    }
+
+    /* Header */
     .header {
-      background: var(--bg-secondary); border-bottom: 2px solid var(--accent-amber);
-      padding: 20px; display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(90deg, #0a0a0a 0%, #000000 50%, #0a0a0a 100%);
+      border-bottom: 2px solid var(--amber-secondary);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
     }
-    .logo { font-size: 24px; font-weight: 700; color: var(--accent-amber); }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--amber-primary), transparent);
+      opacity: 0.5;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      font-size: 24px;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--amber-primary);
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px var(--amber-glow);
+    }
+
+    .logo-subtitle {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--green-primary);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green-primary);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .timestamp {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
     .btn {
-      background: var(--accent-amber); color: #000; padding: 10px 20px;
-      border: none; border-radius: 4px; cursor: pointer; font-weight: 600;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-primary);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
     }
-    .container { padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+    .btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--amber-primary);
+      color: var(--amber-primary);
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-primary);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .stat-value.amber { color: var(--amber-primary); }
+    .stat-value.green { color: var(--green-primary); }
+    .stat-value.red { color: var(--red-primary); }
+    .stat-value.cyan { color: var(--cyan-primary); }
+
+    .stat-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border-primary);
+    }
+
+    /* Main Container */
+    .main-container {
+      display: flex;
+      height: calc(100vh - 110px);
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-primary);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-primary);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--amber-primary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .filter-section {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .filter-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .search-input, .filter-select {
+      width: 100%;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-primary);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--text-primary);
+      transition: all 0.2s;
+    }
+
+    .search-input:focus, .filter-select:focus {
+      outline: none;
+      border-color: var(--amber-primary);
+      box-shadow: 0 0 0 2px var(--amber-glow);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .filter-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    .filter-item {
+      padding: 10px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+      font-size: 12px;
+    }
+
+    .filter-item:hover {
+      background: var(--bg-hover);
+    }
+
+    .filter-item.active {
+      background: var(--amber-glow);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: var(--amber-primary);
+    }
+
+    .filter-count {
+      font-size: 10px;
+      color: var(--text-muted);
+      background: var(--bg-tertiary);
+      padding: 2px 6px;
+      border-radius: 10px;
+    }
+
+    .filter-item.active .filter-count {
+      color: var(--amber-primary);
+      background: rgba(245, 158, 11, 0.2);
+    }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-tertiary);
+      padding: 4px;
+      border-radius: 4px;
+      border: 1px solid var(--border-primary);
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 10px;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 10px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .view-btn.active {
+      background: var(--amber-primary);
+      color: #000;
+    }
+
+    /* Alert Grid */
+    .alert-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
     .alert-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px; margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 16px;
     }
+
     .alert-card {
-      background: var(--bg-secondary); border: 1px solid var(--border-color);
-      border-radius: 8px; padding: 20px; transition: all 0.2s;
-    }
-    .alert-card:hover { border-color: var(--accent-amber); transform: translateY(-2px); }
-    .alert-header {
-      display: flex; justify-content: space-between; margin-bottom: 15px;
-    }
-    .alert-county { font-size: 18px; font-weight: 700; color: var(--accent-amber); }
-    .alert-badge {
-      padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;
-    }
-    .badge-urgent { background: rgba(255, 59, 59, 0.2); color: var(--accent-red); }
-    .badge-active { background: rgba(0, 255, 136, 0.2); color: var(--accent-green); }
-    .alert-title { font-size: 14px; margin-bottom: 10px; }
-    .alert-meta { font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; }
-    .alert-actions { margin-top: 15px; display: flex; gap: 10px; }
-    .btn-sm {
-      padding: 6px 12px; font-size: 11px; background: transparent;
-      border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 4px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: 6px;
+      padding: 16px;
+      transition: all 0.2s;
       cursor: pointer;
     }
-    .btn-sm:hover { border-color: var(--accent-amber); color: var(--accent-amber); }
+
+    .alert-card:hover {
+      border-color: var(--amber-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 149, 0, 0.1);
+    }
+
+    .alert-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .alert-county {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--cyan-primary);
+    }
+
+    .alert-badge {
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-urgent {
+      background: rgba(255, 59, 59, 0.15);
+      color: var(--red-primary);
+      border: 1px solid rgba(255, 59, 59, 0.3);
+    }
+
+    .badge-active {
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--green-primary);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    .badge-normal {
+      background: rgba(0, 217, 255, 0.15);
+      color: var(--cyan-primary);
+      border: 1px solid rgba(0, 217, 255, 0.3);
+    }
+
+    .alert-title {
+      font-size: 14px;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .alert-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .alert-meta-label {
+      color: var(--text-muted);
+    }
+
+    .alert-meta-value {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .alert-meta-value.highlight {
+      color: var(--amber-primary);
+    }
+
+    .alert-actions {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-primary);
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 10px;
+      background: transparent;
+      border: 1px solid var(--border-primary);
+      color: var(--text-primary);
+      border-radius: 4px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+    }
+
+    .btn-sm:hover {
+      border-color: var(--amber-primary);
+      color: var(--amber-primary);
+      background: var(--amber-glow);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-primary);
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .footer-left, .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-primary);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--border-highlight);
+    }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="logo">🔔 RFP ALERTS</div>
-    <button class="btn" onclick="window.location.href='hh-dashboard.html'">← Back to Dashboard</button>
+  <div class="scanlines"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">🔔</div>
+      <div>
+        <div class="logo-text">RFP ALERTS</div>
+        <div class="logo-subtitle">Real-Time County Monitoring</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="live-indicator">
+        <span class="live-dot"></span>
+        <span>LIVE</span>
+      </div>
+      <div class="timestamp" id="timestamp"></div>
+      <button class="btn" onclick="window.location.href='hh-dashboard.html'">← DASHBOARD</button>
+    </div>
+  </header>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-label">Total Alerts</span>
+      <span class="stat-value amber" id="totalAlerts">0</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-label">Urgent</span>
+      <span class="stat-value red" id="urgentAlerts">0</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-label">Active Counties</span>
+      <span class="stat-value cyan" id="activeCounties">0</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-label">Estimated Value</span>
+      <span class="stat-value green" id="totalValue">$0</span>
+    </div>
   </div>
-  <div class="container">
-    <h1 style="font-size: 28px; margin-bottom: 10px;">Real-Time County RFP Alerts</h1>
-    <p style="color: var(--text-secondary); margin-bottom: 30px;">Automated monitoring of Texas county bid opportunities</p>
-    <div class="alert-grid" id="alertGrid"></div>
-  </div>
-  <script>
-    const alerts = [
-      {county: 'BOSQUE', material: 'Road Base Gravel', quantity: 500, deadline: '3 days', status: 'urgent', detected: '12m ago'},
-      {county: 'HAMILTON', material: 'Flexible Base', quantity: 750, deadline: '7 days', status: 'active', detected: '1h ago'},
-      {county: 'ERATH', material: 'Hot Mix Asphalt', quantity: 1200, deadline: '5 days', status: 'urgent', detected: '45m ago'},
-      {county: 'ELLIS', material: 'Crusher Run', quantity: 600, deadline: '10 days', status: 'active', detected: '2h ago'},
-      {county: 'JOHNSON', material: 'Concrete Mix', quantity: 400, deadline: '14 days', status: 'active', detected: '3h ago'},
-      {county: 'HILL', material: 'Limestone', quantity: 850, deadline: '6 days', status: 'urgent', detected: '30m ago'}
-    ];
-    
-    const grid = document.getElementById('alertGrid');
-    grid.innerHTML = alerts.map(a => `
-      <div class="alert-card">
-        <div class="alert-header">
-          <div class="alert-county">${a.county}</div>
-          <div class="alert-badge badge-${a.status}">${a.status.toUpperCase()}</div>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Filters</div>
+
+      <div class="filter-section">
+        <div class="filter-label">Search RFPs</div>
+        <input type="text" class="search-input" id="searchInput" placeholder="Material or county...">
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-label">Priority</div>
+        <select class="filter-select" id="priorityFilter">
+          <option value="all">All Priorities</option>
+          <option value="urgent">Urgent Only</option>
+          <option value="active">Active</option>
+          <option value="normal">Normal</option>
+        </select>
+      </div>
+
+      <div class="filter-section">
+        <div class="filter-label">Material Category</div>
+        <select class="filter-select" id="categoryFilter">
+          <option value="all">All Categories</option>
+          <option value="aggregates">Aggregates</option>
+          <option value="asphalt">Asphalt</option>
+          <option value="concrete">Concrete</option>
+          <option value="steel">Steel & Reinforcement</option>
+          <option value="other">Other Materials</option>
+        </select>
+      </div>
+
+      <div class="sidebar-header" style="border-top: 1px solid var(--border-primary);">Counties</div>
+      <div class="filter-list" id="countyList"></div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid">GRID</button>
+            <button class="view-btn" data-view="list">LIST</button>
+          </div>
+          <span style="color: var(--text-muted); font-size: 11px;" id="resultsCount">0 alerts</span>
         </div>
-        <div class="alert-title">${a.material}</div>
-        <div class="alert-meta">📦 Quantity: ${a.quantity} tons</div>
-        <div class="alert-meta">⏰ Deadline: ${a.deadline}</div>
-        <div class="alert-meta">🕐 Detected: ${a.detected}</div>
-        <div class="alert-actions">
-          <button class="btn-sm" onclick="alert('View full RFP details')">VIEW DETAILS</button>
-          <button class="btn-sm" onclick="alert('Calculate bid using your options')">CALCULATE BID</button>
+        <div>
+          <button class="btn" onclick="refreshAlerts()">REFRESH</button>
         </div>
       </div>
-    `).join('');
+
+      <div class="alert-container">
+        <div class="alert-grid" id="alertGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      <span>RFP Alerts v1.0</span>
+      <span>|</span>
+      <span>BCMCE Integration</span>
+    </div>
+    <div class="footer-right">
+      <span>● Systems Nominal</span>
+      <span>|</span>
+      <span>Auto-refresh: 5 minutes</span>
+    </div>
+  </footer>
+
+  <script>
+    // RFP Alerts Database
+    const rfpAlerts = [
+      {county: 'Bosque', material: 'Road Base Gravel', category: 'aggregates', quantity: 500, unit: 'CY', deadline: new Date(2026, 1, 5), posted: new Date(2026, 0, 28), status: 'urgent', estimatedValue: 14250, spec: 'Item 247 Grade 1'},
+      {county: 'Hamilton', material: 'Flexible Base', category: 'aggregates', quantity: 750, unit: 'CY', deadline: new Date(2026, 1, 10), posted: new Date(2026, 0, 27), status: 'active', estimatedValue: 23250, spec: 'Item 247 Grade 1'},
+      {county: 'Erath', material: 'Hot Mix Asphalt Type D', category: 'asphalt', quantity: 1200, unit: 'TON', deadline: new Date(2026, 1, 8), posted: new Date(2026, 0, 28), status: 'urgent', estimatedValue: 114000, spec: 'Item 340 PG 70-22'},
+      {county: 'Ellis', material: 'Crusher Run Base', category: 'aggregates', quantity: 600, unit: 'CY', deadline: new Date(2026, 1, 15), posted: new Date(2026, 0, 26), status: 'active', estimatedValue: 15600, spec: 'Item 247 Grade 2'},
+      {county: 'Johnson', material: 'Portland Cement Concrete Class P', category: 'concrete', quantity: 400, unit: 'CY', deadline: new Date(2026, 1, 20), posted: new Date(2026, 0, 25), status: 'normal', estimatedValue: 66000, spec: 'Item 360 3600 psi'},
+      {county: 'Hill', material: 'Crushed Limestone', category: 'aggregates', quantity: 850, unit: 'CY', deadline: new Date(2026, 1, 9), posted: new Date(2026, 0, 28), status: 'urgent', estimatedValue: 24225, spec: 'Item 247 Grade 1'},
+      {county: 'McLennan', material: 'Reinforcing Steel Grade 60', category: 'steel', quantity: 12000, unit: 'LB', deadline: new Date(2026, 1, 18), posted: new Date(2026, 0, 24), status: 'active', estimatedValue: 10200, spec: 'Item 440 Grade 60'},
+      {county: 'Bell', material: 'Stone Matrix Asphalt', category: 'asphalt', quantity: 2000, unit: 'TON', deadline: new Date(2026, 1, 12), posted: new Date(2026, 0, 27), status: 'active', estimatedValue: 250000, spec: 'Item 342 PG 76-22'},
+      {county: 'Coryell', material: 'Flexible Base', category: 'aggregates', quantity: 950, unit: 'CY', deadline: new Date(2026, 1, 7), posted: new Date(2026, 0, 29), status: 'urgent', estimatedValue: 29450, spec: 'Item 247 Grade 1'},
+      {county: 'Navarro', material: 'Hot Mix Asphalt Type C', category: 'asphalt', quantity: 800, unit: 'TON', deadline: new Date(2026, 1, 14), posted: new Date(2026, 0, 26), status: 'active', estimatedValue: 71200, spec: 'Item 340 PG 64-22'},
+      {county: 'Comanche', material: 'Road Base Gravel', category: 'aggregates', quantity: 425, unit: 'CY', deadline: new Date(2026, 1, 6), posted: new Date(2026, 0, 29), status: 'urgent', estimatedValue: 11050, spec: 'Item 247 Grade 3'},
+      {county: 'Somervell', material: 'Concrete Class S', category: 'concrete', quantity: 275, unit: 'CY', deadline: new Date(2026, 1, 16), posted: new Date(2026, 0, 25), status: 'normal', estimatedValue: 39875, spec: 'Item 360 3000 psi'},
+      {county: 'Hood', material: 'Asphalt Stabilized Base', category: 'asphalt', quantity: 650, unit: 'TON', deadline: new Date(2026, 1, 11), posted: new Date(2026, 0, 27), status: 'active', estimatedValue: 46800, spec: 'Item 275 PG 64-22'},
+      {county: 'Palo Pinto', material: 'Riprap Limestone', category: 'aggregates', quantity: 200, unit: 'CY', deadline: new Date(2026, 1, 13), posted: new Date(2026, 0, 26), status: 'active', estimatedValue: 9000, spec: 'Item 423 Class 1'},
+      {county: 'Lampasas', material: 'Steel Beam Guardrail', category: 'steel', quantity: 500, unit: 'LF', deadline: new Date(2026, 1, 17), posted: new Date(2026, 0, 24), status: 'normal', estimatedValue: 16000, spec: 'Item 422 W-Beam'},
+    ];
+
+    let filteredAlerts = [...rfpAlerts];
+    let currentPriority = 'all';
+    let currentCategory = 'all';
+
+    // Initialize
+    function init() {
+      updateTimestamp();
+      setInterval(updateTimestamp, 1000);
+      renderCounties();
+      renderAlerts();
+      updateStats();
+      setupEventListeners();
+    }
+
+    function updateTimestamp() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+      const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      document.getElementById('timestamp').textContent = timeStr + ' ' + dateStr;
+    }
+
+    function renderCounties() {
+      const counties = [...new Set(rfpAlerts.map(a => a.county))].sort();
+      const list = document.getElementById('countyList');
+      list.innerHTML = counties.map(county => {
+        const count = rfpAlerts.filter(a => a.county === county).length;
+        return '<div class="filter-item" onclick="filterByCounty(\'' + county + '\')">' +
+          '<span>' + county + '</span>' +
+          '<span class="filter-count">' + count + '</span>' +
+        '</div>';
+      }).join('');
+    }
+
+    function renderAlerts() {
+      const grid = document.getElementById('alertGrid');
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+      let alerts = filteredAlerts;
+      if (searchTerm) {
+        alerts = alerts.filter(a =>
+          a.material.toLowerCase().includes(searchTerm) ||
+          a.county.toLowerCase().includes(searchTerm) ||
+          a.spec.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      if (alerts.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-muted);">' +
+          '<div style="font-size: 48px; margin-bottom: 16px;">🔍</div>' +
+          '<div style="font-size: 16px;">No RFP alerts match your filters</div>' +
+          '<div style="font-size: 12px; margin-top: 8px;">Try adjusting your search or filter criteria</div>' +
+        '</div>';
+        document.getElementById('resultsCount').textContent = '0 alerts';
+        return;
+      }
+
+      grid.innerHTML = alerts.map(a => {
+        const daysUntil = Math.ceil((a.deadline - new Date()) / (1000 * 60 * 60 * 24));
+        const timeAgo = formatTimeAgo(a.posted);
+
+        return '<div class="alert-card" onclick="viewDetails(\'' + a.county + '\', \'' + a.material + '\')">' +
+          '<div class="alert-header">' +
+            '<div class="alert-county">' + a.county.toUpperCase() + '</div>' +
+            '<div class="alert-badge badge-' + a.status + '">' + a.status.toUpperCase() + '</div>' +
+          '</div>' +
+          '<div class="alert-title">' + a.material + '</div>' +
+          '<div class="alert-meta">' +
+            '<span class="alert-meta-label">Quantity:</span>' +
+            '<span class="alert-meta-value">' + a.quantity.toLocaleString() + ' ' + a.unit + '</span>' +
+          '</div>' +
+          '<div class="alert-meta">' +
+            '<span class="alert-meta-label">Deadline:</span>' +
+            '<span class="alert-meta-value highlight">' + daysUntil + ' days</span>' +
+          '</div>' +
+          '<div class="alert-meta">' +
+            '<span class="alert-meta-label">Est. Value:</span>' +
+            '<span class="alert-meta-value">$' + a.estimatedValue.toLocaleString() + '</span>' +
+          '</div>' +
+          '<div class="alert-meta">' +
+            '<span class="alert-meta-label">Specification:</span>' +
+            '<span class="alert-meta-value">' + a.spec + '</span>' +
+          '</div>' +
+          '<div class="alert-meta">' +
+            '<span class="alert-meta-label">Detected:</span>' +
+            '<span class="alert-meta-value">' + timeAgo + '</span>' +
+          '</div>' +
+          '<div class="alert-actions">' +
+            '<button class="btn-sm" onclick="event.stopPropagation(); viewDetails(\'' + a.county + '\', \'' + a.material + '\')">View Details</button>' +
+            '<button class="btn-sm" onclick="event.stopPropagation(); calculateBid(\'' + a.material + '\', ' + a.quantity + ')">Calculate Bid</button>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      document.getElementById('resultsCount').textContent = alerts.length + ' alert' + (alerts.length === 1 ? '' : 's');
+    }
+
+    function updateStats() {
+      document.getElementById('totalAlerts').textContent = filteredAlerts.length;
+
+      const urgent = filteredAlerts.filter(a => a.status === 'urgent').length;
+      document.getElementById('urgentAlerts').textContent = urgent;
+
+      const activeCounties = new Set(filteredAlerts.map(a => a.county)).size;
+      document.getElementById('activeCounties').textContent = activeCounties;
+
+      const totalValue = filteredAlerts.reduce((sum, a) => sum + a.estimatedValue, 0);
+      document.getElementById('totalValue').textContent = '$' + totalValue.toLocaleString();
+    }
+
+    function formatTimeAgo(date) {
+      const now = new Date();
+      const diffSeconds = Math.floor((now - date) / 1000);
+      if (diffSeconds < 60) return 'Just now';
+      if (diffSeconds < 3600) return Math.floor(diffSeconds / 60) + 'm ago';
+      if (diffSeconds < 86400) return Math.floor(diffSeconds / 3600) + 'h ago';
+      if (diffSeconds < 604800) return Math.floor(diffSeconds / 86400) + 'd ago';
+      return date.toLocaleDateString();
+    }
+
+    function filterByCounty(county) {
+      filteredAlerts = rfpAlerts.filter(a => a.county === county);
+      document.querySelectorAll('.filter-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      event.target.closest('.filter-item').classList.add('active');
+      renderAlerts();
+      updateStats();
+    }
+
+    function setupEventListeners() {
+      document.getElementById('searchInput').addEventListener('input', renderAlerts);
+
+      document.getElementById('priorityFilter').addEventListener('change', function() {
+        if (this.value === 'all') {
+          filteredAlerts = [...rfpAlerts];
+        } else {
+          filteredAlerts = rfpAlerts.filter(a => a.status === this.value);
+        }
+        renderAlerts();
+        updateStats();
+      });
+
+      document.getElementById('categoryFilter').addEventListener('change', function() {
+        if (this.value === 'all') {
+          filteredAlerts = [...rfpAlerts];
+        } else {
+          filteredAlerts = rfpAlerts.filter(a => a.category === this.value);
+        }
+        renderAlerts();
+        updateStats();
+      });
+
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    }
+
+    function viewDetails(county, material) {
+      alert('RFP Details:\n\nCounty: ' + county + '\nMaterial: ' + material + '\n\nFull RFP viewer coming soon...');
+    }
+
+    function calculateBid(material, quantity) {
+      alert('Bid Calculator:\n\nMaterial: ' + material + '\nQuantity: ' + quantity + '\n\nIntegrated bid calculator coming soon...');
+    }
+
+    function refreshAlerts() {
+      renderAlerts();
+      alert('✓ Alerts refreshed!\n\nLast update: ' + new Date().toLocaleTimeString());
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
