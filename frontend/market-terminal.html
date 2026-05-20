@@ -9,17 +9,17 @@
 ║   ██║  ██║    ██║  ██║          ██║  ██║╚██████╔╝███████╗██████╔╝██║██║ ╚████║╚██████╔╝███████║  ║
 ║   ╚═╝  ╚═╝    ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝  ║
 ║                                                                           ║
-║                 BOSQUE COUNTY MINERAL & COMMODITIES EXCHANGE             ║
-║                      Market Terminal - Real-time Data                    ║
+║                      HH COUNTY CONTRACTOR PLATFORM                        ║
+║                    Materials Pricing Terminal - Real-time Data            ║
 ║                                                                           ║
-║   Operator:    HH Holdings LLC / Bevans Real Estate                      ║
+║   Operator:    Hamilton Hayduke Holdings Co. / Bevans Real Estate        ║
 ║   Location:    397 Highway 22, Clifton, TX 76634                         ║
 ║   Broker:      Biri Bevans, Designated Broker                            ║
-║   Platform:    Bloomberg-style Market Terminal                           ║
+║   Platform:    Bloomberg-style Contractor Terminal                       ║
 ║                                                                           ║
 ║   Built with:  HTML5 • CSS3 • JavaScript • Real-time WebSocket          ║
-║   Version:     1.0.0 - Internal Use Only                                 ║
-║   Copyright:   © 2026 HH Holdings LLC. All rights reserved.              ║
+║   Version:     2.0.0 - Internal Use Only                                 ║
+║   Copyright:   © 2026 Hamilton Hayduke Holdings Co. All rights reserved. ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 -->
@@ -27,7 +27,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BCMCE Market Terminal | H.H. Holdings</title>
+    <title>HCCP Materials Terminal | Hamilton Hayduke Holdings</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -648,14 +648,14 @@
         <!-- Top Portal - Main Content -->
         <div class="top-portal">
             <div class="portal-header">
-                <div class="portal-title">BOSQUE COUNTY MATERIALS INDEX</div>
+                <div class="portal-title">MATERIALS PRICING DASHBOARD</div>
                 <div class="portal-time" id="portal-time">Loading...</div>
             </div>
             <div class="chart-container">
                 <div class="chart-header">
                     <div>
-                        <span class="chart-symbol">BCMCE-GRVL</span>
-                        <span style="font-size: 12px; color: var(--text-muted); margin-left: 10px;">Road Base Gravel Index</span>
+                        <span class="chart-symbol">GRVL-RB</span>
+                        <span style="font-size: 12px; color: var(--text-muted); margin-left: 10px;">Road Base Gravel Pricing</span>
                     </div>
                     <div>
                         <span class="chart-price" id="main-price">$28.50</span>
@@ -914,8 +914,8 @@
     <!-- Timestamp Bar -->
     <div class="timestamp-bar">
         <div class="timestamp-item">
-            <span class="timestamp-label">EXCHANGE:</span>
-            <span class="timestamp-value">BCMCE-TX</span>
+            <span class="timestamp-label">CONTRACTOR:</span>
+            <span class="timestamp-value">HCCP-TX</span>
         </div>
         <div class="timestamp-item">
             <span class="timestamp-label">LOCATION:</span>

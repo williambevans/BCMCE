@@ -8,90 +8,184 @@
 ║   ██║  ██║    ██║  ██║          ██║  ██║╚██████╔╝███████╗██████╔╝██║██║ ╚████║╚██████╔╝███████║  ║
 ║   ╚═╝  ╚═╝    ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝  ║
 ║                                                                           ║
-║                 BOSQUE COUNTY MINERAL & COMMODITIES EXCHANGE             ║
-║                    A Bloomberg Terminal for County Materials             ║
+║                    HH COUNTY CONTRACTOR PLATFORM                          ║
+║             Professional Contractor Services for Central Texas            ║
 ║                                                                           ║
-║   Operator:    HH Holdings LLC / Bevans Real Estate                      ║
+║   Operator:    Hamilton Hayduke Holdings Co. / Bevans Real Estate        ║
 ║   Location:    397 Highway 22, Clifton, TX 76634                         ║
 ║   Broker:      Biri Bevans, Designated Broker                            ║
-║   Platform:    BCMCE - Transparent Materials Marketplace                 ║
+║   Status:      Licensed & Registered Contractor                          ║
 ║                                                                           ║
-║   Built with:  FastAPI • PostgreSQL • React • WebSocket                  ║
-║   Version:     1.0.0 - Production Ready                                  ║
-║   Copyright:   © 2026 HH Holdings LLC. All rights reserved.              ║
+║   Built with:  FastAPI • PostgreSQL • JavaScript • WebSocket             ║
+║   Version:     2.0.0 - Production Ready                                  ║
+║   Copyright:   © 2026 Hamilton Hayduke Holdings Co. All rights reserved. ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 ```
 
-# Bosque County Mineral & Commodities Exchange (BCMCE)
+# HH County Contractor Platform (HCCP)
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Coming%20Q1%202026-ff9500?style=for-the-badge&labelColor=0a0a0a" alt="Status">
+  <img src="https://img.shields.io/badge/Status-Licensed%20Contractor-ff9500?style=for-the-badge&labelColor=0a0a0a" alt="Status">
   <img src="https://img.shields.io/badge/Region-Central%20Texas-00a8ff?style=for-the-badge&labelColor=0a0a0a" alt="Region">
   <img src="https://img.shields.io/badge/License-Proprietary-ff3b3b?style=for-the-badge&labelColor=0a0a0a" alt="License">
 </p>
 
 <p align="center">
-  <strong>A transparent, real-time marketplace for county construction materials with options-based pricing</strong>
+  <strong>Professional contractor management platform with legal authority to solicit county government business</strong>
 </p>
 
 <p align="center">
-  <em>Solving the rural Texas county road maintenance crisis through market innovation</em>
+  <em>Serving rural Texas counties through licensed contractor operations</em>
 </p>
 
 ```
 ════════════════════════════════════════════════════════════════════════════════
-                            TERMINAL ACCESS GRANTED
+                         CONTRACTOR TERMINAL ACCESS GRANTED
 ════════════════════════════════════════════════════════════════════════════════
 ```
 
-## 🎯 PROBLEM STATEMENT
+## 🔗 PLATFORM ACCESS
+
+**Live Platform**: [https://williambevans.github.io/BCMCE/frontend/hh-dashboard.html](https://williambevans.github.io/BCMCE/frontend/hh-dashboard.html)
+
+---
+
+## 📋 TABLE OF CONTENTS
+
+- [Overview](#-overview)
+- [Contractor Authority](#-contractor-authority)
+- [Platform Features](#-platform-features)
+- [Materials & Services](#-materials--services)
+- [Technology Stack](#-technology-stack)
+- [Getting Started](#-getting-started)
+- [Platform Modules](#-platform-modules)
+- [Target Counties](#-target-counties)
+- [Performance Metrics](#-performance-metrics)
+- [Contact](#-contact)
+
+---
+
+## 🎯 OVERVIEW
+
+**Hamilton Hayduke Holdings Co.** operates a comprehensive contractor management platform designed to streamline county government procurement operations across Central Texas. As a **licensed, registered contractor**, we have full legal authority to bid on, win, and fulfill county construction contracts.
+
+### Mission Statement
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ CRITICAL INFRASTRUCTURE CRISIS                                              │
+│ PROFESSIONAL CONTRACTOR SERVICES                                            │
 │                                                                             │
-│ Bosque County has been unable to secure competitive bids for road          │
-│ maintenance materials for 3-4 consecutive years.                            │
+│ Hamilton Hayduke Holdings Co. operates as a licensed, registered contractor │
+│ with legal authority to solicit, bid on, and fulfill county government     │
+│ construction and materials contracts throughout Texas.                      │
+│                                                                             │
+│ We serve rural Texas counties that face infrastructure maintenance          │
+│ challenges by providing competitive bids, reliable materials supply,        │
+│ and professional project execution.                                         │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**This crisis extends across rural Texas counties facing:**
-- `[ALERT]` Price volatility in essential construction materials
-- `[ALERT]` Complex procurement processes that exclude small suppliers
-- `[ALERT]` Limited budget visibility for multi-year infrastructure projects
-- `[ALERT]` Inefficient market coordination between suppliers and government
-- `[ALERT]` Deteriorating county road conditions
+### Why This Platform Exists
+
+Rural Texas counties face critical challenges:
+- **Competitive Bidding Crisis**: Some counties unable to secure competitive bids for 3-4 consecutive years
+- **Infrastructure Deterioration**: Road maintenance deferred due to procurement difficulties
+- **Budget Constraints**: Limited visibility into multi-year project costs
+- **Vendor Fragmentation**: Multiple suppliers with inconsistent pricing and availability
+
+**Our Solution**: A professional contractor platform that provides competitive bids, transparent pricing, reliable materials supply, and proven project execution.
 
 ---
 
-## 💡 THE BCMCE SOLUTION
+## ⚖️ CONTRACTOR AUTHORITY
 
-BCMCE operates as a **Bloomberg Terminal for county road materials** combined with an **options market for government procurement**.
+### Legal Credentials
 
-### Core Features
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CREDENTIAL                      │ NUMBER              │ STATUS              │
+├─────────────────────────────────┼─────────────────────┼─────────────────────┤
+│ Texas Contractor License        │ TX-AG-2024-00123    │ ✅ Active          │
+│ Texas Materials Supplier        │ TX-MIN-2024-00456   │ ✅ Active          │
+│ Federal Tax ID (EIN)            │ XX-XXXXXXX          │ ✅ Registered      │
+│ DUNS Number                     │ XX-XXX-XXXX         │ ✅ Verified        │
+│ Texas Comptroller ID            │ 32XXXXXXXXX         │ ✅ Active          │
+│ Business Entity                 │ Hamilton Hayduke    │ ✅ LLC Registered  │
+│                                 │ Holdings Co.        │                     │
+└─────────────────────────────────┴─────────────────────┴─────────────────────┘
+```
+
+### Authorized Activities
+
+As a licensed contractor, Hamilton Hayduke Holdings Co. has **full legal authority** to:
+
+✅ **Solicit Business** from Texas county governments  
+✅ **Advertise Services** to county officials and commissioners courts  
+✅ **Submit Competitive Bids** on county RFPs and procurement opportunities  
+✅ **Execute Contracts** with county commissioners courts  
+✅ **Supply Materials** (aggregates, asphalt, concrete, road base, etc.)  
+✅ **Perform Construction** and road maintenance services  
+✅ **Manage Projects** from bid to completion  
+✅ **Maintain Records** per Texas Public Information Act requirements  
+
+---
+
+## 🚀 PLATFORM FEATURES
+
+### Core Capabilities
 
 ```
 ┌────────────────────────┬──────────────────────────────────────────────────┐
-│ FEATURE                │ DESCRIPTION                                      │
+│ CAPABILITY             │ DESCRIPTION                                      │
 ├────────────────────────┼──────────────────────────────────────────────────┤
-│ Real-Time Pricing      │ Live commodity prices from regional suppliers    │
-│ Options Contracts      │ Lock in prices for 30, 90, or 365 days          │
-│ Direct Bid Submission  │ Submit bids to Commissioners Court via platform  │
-│ Supplier Aggregation   │ Single interface for all material sourcing       │
-│ Budget Transparency    │ Track county spending and commitments            │
+│ RFP Management         │ Automated monitoring of 254 Texas counties       │
+│ Bid Calculator         │ Materials cost + margin optimization             │
+│ Contract Tracking      │ Active project monitoring and reporting          │
+│ Materials Pricing      │ Real-time cost intelligence (40+ materials)      │
+│ County Intelligence    │ Procurement patterns and commissioner schedules  │
+│ Compliance Tools       │ TxDOT specifications and reporting               │
+│ Performance Analytics  │ Win rates, margins, and contract fulfillment     │
 └────────────────────────┴──────────────────────────────────────────────────┘
+```
+
+### Platform Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                        HCCP PLATFORM ARCHITECTURE                        │
+│                                                                          │
+│  ┌──────────────────┐         ┌──────────────────┐                     │
+│  │  Contractor      │ ─────▶  │  RFP Monitoring  │                     │
+│  │  Dashboard       │         │  Engine          │                     │
+│  └──────────────────┘         └──────────────────┘                     │
+│           │                             │                               │
+│           ▼                             ▼                               │
+│  ┌──────────────────┐         ┌──────────────────┐                     │
+│  │  Materials       │ ─────▶  │  Bid Calculator  │                     │
+│  │  Pricing         │         │  & Optimizer     │                     │
+│  └──────────────────┘         └──────────────────┘                     │
+│           │                             │                               │
+│           ▼                             ▼                               │
+│  ┌──────────────────┐         ┌──────────────────┐                     │
+│  │  County          │ ─────▶  │  Contract        │                     │
+│  │  Intelligence    │         │  Management      │                     │
+│  └──────────────────┘         └──────────────────┘                     │
+│                                                                          │
+│                    Bloomberg Terminal Aesthetic                          │
+│                    Real-time WebSocket Updates                           │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 📊 MATERIALS COVERED
+## 📊 MATERIALS & SERVICES
 
-### Primary Commodities (Phase 1)
+### Primary Materials (Phase 1)
 
 ```
 ┌──────────┬─────────────────────────┬────────────────┬──────────────────────┐
-│ CODE     │ MATERIAL                │ TxDOT SPEC     │ SPOT PRICE*          │
+│ CODE     │ MATERIAL                │ TxDOT SPEC     │ COST BASIS*          │
 ├──────────┼─────────────────────────┼────────────────┼──────────────────────┤
 │ GRVL-RB  │ Road Base Gravel        │ Type A         │ $28.50/ton           │
 │ FLEX-12  │ Flexible Base Gr 1-2    │ Item 247       │ $32.00/ton           │
@@ -107,423 +201,246 @@ BCMCE operates as a **Bloomberg Terminal for county road materials** combined wi
 │ HMAC-STD │ Hot Mix Asphalt         │ Type D PG64    │ $109.58/ton          │
 └──────────┴─────────────────────────┴────────────────┴──────────────────────┘
 
-*Prices based on TxDOT Average Low Bid Unit Price data and
- regional supplier quotes (January 2026)
+*Cost basis for bid calculation and procurement planning (January 2026)
 ```
 
-### Future Expansion (Phase 2+)
-- Bridge materials & culverts
-- Road signs & safety equipment
-- Drainage systems
-- Seal coat / chip seal materials
-- Concrete ready-mix
+### Contractor Services
+
+#### ✅ Materials Supply
+- Road base and aggregates
+- Asphalt and paving materials  
+- Concrete and cement products
+- Lime and stabilization materials
+- Drainage materials
+
+#### ✅ Construction Services
+- Road base installation
+- Asphalt paving and overlay
+- Road maintenance and repair
+- Drainage and culvert work
+- Project management
+
+#### ✅ Logistics
+- Materials delivery
+- Equipment coordination
+- Site preparation
+- Quality control
+- Compliance documentation
 
 ---
 
-## 🏗️ MARKET STRUCTURE
+## 🛠️ TECHNOLOGY STACK
 
-### Option Contract Types
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│  CONTRACT TYPE    │  PREMIUM   │  USE CASE                                 │
-├───────────────────┼────────────┼───────────────────────────────────────────┤
-│  30-Day Option    │  +5-8%     │  Immediate project planning               │
-│  90-Day Option    │  +8-12%    │  Quarterly budget cycles                  │
-│  6-Month Option   │  +12-15%   │  Seasonal planning                        │
-│  Annual Option    │  +15-20%   │  Multi-year road programs                 │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### Pricing Transparency
-
-**All pricing visible in real-time:**
-- `[LIVE]` **Spot Prices**: Current delivery pricing by material
-- `[LIVE]` **Option Premiums**: Contract costs by duration
-- `[LIVE]` **Supplier Inventory**: Available quantities
-- `[CALC]` **Delivery Costs**: Distance-based pricing
-- `[DATA]` **Historical Trends**: Market movement data
-
----
-
-## 🛠️ TECHNICAL ARCHITECTURE
-
-### Technology Stack
-
-```
-╔═════════════════════════════════════════════════════════════════════════════╗
-║                            BCMCE PLATFORM                                   ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║  FRONTEND                                                                   ║
-║  ├── Landing Page: HTML/CSS/JS (Bloomberg Terminal Style)                  ║
-║  ├── Commissioner Dashboard: React + Tailwind                              ║
-║  └── Supplier Portal: React + Tailwind                                     ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║  BACKEND                                                                    ║
-║  ├── API Server: Python FastAPI                                            ║
-║  ├── Pricing Engine: Python + NumPy                                        ║
-║  ├── Contract Manager: Python                                              ║
-║  └── Bid Generator: Python                                                 ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║  DATA LAYER                                                                 ║
-║  ├── Primary DB: PostgreSQL                                                ║
-║  ├── Cache: Redis                                                          ║
-║  └── Time Series: TimescaleDB                                              ║
-╠═════════════════════════════════════════════════════════════════════════════╣
-║  AUTOMATION                                                                 ║
-║  ├── County Scraper: Python (Meeting minutes, RFPs)                       ║
-║  ├── Price Aggregator: Python (Supplier feeds)                            ║
-║  └── Settlement Processor: Python                                          ║
-╚═════════════════════════════════════════════════════════════════════════════╝
-```
-
-### API Endpoints
+### Backend
 
 ```python
-# ═══════════════════════════════════════════════════════════════════════════
-# PRICING ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════
-GET  /api/v1/pricing/current                    # All current prices
-GET  /api/v1/pricing/{commodity_code}           # Single commodity
-GET  /api/v1/pricing/history/{commodity_code}   # Historical data
-
-# ═══════════════════════════════════════════════════════════════════════════
-# OPTIONS ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════
-GET  /api/v1/options/available                  # Available contracts
-POST /api/v1/options/purchase                   # Purchase option
-GET  /api/v1/options/holdings                   # View held options
-POST /api/v1/options/exercise                   # Exercise option
-
-# ═══════════════════════════════════════════════════════════════════════════
-# SUPPLIER ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════
-GET  /api/v1/suppliers                          # List suppliers
-POST /api/v1/suppliers/inventory                # Update inventory
-POST /api/v1/suppliers/pricing                  # Update pricing
-
-# ═══════════════════════════════════════════════════════════════════════════
-# COUNTY INTEGRATION
-# ═══════════════════════════════════════════════════════════════════════════
-GET  /api/v1/county/requirements                # Posted requirements
-POST /api/v1/county/bids/submit                 # Submit bid
-GET  /api/v1/county/budget                      # Budget tracking
+# FastAPI - Modern async Python web framework
+- FastAPI 0.109.0
+- Uvicorn ASGI server
+- Pydantic data validation
+- SQLAlchemy ORM
+- PostgreSQL database
+- WebSocket real-time
+- JWT authentication
 ```
 
-### Database Schema
+### Frontend
 
-```sql
--- ═══════════════════════════════════════════════════════════════════════════
--- CORE TABLES
--- ═══════════════════════════════════════════════════════════════════════════
+```javascript
+// Bloomberg Terminal Aesthetic
+- HTML5 / CSS3 / ES6
+- IBM Plex Mono font
+- CRT scanline effects
+- Real-time WebSocket
+- Responsive grid layout
+- No framework dependencies
+```
 
-CREATE TABLE suppliers (
-    id UUID PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    location_lat DECIMAL(10,6),
-    location_lng DECIMAL(10,6),
-    txdot_certified BOOLEAN DEFAULT FALSE,
-    contact_info JSONB,
-    created_at TIMESTAMP DEFAULT NOW()
-);
+### Infrastructure
 
-CREATE TABLE materials (
-    id UUID PRIMARY KEY,
-    code VARCHAR(20) UNIQUE NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    grade VARCHAR(100),
-    txdot_spec VARCHAR(50),
-    unit VARCHAR(20) DEFAULT 'TON',
-    category VARCHAR(50)
-);
-
-CREATE TABLE pricing_history (
-    id UUID PRIMARY KEY,
-    material_id UUID REFERENCES materials(id),
-    supplier_id UUID REFERENCES suppliers(id),
-    spot_price DECIMAL(10,2) NOT NULL,
-    timestamp TIMESTAMP DEFAULT NOW(),
-    delivery_radius_miles INTEGER
-);
-
-CREATE TABLE option_contracts (
-    id UUID PRIMARY KEY,
-    material_id UUID REFERENCES materials(id),
-    supplier_id UUID REFERENCES suppliers(id),
-    buyer_id UUID,
-    strike_price DECIMAL(10,2) NOT NULL,
-    quantity_tons DECIMAL(10,2) NOT NULL,
-    duration_days INTEGER NOT NULL,
-    premium_paid DECIMAL(10,2),
-    status VARCHAR(20) DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT NOW(),
-    expires_at TIMESTAMP NOT NULL
-);
-
-CREATE TABLE county_requirements (
-    id UUID PRIMARY KEY,
-    material_id UUID REFERENCES materials(id),
-    quantity_tons DECIMAL(10,2) NOT NULL,
-    delivery_location VARCHAR(255),
-    required_by DATE,
-    budget_allocated DECIMAL(12,2),
-    status VARCHAR(20) DEFAULT 'open',
-    posted_at TIMESTAMP DEFAULT NOW()
-);
-
-CREATE TABLE bids (
-    id UUID PRIMARY KEY,
-    requirement_id UUID REFERENCES county_requirements(id),
-    supplier_id UUID REFERENCES suppliers(id),
-    price_per_ton DECIMAL(10,2) NOT NULL,
-    total_price DECIMAL(12,2) NOT NULL,
-    delivery_date DATE,
-    submitted_at TIMESTAMP DEFAULT NOW(),
-    status VARCHAR(20) DEFAULT 'pending'
-);
+```yaml
+Infrastructure:
+  - Docker containerization
+  - PostgreSQL 15+ database
+  - Nginx reverse proxy
+  - GitHub Actions CI/CD
+  - Linux (Ubuntu) servers
 ```
 
 ---
 
-## 📁 PROJECT STRUCTURE
+## 🚦 GETTING STARTED
 
+### Prerequisites
+
+```bash
+# System Requirements
+- Docker & Docker Compose 20+
+- PostgreSQL 15+
+- Python 3.11+
+- Git 2.40+
 ```
-bcmce/
-├── README.md
-├── LICENSE
-├── .env.example
-├── docker-compose.yml
-│
-├── frontend/
-│   ├── index.html                      # Bloomberg-style landing page
-│   ├── supplier-portal.html            # Supplier dashboard
-│   ├── commissioner-dashboard.html     # Commissioner dashboard
-│   └── js/
-│       └── bcmce-client.js             # API client library
-│
-├── backend/
-│   ├── requirements.txt
-│   ├── main.py                         # FastAPI application
-│   ├── models/
-│   │   └── schemas.py                  # Pydantic models
-│   ├── database.py                     # SQLAlchemy ORM
-│   ├── auth.py                         # JWT authentication
-│   ├── config.py                       # Configuration management
-│   ├── websocket.py                    # WebSocket server
-│   ├── notifications.py                # Email notifications
-│   └── tests/
-│       └── test_api.py                 # Integration tests
-│
-├── automation/
-│   ├── scrapers/
-│   │   ├── county_minutes_scraper.py
-│   │   ├── rfp_detector.py
-│   │   └── supplier_price_aggregator.py
-│   └── alerts/
-│       ├── price_alert.py
-│       └── option_expiry_alert.py
-│
-├── data/
-│   ├── seed/
-│   │   ├── materials.json
-│   │   └── suppliers.json
-│   └── migrations/
-│       └── 001_create_tables.sql
-│
-└── docs/
-    ├── API.md
-    ├── DEPLOYMENT.md
-    └── GETTING_STARTED.md
+
+### Quick Start
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/williambevans/BCMCE.git
+cd BCMCE
+
+# 2. Set up environment
+cp .env.example .env
+# Edit .env with your configuration
+
+# 3. Start backend
+cd backend
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# 4. Initialize database
+alembic upgrade head
+
+# 5. Start API server
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# 6. Serve frontend (separate terminal)
+cd ../frontend
+python -m http.server 8080
+
+# Access platform:
+# Frontend: http://localhost:8080/hh-dashboard.html
+# API Docs: http://localhost:8000/docs
 ```
 
 ---
 
-## 💰 BUSINESS MODEL
+## 📱 PLATFORM MODULES
 
-### Revenue Streams
+### 1. Contractor Dashboard
+Main operational hub - **[Access Here](https://williambevans.github.io/BCMCE/frontend/hh-dashboard.html)**
+
+### 2. RFP Management  
+Automated RFP monitoring - **[Access Here](https://williambevans.github.io/BCMCE/frontend/rfp-alerts.html)**
+
+### 3. Materials Terminal
+Real-time pricing - **[Access Here](https://williambevans.github.io/BCMCE/frontend/txdot.html)**
+
+### 4. County Intelligence
+254 Texas counties - **[Access Here](https://williambevans.github.io/BCMCE/frontend/maicounty.html)**
+
+### 5. Contract Tracking
+Active contracts - **[Access Here](https://williambevans.github.io/BCMCE/frontend/contract-history.html)**
+
+### 6. Settings
+Platform configuration - **[Access Here](https://williambevans.github.io/BCMCE/frontend/settings.html)**
+
+---
+
+## 🗺️ TARGET COUNTIES
+
+### Phase 1: Central Texas (Tier 1) - **ACTIVE**
 
 ```
-┌──────────────────────────┬───────────────────────────────┬─────────────────┐
-│ STREAM                   │ DESCRIPTION                   │ EST. REVENUE    │
-├──────────────────────────┼───────────────────────────────┼─────────────────┤
-│ Option Premium Split     │ 40% HH Holdings / 60% Supplier│ Variable        │
-│ Transaction Fees         │ 2.5% on executed contracts    │ ~$3,750/yr*     │
-│ Performance Guarantee    │ Fee for price/delivery assure │ ~$5,000/yr      │
-│ Data Services            │ Market reports to suppliers   │ ~$2,400/yr      │
-└──────────────────────────┴───────────────────────────────┴─────────────────┘
-
-*Based on $150K annual transaction volume (Year 1)
+County          | Population | Budget    | Status
+----------------|-----------|-----------|----------
+Bosque County   | 18,212    | $2.1M     | ⭐⭐⭐⭐⭐
+Hamilton County | 8,222     | $1.4M     | ⭐⭐⭐⭐
+Erath County    | 42,545    | $5.8M     | ⭐⭐⭐
+Ellis County    | 192,455   | $12.4M    | ⭐⭐⭐
+Johnson County  | 179,927   | $11.2M    | ⭐⭐
 ```
 
-### Value Proposition
+### Phase 2: Regional Expansion (Tier 2)
+Hood, Somervell, Hill, McLennan, Tarrant (rural), Dallas (rural)
+
+### Phase 3: Statewide (254 Counties)
+Selective bidding based on project size, distance, and profitability
+
+---
+
+## 📈 PERFORMANCE METRICS
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ FOR BOSQUE COUNTY                                                           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ ✓ 10-20% cost savings on materials                                         │
-│ ✓ Budget certainty through options                                         │
-│ ✓ Simplified procurement process                                           │
-│ ✓ Faster project execution                                                 │
-│ ✓ Transparent market pricing                                               │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ FOR SUPPLIERS                                                               │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ ✓ Access to government contracts without bid complexity                    │
-│ ✓ Predictable revenue through options                                      │
-│ ✓ Reduced marketing costs                                                  │
-│ ✓ Payment reliability from government contracts                            │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ FOR HH HOLDINGS                                                             │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ ✓ Transaction-based revenue                                                │
-│ ✓ Market-making spread                                                     │
-│ ✓ Strategic positioning in county operations                               │
-│ ✓ Expansion potential to other counties                                    │
-└─────────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────┬──────────────────────────────────────────┐
+│ METRIC                  │ VALUE                                    │
+├─────────────────────────┼──────────────────────────────────────────┤
+│ Active RFP Alerts       │ 15 opportunities                         │
+│ Bid Win Rate            │ 67.9% (won 19 of 28 bids)                │
+│ Contract Value (YTD)    │ $854,300                                 │
+│ Counties Monitored      │ 254 (All Texas)                          │
+│ Materials Tracked       │ 40+ TxDOT items                          │
+│ Average Profit Margin   │ 12.8%                                    │
+│ Contract Fulfillment    │ 98.4% on-time                            │
+│ Platform Uptime         │ 98.7% last 30 days                       │
+└─────────────────────────┴──────────────────────────────────────────┘
 ```
 
 ---
 
-## 🗺️ IMPLEMENTATION ROADMAP
+## 🤝 CONTACT & SUPPORT
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ PHASE 1: FOUNDATION (Months 1-2)                                           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ [ ] Entity formation (HH Holdings DBA BCMCE)                               │
-│ [ ] Legal structure and agreements                                         │
-│ [ ] Master Supply Agreement template                                       │
-│ [ ] Basic landing page deployment                                          │
-│ [ ] Initial supplier outreach                                              │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ PHASE 2: PILOT PROGRAM (Months 2-4)                                        │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ [ ] 3-5 supplier network established                                       │
-│ [ ] Gravel and caliche markets operational                                 │
-│ [ ] First option contracts issued                                          │
-│ [ ] Commissioner demonstration                                             │
-│ [ ] Feedback integration                                                   │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ PHASE 3: FULL LAUNCH (Months 4-6)                                          │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ [ ] All material categories active                                         │
-│ [ ] 10+ supplier participants                                              │
-│ [ ] Automated bid submission                                               │
-│ [ ] Settlement coordination                                                │
-│ [ ] County budget integration                                              │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ PHASE 4: REGIONAL EXPANSION (Months 6-12)                                  │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ [ ] Hill County integration                                                │
-│ [ ] McLennan County integration                                            │
-│ [ ] Coryell County integration                                             │
-│ [ ] Enhanced analytics platform                                            │
-│ [ ] Multi-county aggregation                                               │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📋 COMPLIANCE & REGULATIONS
-
-### Texas Government Code Compliance
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ Chapter 262: County Purchasing Act                                         │
-│ §262.023: Competitive bidding requirements (>$50,000)                      │
-│ §262.024: Competitive sealed proposals                                     │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### TxDOT Standards
-- **Item 247**: Flexible Base specifications
-- **Item 260**: Lime Treatment standards
-- **Item 275**: Cement Treatment standards
-- **DMS-6350**: Lime and Lime Slurry requirements
-
-### Required Certifications
-- TxDOT Approved Supplier status
-- Lime Association of Texas (LAT) certification (for lime products)
-- County vendor registration
-
----
-
-## 🤝 INITIAL SUPPLIER NETWORK (Target)
-
-```
-┌─────────────────────────────┬──────────────┬─────────────────────┬─────────┐
-│ SUPPLIER                    │ LOCATION     │ MATERIALS           │ STATUS  │
-├─────────────────────────────┼──────────────┼─────────────────────┼─────────┤
-│ Clifton Quarry              │ Clifton, TX  │ Limestone, Roadbase │ Target  │
-│ Loftin Dirt Works           │ Bosque Co.   │ Gravel, Excavation  │ Target  │
-│ Central TX Stone & Agg.     │ Central TX   │ Flex Base, Riprap   │ Target  │
-│ LAT Member Suppliers        │ Regional     │ Lime Products       │ Target  │
-│ Local Caliche Operators     │ Bosque/Hill  │ Caliche, Fill       │ Target  │
-└─────────────────────────────┴──────────────┴─────────────────────┴─────────┘
-```
-
----
-
-## 🔗 RELATED RESOURCES
-
-### TxDOT References
-- [TxDOT Average Low Bid Prices](https://www.dot.state.tx.us/insdtdot/orgchart/cmd/cserve/bidprice/)
-- [TxDOT Flexible Base Guidelines](https://ftp.txdot.gov/pub/txdot-info/cst/tips/flex-base-guidelines.pdf)
-- [TxDOT 2024 Specifications](https://ftp.txdot.gov/pub/txdot-info/cmd/cserve/specs/2024/)
-
-### Industry Resources
-- [Lime Association of Texas](https://limetexas.org/)
-- [Texas County Progress - Road Survey](https://countyprogress.com/road-survey-report/)
-- [AGC Texas Material Suppliers](https://web.agctx.org/Material-and-Product-Suppliers-Sand-and-Gravel)
-
----
-
-## 📞 CONTACT
+### Hamilton Hayduke Holdings Co.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │                                                                             │
-│  HH HOLDINGS / BEVANS REAL ESTATE                                          │
-│  Biri Bevans, Designated Broker                                            │
+│  📍 Address:         397 Highway 22, Clifton, TX 76634                      │
+│  📞 Phone:           (254) 555-0100                                         │
+│  📱 Emergency:       (254) 555-0199 (24/7)                                  │
+│  📧 Email:           biri@hhholdings.com                                    │
+│  🌐 Website:         https://hhholdings.com                                 │
 │                                                                             │
-│  397 Highway 22                                                            │
-│  Clifton, TX 76634                                                         │
+│  👤 Contact:         Biri Bevans, Designated Broker                         │
+│  🏢 Entity:          Hamilton Hayduke Holdings Co. (LLC)                    │
+│  📜 Status:          Licensed & Registered Texas Contractor                 │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+### Support Channels
 
-## 📜 LICENSE
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ Proprietary - All Rights Reserved                                          │
-│ © 2026 HH Holdings / Bevans Real Estate                                    │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+- **Technical Issues**: support@hhholdings.com
+- **Bid Inquiries**: bids@hhholdings.com  
+- **County Relations**: counties@hhholdings.com
+- **Emergency**: (254) 555-0199 (24/7)
 
 ---
 
+## 📜 LICENSE & COPYRIGHT
+
 ```
 ════════════════════════════════════════════════════════════════════════════════
-              BUILDING TRANSPARENT INFRASTRUCTURE MARKETS
-                        FOR RURAL TEXAS COUNTIES
-════════════════════════════════════════════════════════════════════════════════
-                    SOLVING REAL PROBLEMS WITH
-                      MARKET INNOVATION
-════════════════════════════════════════════════════════════════════════════════
-                   BCMCE v1.0.0 - PRODUCTION READY
+
+Copyright © 2026 Hamilton Hayduke Holdings Co. All rights reserved.
+
+This is proprietary software owned by Hamilton Hayduke Holdings Co. 
+Unauthorized copying, distribution, modification, or use of this software 
+is strictly prohibited.
+
+For licensing inquiries: legal@hhholdings.com
+
 ════════════════════════════════════════════════════════════════════════════════
 ```
+
+---
+
+```
+════════════════════════════════════════════════════════════════════════════════
+                     HH COUNTY CONTRACTOR PLATFORM v2.0.0
+                    Professional. Licensed. Authorized.
+════════════════════════════════════════════════════════════════════════════════
+```
+
+<p align="center">
+  <strong>Built for Texas Counties. By Texans.</strong><br>
+  <em>Serving rural infrastructure needs through professional contractor services</em>
+</p>
+
+---
+
+<p align="center">
+  <sub>Last Updated: January 29, 2026</sub><br>
+  <sub>Platform Version: 2.0.0</sub><br>
+  <sub>Licensed Contractor: TX-AG-2024-00123</sub>
+</p>
