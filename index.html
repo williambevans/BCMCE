@@ -7,7 +7,7 @@
   <meta name="description" content="Professional contractor services for Texas county governments. Licensed and authorized to bid on government contracts.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@200;300;400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -23,6 +23,10 @@
       --darker: #050505;
       --light: #f5f5f5;
       --gray: #888888;
+      --terminal-green: #00ff88;
+      --terminal-amber: #ff9500;
+      --terminal-blue: #00a8ff;
+      --terminal-bg: #0f0f0f;
     }
 
     body {
@@ -33,14 +37,13 @@
       overflow-x: hidden;
     }
 
-    /* Elegant border top */
     .top-border {
       height: 3px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 40px;
     }
@@ -82,16 +85,16 @@
 
     /* Hero Section */
     .hero {
-      padding: 120px 0;
+      padding: 80px 0 60px;
       text-align: center;
     }
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 72px;
+      font-size: 56px;
       font-weight: 300;
       color: var(--light);
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       line-height: 1.2;
     }
 
@@ -101,12 +104,12 @@
     }
 
     .hero-description {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 200;
       color: var(--gray);
-      max-width: 700px;
-      margin: 0 auto 50px;
-      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
       letter-spacing: 0.5px;
     }
 
@@ -114,73 +117,177 @@
       width: 100px;
       height: 1px;
       background: var(--gold);
-      margin: 60px auto;
+      margin: 50px auto;
     }
 
-    /* Services Section */
-    .services {
-      padding: 80px 0;
-      border-top: 1px solid rgba(212, 175, 55, 0.1);
+    /* Materials Terminal Section */
+    .materials-terminal {
+      padding: 60px 0 80px;
+      background: var(--terminal-bg);
+      border-top: 2px solid var(--gold);
+      border-bottom: 2px solid rgba(212, 175, 55, 0.3);
     }
 
-    .section-title {
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .terminal-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: 36px;
       font-weight: 300;
       color: var(--gold);
-      text-align: center;
-      margin-bottom: 60px;
       letter-spacing: 2px;
     }
 
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 60px;
-      margin-bottom: 80px;
-    }
-
-    .service-item {
-      text-align: center;
-      padding: 40px 30px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      background: rgba(10, 10, 10, 0.5);
-      transition: all 0.4s ease;
-    }
-
-    .service-item:hover {
-      border-color: var(--gold);
-      background: rgba(212, 175, 55, 0.05);
-      transform: translateY(-5px);
-    }
-
-    .service-icon {
-      font-size: 48px;
-      color: var(--gold);
-      margin-bottom: 25px;
-    }
-
-    .service-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      font-weight: 400;
-      color: var(--light);
-      margin-bottom: 15px;
+    .terminal-status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--terminal-green);
+      text-transform: uppercase;
       letter-spacing: 1px;
     }
 
-    .service-description {
-      font-size: 14px;
-      font-weight: 200;
+    .terminal-status::before {
+      content: '●';
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Materials Grid */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .material-card {
+      background: rgba(10, 10, 10, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .material-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .material-card:hover {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .material-card:hover::before {
+      opacity: 1;
+    }
+
+    .material-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .material-code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    .material-status {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--terminal-green);
+      text-transform: uppercase;
+      background: rgba(0, 255, 136, 0.1);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .material-name {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--light);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .material-specs {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .material-spec {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+    }
+
+    .spec-label {
       color: var(--gray);
-      line-height: 1.7;
-      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .spec-value {
+      color: var(--terminal-amber);
+      font-weight: 500;
+    }
+
+    .material-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 10px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      margin-top: 10px;
+    }
+
+    .price-label {
+      font-size: 10px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .price-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gold);
     }
 
     /* Stats Section */
     .stats {
-      padding: 80px 0;
-      border-top: 1px solid rgba(212, 175, 55, 0.1);
+      padding: 60px 0;
       background: rgba(5, 5, 5, 0.8);
     }
 
@@ -215,13 +322,13 @@
 
     /* Contact Section */
     .contact {
-      padding: 100px 0;
+      padding: 80px 0;
       text-align: center;
     }
 
     .contact-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 42px;
+      font-size: 36px;
       font-weight: 300;
       color: var(--light);
       margin-bottom: 40px;
@@ -267,7 +374,6 @@
       letter-spacing: 1px;
     }
 
-    /* License Badge */
     .license-section {
       margin: 60px 0;
       padding: 40px;
@@ -322,23 +428,6 @@
       letter-spacing: 1px;
     }
 
-    /* Elegant scroll indicator */
-    .scroll-indicator {
-      position: fixed;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
-      animation: scroll-pulse 2s infinite;
-    }
-
-    @keyframes scroll-pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
       .container {
@@ -350,12 +439,18 @@
       }
 
       .hero-title {
-        font-size: 48px;
+        font-size: 42px;
       }
 
-      .services-grid {
+      .materials-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 15px;
+      }
+
+      .terminal-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
       }
 
       .stats-grid {
@@ -369,7 +464,6 @@
       }
     }
 
-    /* Elegant animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -381,13 +475,8 @@
       }
     }
 
-    .hero, .services, .stats, .contact {
-      animation: fadeInUp 1s ease-out;
-    }
-
-    /* Gold glow effect on hover */
-    .service-item:hover .service-icon {
-      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+    .hero, .materials-terminal, .stats, .contact {
+      animation: fadeInUp 0.8s ease-out;
     }
   </style>
 </head>
@@ -409,54 +498,1128 @@
   <section class="hero">
     <div class="container">
       <h2 class="hero-title">
-        Professional Contractor Services<br>
-        <span class="hero-accent">for Texas Counties</span>
+        <span class="hero-accent">Professional Grade Materials</span><br>
+        for Texas County Infrastructure
       </h2>
       <p class="hero-description">
-        We specialize in county government procurement, delivering exceptional materials
-        and construction services to rural Texas communities with integrity, expertise,
-        and unwavering commitment to excellence.
+        Licensed contractor providing TxDOT-spec materials and construction services
+        to county governments across Texas with real-time pricing and guaranteed availability.
       </p>
     </div>
   </section>
 
-  <div class="container">
-    <div class="divider"></div>
-  </div>
-
-  <!-- Services Section -->
-  <section class="services">
+  <!-- Materials Terminal -->
+  <section class="materials-terminal">
     <div class="container">
-      <h3 class="section-title">Our Expertise</h3>
+      <div class="terminal-header">
+        <h3 class="terminal-title">Materials Catalog</h3>
+        <div class="terminal-status">Live Pricing · TxDOT Certified</div>
+      </div>
 
-      <div class="services-grid">
-        <div class="service-item">
-          <div class="service-icon">◆</div>
-          <h4 class="service-title">Materials Supply</h4>
-          <p class="service-description">
-            Premium aggregates, asphalt, concrete, and construction materials
-            meeting all TxDOT specifications for county infrastructure projects.
-          </p>
+      <div class="materials-grid">
+        <!-- Aggregates -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">GRVL-RB</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">River Bottom Gravel</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 247</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Size</span>
+              <span class="spec-value">0.75" - 1.5"</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$18.50</span>
+          </div>
         </div>
 
-        <div class="service-item">
-          <div class="service-icon">◆</div>
-          <h4 class="service-title">County Procurement</h4>
-          <p class="service-description">
-            Licensed and authorized to bid on county government contracts with
-            proven track record of competitive pricing and reliable execution.
-          </p>
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">GRVL-LM</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Limestone Base Grade 1</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 247 Gr 1</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Compaction</span>
+              <span class="spec-value">98% STD</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$22.00</span>
+          </div>
         </div>
 
-        <div class="service-item">
-          <div class="service-item">
-          <div class="service-icon">◆</div>
-          <h4 class="service-title">Project Management</h4>
-          <p class="service-description">
-            Comprehensive oversight from initial bid through completion, ensuring
-            projects meet specifications, timelines, and budget requirements.
-          </p>
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">GRVL-CR</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Crushed Concrete Recycled Base</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 276</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Size</span>
+              <span class="spec-value">0" - 2"</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$16.75</span>
+          </div>
         </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">GRVL-SH</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Shell Aggregate Grade 2</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 247 Gr 2</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Density</span>
+              <span class="spec-value">120 PCF</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$19.25</span>
+          </div>
+        </div>
+
+        <!-- Asphalt -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">ASPH-D</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Dense Graded Hot Mix Type D</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 340 Type D</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">PG Grade</span>
+              <span class="spec-value">PG 64-22</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$95.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">ASPH-C</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Dense Graded Hot Mix Type C</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 340 Type C</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">PG Grade</span>
+              <span class="spec-value">PG 70-22</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$102.50</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">ASPH-SS</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Stone Matrix Asphalt</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 342</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Polymer</span>
+              <span class="spec-value">Modified</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$118.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">ASPH-TC</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Asphalt Tack Coat</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 310</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">CSS-1H</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">GAL</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$3.85</span>
+          </div>
+        </div>
+
+        <!-- Concrete -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">CONC-3K</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Portland Cement Concrete 3000 PSI</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 360</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Strength</span>
+              <span class="spec-value">3000 PSI</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">CY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$165.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">CONC-4K</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Portland Cement Concrete 4000 PSI</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 360</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Strength</span>
+              <span class="spec-value">4000 PSI</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">CY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$178.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">CONC-FW</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Flowable Fill (CLSM)</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 362</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Strength</span>
+              <span class="spec-value">150 PSI</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">CY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$142.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">CONC-RB</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Reinforcing Steel Grade 60</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 440</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Yield</span>
+              <span class="spec-value">60 KSI</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LB</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$0.92</span>
+          </div>
+        </div>
+
+        <!-- Pipe & Drainage -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">PIPE-RCP18</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Reinforced Concrete Pipe 18"</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 450</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Class</span>
+              <span class="spec-value">III</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$28.50</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">PIPE-RCP24</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Reinforced Concrete Pipe 24"</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 450</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Class</span>
+              <span class="spec-value">III</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$42.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">PIPE-CMP18</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Corrugated Metal Pipe 18"</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 457</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Gauge</span>
+              <span class="spec-value">16 GA</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$22.75</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">PIPE-HDPE24</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">HDPE Pipe 24" DR-13.5</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 460</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Pressure</span>
+              <span class="spec-value">200 PSI</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$38.50</span>
+          </div>
+        </div>
+
+        <!-- Soil & Earthwork -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SOIL-SEL</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Selected Fill Material</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 132</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">PI Max</span>
+              <span class="spec-value">15</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">CY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$8.50</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SOIL-EMB</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Embankment Material</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 120</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Compaction</span>
+              <span class="spec-value">95% STD</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">CY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$6.75</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SOIL-TS</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Topsoil Furnish & Place</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 161</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Organic</span>
+              <span class="spec-value">3-5%</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">CY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$24.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SOIL-ST</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Stabilized Subgrade</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 260</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Cement %</span>
+              <span class="spec-value">4%</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">SY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$3.25</span>
+          </div>
+        </div>
+
+        <!-- Pavement Markers & Striping -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">MARK-PM</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Permanent Pavement Markings</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 666</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Type I White</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$0.85</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">MARK-RP</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Raised Pavement Markers</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 670</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Type I-A</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">EA</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$4.50</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">MARK-TH</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Thermoplastic Pavement Marking</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 667</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Thickness</span>
+              <span class="spec-value">90 MIL</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$1.95</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SIGN-ST</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Steel Sign Support System</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 674</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Type A</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">EA</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$285.00</span>
+          </div>
+        </div>
+
+        <!-- Erosion Control -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">EROS-SB</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Silt Fence</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 701</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Height</span>
+              <span class="spec-value">36"</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$3.25</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">EROS-EC</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Erosion Control Mat</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 700</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Type 2</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">SY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$2.85</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">EROS-RR</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Riprap Class 1</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 423</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Size</span>
+              <span class="spec-value">6" - 12"</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$45.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SEED-HY</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Hydraulic Seeding</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 164</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Mix</span>
+              <span class="spec-value">Native</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">AC</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$850.00</span>
+          </div>
+        </div>
+
+        <!-- Geotextiles -->
+                <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">GEO-NW</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Geotextile Non-Woven</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 162</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Type 2</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">SY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$1.45</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">GEO-W</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Geotextile Woven</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 162</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Strength</span>
+              <span class="spec-value">High</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">SY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$2.25</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">GEO-GR</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Geogrid Base Reinforcement</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 163</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Biaxial</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">SY</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$3.75</span>
+          </div>
+        </div>
+
+        <!-- Safety & Traffic Control -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SAFE-BC</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Barricade Type III</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 502</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Reflective</span>
+              <span class="spec-value">High Int.</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">EA</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$125.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SAFE-GR</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Steel Beam Guard Rail</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 405</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">W-Beam</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$28.50</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SAFE-CB</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Concrete Traffic Barrier</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 421</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">T202</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$62.00</span>
+          </div>
+        </div>
+
+        <!-- Specialty Items -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SPEC-FH</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Fire Hydrant Assembly</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 489</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Dry Barrel</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">EA</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$2,850.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SPEC-MH</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Manhole 48" Diameter</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 451</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Depth</span>
+              <span class="spec-value">0-8 FT</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">EA</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$3,200.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SPEC-IB</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Inlet Box Standard</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 452</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">Type C</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">EA</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$1,850.00</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SPEC-HM</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Headwall End Treatment</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 453</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Size</span>
+              <span class="spec-value">18"-24"</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">EA</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$1,450.00</span>
+          </div>
+        </div>
+
+        <!-- Additional Materials -->
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">BASE-FL</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Flexible Base Course</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 247 Gr 3</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Compaction</span>
+              <span class="spec-value">98% STD</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">TON</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$20.50</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SEAL-MC</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Asphalt Seal Coat Type MC</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 316</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Type</span>
+              <span class="spec-value">MC-70</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">GAL</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$4.25</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">CURB-GT</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Concrete Curb & Gutter Type II</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 360</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Width</span>
+              <span class="spec-value">24"</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">LF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$18.50</span>
+          </div>
+        </div>
+
+        <div class="material-card">
+          <div class="material-header">
+            <span class="material-code">SWLK-SD</span>
+            <span class="material-status">Available</span>
+          </div>
+          <div class="material-name">Concrete Sidewalk 4"</div>
+          <div class="material-specs">
+            <div class="material-spec">
+              <span class="spec-label">Grade</span>
+              <span class="spec-value">Item 360</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Thickness</span>
+              <span class="spec-value">4"</span>
+            </div>
+            <div class="material-spec">
+              <span class="spec-label">Unit</span>
+              <span class="spec-value">SF</span>
+            </div>
+          </div>
+          <div class="material-price">
+            <span class="price-label">Current Price</span>
+            <span class="price-value">$6.75</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -466,20 +1629,20 @@
     <div class="container">
       <div class="stats-grid">
         <div class="stat-item">
+          <div class="stat-value">43</div>
+          <div class="stat-label">TxDOT Materials</div>
+        </div>
+        <div class="stat-item">
           <div class="stat-value">254</div>
           <div class="stat-label">Texas Counties</div>
         </div>
         <div class="stat-item">
-          <div class="stat-value">40+</div>
-          <div class="stat-label">Materials Available</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">67.9%</div>
-          <div class="stat-label">Bid Win Rate</div>
-        </div>
-        <div class="stat-item">
           <div class="stat-value">98.4%</div>
           <div class="stat-label">On-Time Delivery</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">24/7</div>
+          <div class="stat-label">Quote Response</div>
         </div>
       </div>
     </div>
@@ -488,7 +1651,7 @@
   <!-- Contact Section -->
   <section class="contact">
     <div class="container">
-      <h3 class="contact-title">Connect With Us</h3>
+      <h3 class="contact-title">Request Quote or Specifications</h3>
 
       <div class="contact-info">
         <div class="contact-item">
@@ -506,13 +1669,13 @@
         <div class="contact-item">
           <div class="contact-label">Email</div>
           <div class="contact-value">
-            <a href="mailto:biri@hhholdings.com" class="contact-link">biri@hhholdings.com</a>
+            <a href="mailto:bids@hhholdings.com" class="contact-link">bids@hhholdings.com</a>
           </div>
         </div>
       </div>
 
       <div class="license-section">
-        <div class="license-title">Licensed & Registered</div>
+        <div class="license-title">Licensed & Authorized Texas Contractor</div>
         <div class="license-number">TX-AG-2024-00123</div>
       </div>
 
@@ -521,7 +1684,7 @@
       <p class="hero-description" style="margin-top: 50px;">
         Hamilton Hayduke Holdings Co. maintains full legal authority to solicit,
         bid on, and execute construction contracts with Texas county governments.
-        We are committed to serving rural communities with professional excellence.
+        All materials meet or exceed TxDOT specifications. Pricing updated daily.
       </p>
     </div>
   </section>
@@ -532,15 +1695,13 @@
       <div class="footer-line"></div>
       <div class="footer-text">
         Hamilton Hayduke Holdings Co.<br>
-        Professional Contractor Services | Bevans Real Estate<br>
-        Serving Central Texas Communities
+        Professional Contractor Services | TxDOT Certified Materials<br>
+        Serving Central Texas County Governments
       </div>
       <div class="footer-copyright">
         © 2026 Hamilton Hayduke Holdings Co. All Rights Reserved.
       </div>
     </div>
   </footer>
-
-  <div class="scroll-indicator"></div>
 </body>
 </html>
