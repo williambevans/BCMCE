@@ -71,12 +71,12 @@
     }
 
     .flying-h path {
-      fill: var(--gold);
+      stroke: var(--gold);
       transition: all 0.3s ease;
     }
 
     .nav-logo:hover .flying-h path {
-      fill: var(--gold-light);
+      stroke: var(--gold-light);
       filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
     }
 
@@ -429,12 +429,14 @@
   <nav class="nav-container">
     <div class="nav-header">
       <a href="index.html" class="nav-logo">
-        <svg class="flying-h" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <!-- Stylized Flying H -->
-          <path d="M 20 20 L 30 20 L 30 45 L 70 45 L 70 20 L 80 20 L 80 80 L 70 80 L 70 55 L 30 55 L 30 80 L 20 80 Z" transform="skewX(-8)" />
-          <!-- Wing accent -->
-          <path d="M 85 35 L 95 30 L 92 38 Z" opacity="0.7" />
-          <path d="M 85 65 L 95 70 L 92 62 Z" opacity="0.7" />
+        <svg class="flying-h" viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Flowing cursive H -->
+          <path d="M 25 15 Q 28 12, 30 15 L 32 75 Q 32 80, 35 82 Q 38 84, 40 80"
+                fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 32 45 Q 45 42, 60 40 Q 75 42, 88 45"
+                fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 88 15 Q 85 18, 85 22 L 85 78 Q 85 85, 90 88 Q 95 90, 100 85"
+                fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
       <div class="hamburger" id="hamburger">
