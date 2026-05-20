@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contract History | BCMCE Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-primary: #0a0a0a; --bg-secondary: #111111; --text-primary: #ffffff;
+      --text-secondary: #888888; --accent-amber: #ff9500; --accent-green: #00ff88;
+      --border-color: #2a2a2a;
+    }
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      background: var(--bg-primary); color: var(--text-primary);
+      min-height: 100vh;
+    }
+    .header {
+      background: var(--bg-secondary); border-bottom: 2px solid var(--accent-amber);
+      padding: 20px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-size: 24px; font-weight: 700; color: var(--accent-amber); }
+    .btn {
+      background: var(--accent-amber); color: #000; padding: 10px 20px;
+      border: none; border-radius: 4px; cursor: pointer; font-weight: 600;
+    }
+    .container { padding: 40px; max-width: 1600px; margin: 0 auto; }
+    .stats { display: flex; gap: 20px; margin: 30px 0; }
+    .stat-card {
+      flex: 1; background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 8px; padding: 20px;
+    }
+    .stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 5px; }
+    .stat-value { font-size: 24px; font-weight: 700; color: var(--accent-amber); }
+    .table-container {
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 8px; overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #0a0a0a; padding: 15px; text-align: left; font-size: 11px;
+      color: var(--text-secondary); text-transform: uppercase; font-weight: 600;
+    }
+    td {
+      padding: 15px; border-top: 1px solid var(--border-color); font-size: 13px;
+    }
+    tr:hover { background: rgba(255, 149, 0, 0.05); }
+    .badge {
+      padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;
+    }
+    .badge-completed { background: rgba(0, 255, 136, 0.2); color: var(--accent-green); }
+    .badge-fulfilled { background: rgba(255, 149, 0, 0.2); color: var(--accent-amber); }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">📋 CONTRACT HISTORY</div>
+    <button class="btn" onclick="window.location.href='hh-dashboard.html'">← Back to Dashboard</button>
+  </div>
+  <div class="container">
+    <h1 style="font-size: 28px; margin-bottom: 10px;">Bid & Contract History</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 30px;">Track all submitted bids and contract awards</p>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Total Bids Submitted</div>
+        <div class="stat-value">47</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Contracts Won</div>
+        <div class="stat-value" style="color: var(--accent-green);">23</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Win Rate</div>
+        <div class="stat-value">48.9%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Value</div>
+        <div class="stat-value" style="color: var(--accent-green);">$2.4M</div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table id="contractTable"></table>
+    </div>
+  </div>
+  <script>
+    const contracts = [
+      {date: '2026-01-20', county: 'BOSQUE', material: 'Road Base Gravel', quantity: 500, bid: 15250, result: 'Won', status: 'Fulfilled'},
+      {date: '2026-01-15', county: 'HAMILTON', material: 'Flexible Base', quantity: 750, bid: 22500, result: 'Won', status: 'In Progress'},
+      {date: '2026-01-10', county: 'ERATH', material: 'Hot Mix Asphalt', quantity: 1200, bid: 84000, result: 'Lost', status: 'Completed'},
+      {date: '2026-01-05', county: 'ELLIS', material: 'Crusher Run', quantity: 600, bid: 18300, result: 'Won', status: 'Fulfilled'},
+      {date: '2025-12-28', county: 'JOHNSON', material: 'Concrete Mix', quantity: 400, bid: 16800, result: 'Won', status: 'Fulfilled'},
+      {date: '2025-12-20', county: 'HILL', material: 'Limestone', quantity: 850, bid: 29750, result: 'Lost', status: 'Completed'}
+    ];
+    
+    const table = document.getElementById('contractTable');
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th>DATE</th>
+          <th>COUNTY</th>
+          <th>MATERIAL</th>
+          <th>QUANTITY</th>
+          <th>BID AMOUNT</th>
+          <th>RESULT</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${contracts.map(c => `
+          <tr>
+            <td>${c.date}</td>
+            <td style="color: var(--accent-amber)">${c.county}</td>
+            <td>${c.material}</td>
+            <td>${c.quantity} tons</td>
+            <td style="color: var(--accent-green)">$${c.bid.toLocaleString()}</td>
+            <td><span class="badge badge-${c.result.toLowerCase()}">${c.result}</span></td>
+            <td>${c.status}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    `;
+  </script>
+</body>
+</html>
