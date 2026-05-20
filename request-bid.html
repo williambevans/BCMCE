@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Bid | Hamilton Hayduke Holdings Co.</title>
+  <meta name="description" content="Request a bid for TxDOT-certified materials and contractor services for Texas county government projects.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@200;300;400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f4d03f;
+      --gold-dark: #c5a028;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --light: #f5f5f5;
+      --gray: #888888;
+      --terminal-green: #00ff88;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+    }
+
+    .top-border {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* Hamburger Navigation */
+    .nav-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(5, 5, 5, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+
+    .hamburger {
+      width: 30px;
+      height: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(212, 175, 55, 0.3);
+      transition: right 0.4s ease;
+      padding: 100px 40px 40px;
+      overflow-y: auto;
+    }
+
+    .nav-menu.active {
+      right: 0;
+    }
+
+    .nav-links {
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-bottom: 30px;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu.active .nav-links li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .nav-menu.active .nav-links li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-menu.active .nav-links li:nth-child(2) { transition-delay: 0.2s; }
+    .nav-menu.active .nav-links li:nth-child(3) { transition-delay: 0.3s; }
+    .nav-menu.active .nav-links li:nth-child(4) { transition-delay: 0.4s; }
+    .nav-menu.active .nav-links li:nth-child(5) { transition-delay: 0.5s; }
+
+    .nav-links a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--light);
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      padding-left: 20px;
+    }
+
+    .nav-contact {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .nav-contact-item {
+      margin-bottom: 20px;
+    }
+
+    .nav-contact-label {
+      font-size: 10px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 5px;
+    }
+
+    .nav-contact-value {
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 120px 40px 80px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 20px;
+      letter-spacing: 3px;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      font-weight: 200;
+      color: var(--gray);
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      width: 100px;
+      height: 1px;
+      background: var(--gold);
+      margin: 50px auto;
+    }
+
+    /* Form Styles */
+    .bid-form {
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 50px;
+      margin-top: 40px;
+    }
+
+    .form-section {
+      margin-bottom: 50px;
+    }
+
+    .form-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 25px;
+      letter-spacing: 2px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(5, 5, 5, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--light);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(10, 10, 10, 0.9);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--light);
+      text-transform: none;
+      letter-spacing: 0.3px;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 18px 40px;
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 30px;
+    }
+
+    .submit-btn:hover {
+      background: var(--gold);
+      color: var(--darker);
+    }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--gray);
+      text-align: center;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 40px 40px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 11px;
+      font-weight: 200;
+      color: var(--gray);
+      letter-spacing: 1px;
+    }
+
+    .footer-copyright {
+      margin-top: 20px;
+      font-size: 10px;
+      color: rgba(136, 136, 136, 0.6);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-header {
+        padding: 20px;
+      }
+
+      .container {
+        padding: 100px 20px 60px;
+      }
+
+      .page-title {
+        font-size: 42px;
+      }
+
+      .bid-form {
+        padding: 30px 20px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .checkbox-group {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-border"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-container">
+    <div class="nav-header">
+      <a href="index.html" class="nav-logo">Hamilton Hayduke Holdings Co.</a>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="nav-menu" id="navMenu">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#materials">Materials Catalog</a></li>
+        <li><a href="request-bid.html" class="active">Request Bid</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-contact">
+        <div class="nav-contact-item">
+          <div class="nav-contact-label">Phone</div>
+          <div class="nav-contact-value">(254) 555-0100</div>
+        </div>
+        <div class="nav-contact-item">
+          <div class="nav-contact-label">Email</div>
+          <div class="nav-contact-value">bids@hhholdings.com</div>
+        </div>
+        <div class="nav-contact-item">
+          <div class="nav-contact-label">License</div>
+          <div class="nav-contact-value">TX-AG-2024-00123</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Request a Bid</h1>
+      <p class="page-subtitle">
+        Submit your project specifications for a detailed quote. We provide competitive pricing
+        on all TxDOT-certified materials for Texas county government infrastructure projects.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <form class="bid-form" id="bidForm">
+      <!-- Project Information -->
+      <div class="form-section">
+        <h2 class="section-title">Project Information</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="projectName">Project Name *</label>
+            <input type="text" id="projectName" name="projectName" required>
+          </div>
+          <div class="form-group">
+            <label for="county">County *</label>
+            <input type="text" id="county" name="county" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="projectType">Project Type *</label>
+            <select id="projectType" name="projectType" required>
+              <option value="">Select Type</option>
+              <option value="road">Road Construction</option>
+              <option value="bridge">Bridge Work</option>
+              <option value="drainage">Drainage Systems</option>
+              <option value="parking">Parking Lots</option>
+              <option value="sidewalk">Sidewalks & Curbs</option>
+              <option value="erosion">Erosion Control</option>
+              <option value="utility">Utility Infrastructure</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bidDeadline">Bid Deadline</label>
+            <input type="date" id="bidDeadline" name="bidDeadline">
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="projectDescription">Project Description</label>
+          <textarea id="projectDescription" name="projectDescription" placeholder="Brief description of the project scope and requirements..."></textarea>
+        </div>
+      </div>
+
+      <!-- Materials Needed -->
+      <div class="form-section">
+        <h2 class="section-title">Materials Required</h2>
+
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat1" name="materials" value="gravel">
+            <label for="mat1">Gravel & Aggregates</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat2" name="materials" value="asphalt">
+            <label for="mat2">Asphalt & Paving</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat3" name="materials" value="concrete">
+            <label for="mat3">Concrete</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat4" name="materials" value="pipe">
+            <label for="mat4">Pipe & Drainage</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat5" name="materials" value="soil">
+            <label for="mat5">Soil & Earthwork</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat6" name="materials" value="marking">
+            <label for="mat6">Pavement Markings</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat7" name="materials" value="erosion">
+            <label for="mat7">Erosion Control</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat8" name="materials" value="geotextile">
+            <label for="mat8">Geotextiles</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat9" name="materials" value="safety">
+            <label for="mat9">Safety Equipment</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mat10" name="materials" value="specialty">
+            <label for="mat10">Specialty Items</label>
+          </div>
+        </div>
+
+        <div class="form-group full-width" style="margin-top: 25px;">
+          <label for="materialDetails">Material Specifications & Quantities</label>
+          <textarea id="materialDetails" name="materialDetails" placeholder="List specific materials, TxDOT item numbers, quantities, and any special requirements..."></textarea>
+        </div>
+      </div>
+
+      <!-- Contact Information -->
+      <div class="form-section">
+        <h2 class="section-title">Contact Information</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contactName">Full Name *</label>
+            <input type="text" id="contactName" name="contactName" required>
+          </div>
+          <div class="form-group">
+            <label for="title">Title / Position *</label>
+            <input type="text" id="title" name="title" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="organization">County / Organization *</label>
+            <input type="text" id="organization" name="organization" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="additionalNotes">Additional Notes</label>
+          <textarea id="additionalNotes" name="additionalNotes" placeholder="Any additional information or special requirements..."></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Bid Request</button>
+
+      <p class="form-note">
+        All bid requests are reviewed within 24 hours. You will receive a detailed quote
+        with itemized pricing and delivery timelines. For urgent requests, please call
+        (254) 555-0100 directly.
+      </p>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-text">
+      Hamilton Hayduke Holdings Co. | Licensed Texas Contractor<br>
+      TX-AG-2024-00123 | Serving Texas County Governments
+    </div>
+    <div class="footer-copyright">
+      © 2026 Hamilton Hayduke Holdings Co. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      }
+    });
+
+    // Close menu when clicking a link
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // Form submission handler
+    document.getElementById('bidForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Collect form data
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      // Get selected materials
+      const materials = Array.from(document.querySelectorAll('input[name="materials"]:checked'))
+        .map(cb => cb.value);
+
+      console.log('Bid Request Submitted:', { ...data, materials });
+
+      // Show success message (in production, this would send to backend)
+      alert('Thank you for your bid request! We will review your submission and respond within 24 hours.');
+
+      // Reset form
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
