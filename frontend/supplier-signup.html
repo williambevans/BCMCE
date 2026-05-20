@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplier Network | H. H. Holdings Co.</title>
+  <meta name="description" content="Join our supplier network. Register H. H. Holdings Co. as your contractor and start selling your materials to Texas county governments today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@200;300;400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f4d03f;
+      --gold-dark: #c5a028;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --light: #f5f5f5;
+      --gray: #888888;
+      --terminal-green: #00ff88;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--darker);
+      color: var(--light);
+      min-height: 100vh;
+    }
+
+    .top-border {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* Hamburger Navigation */
+    .nav-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(5, 5, 5, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+
+    .hamburger {
+      width: 30px;
+      height: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(212, 175, 55, 0.3);
+      transition: right 0.4s ease;
+      padding: 100px 40px 40px;
+      overflow-y: auto;
+    }
+
+    .nav-menu.active {
+      right: 0;
+    }
+
+    .nav-links {
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-bottom: 30px;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu.active .nav-links li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .nav-menu.active .nav-links li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-menu.active .nav-links li:nth-child(2) { transition-delay: 0.2s; }
+    .nav-menu.active .nav-links li:nth-child(3) { transition-delay: 0.3s; }
+    .nav-menu.active .nav-links li:nth-child(4) { transition-delay: 0.4s; }
+    .nav-menu.active .nav-links li:nth-child(5) { transition-delay: 0.5s; }
+
+    .nav-links a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--light);
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+      padding-left: 20px;
+    }
+
+    .nav-contact {
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .nav-contact-item {
+      margin-bottom: 20px;
+    }
+
+    .nav-contact-label {
+      font-size: 10px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 5px;
+    }
+
+    .nav-contact-value {
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 120px 40px 80px;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 20px;
+      letter-spacing: 3px;
+      line-height: 1.2;
+    }
+
+    .page-subtitle {
+      font-size: 18px;
+      font-weight: 200;
+      color: var(--gray);
+      letter-spacing: 0.5px;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      width: 100px;
+      height: 1px;
+      background: var(--gold);
+      margin: 60px auto;
+    }
+
+    /* Benefits Section */
+    .benefits-section {
+      margin-bottom: 80px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--light);
+      text-align: center;
+      margin-bottom: 50px;
+      letter-spacing: 2px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .benefit-card {
+      padding: 35px 30px;
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .benefit-card:hover {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-3px);
+    }
+
+    .benefit-icon {
+      font-size: 42px;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .benefit-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--light);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .benefit-description {
+      font-size: 14px;
+      font-weight: 200;
+      color: var(--gray);
+      line-height: 1.7;
+      letter-spacing: 0.3px;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      background: rgba(10, 10, 10, 0.4);
+      padding: 60px 50px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      margin-bottom: 80px;
+    }
+
+    .steps-list {
+      list-style: none;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: start;
+      margin-bottom: 35px;
+      padding-bottom: 35px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .step-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .step-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-right: 30px;
+      min-width: 60px;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--light);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .step-description {
+      font-size: 14px;
+      font-weight: 200;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* Registration Form */
+    .registration-section {
+      background: rgba(10, 10, 10, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 60px 50px;
+    }
+
+    .form-intro {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--gold);
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+
+    .form-subtitle {
+      font-size: 14px;
+      font-weight: 200;
+      color: var(--gray);
+      letter-spacing: 0.5px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(5, 5, 5, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--light);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(10, 10, 10, 0.9);
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .checkbox-group {
+      margin-top: 15px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--light);
+      text-transform: none;
+      letter-spacing: 0.3px;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 18px 40px;
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 30px;
+    }
+
+    .submit-btn:hover {
+      background: var(--gold);
+      color: var(--darker);
+    }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--gray);
+      text-align: center;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 40px 40px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 11px;
+      font-weight: 200;
+      color: var(--gray);
+      letter-spacing: 1px;
+    }
+
+    .footer-copyright {
+      margin-top: 20px;
+      font-size: 10px;
+      color: rgba(136, 136, 136, 0.6);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-header {
+        padding: 20px;
+      }
+
+      .container {
+        padding: 100px 20px 60px;
+      }
+
+      .page-title {
+        font-size: 42px;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .how-it-works {
+        padding: 40px 25px;
+      }
+
+      .registration-section {
+        padding: 40px 25px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-border"></div>
+
+  <!-- Navigation -->
+  <nav class="nav-container">
+    <div class="nav-header">
+      <a href="index.html" class="nav-logo">H. H. Holdings Co.</a>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="nav-menu" id="navMenu">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#materials">Materials Catalog</a></li>
+        <li><a href="request-bid.html">Request Bid</a></li>
+        <li><a href="supplier-signup.html" class="active">Supplier Network</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-contact">
+        <div class="nav-contact-item">
+          <div class="nav-contact-label">Phone</div>
+          <div class="nav-contact-value">(254) 555-0100</div>
+        </div>
+        <div class="nav-contact-item">
+          <div class="nav-contact-label">Email</div>
+          <div class="nav-contact-value">suppliers@hhholdings.com</div>
+        </div>
+        <div class="nav-contact-item">
+          <div class="nav-contact-label">License</div>
+          <div class="nav-contact-value">TX-AG-2024-00123</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero-section">
+      <h1 class="page-title">Supplier Network</h1>
+      <p class="page-subtitle">
+        We partner with local mines and aggregate suppliers across Texas. Register
+        H. H. Holdings Co. as your authorized contractor and gain immediate access
+        to county government procurement opportunities statewide.
+      </p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Benefits -->
+    <section class="benefits-section">
+      <h2 class="section-title">Why Partner With Us</h2>
+
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <div class="benefit-icon">◆</div>
+          <h3 class="benefit-title">Direct County Access</h3>
+          <p class="benefit-description">
+            We maintain relationships with procurement offices across all 254 Texas
+            counties. Your materials reach decision-makers directly.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">◆</div>
+          <h3 class="benefit-title">Licensed Contractor Status</h3>
+          <p class="benefit-description">
+            As your registered contractor (TX-AG-2024-00123), we handle all compliance,
+            bidding, and contract execution on your behalf.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">◆</div>
+          <h3 class="benefit-title">Increased Volume</h3>
+          <p class="benefit-description">
+            Access to large-scale county infrastructure projects means consistent,
+            high-volume orders for your aggregates and construction materials.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">◆</div>
+          <h3 class="benefit-title">No Upfront Costs</h3>
+          <p class="benefit-description">
+            Zero registration fees. We only succeed when you succeed. Simple
+            commission structure on completed sales.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">◆</div>
+          <h3 class="benefit-title">Real-Time Pricing</h3>
+          <p class="benefit-description">
+            You control your pricing. Update rates daily through our portal to stay
+            competitive in the market.
+          </p>
+        </div>
+
+        <div class="benefit-card">
+          <div class="benefit-icon">◆</div>
+          <h3 class="benefit-title">Quality Assurance</h3>
+          <p class="benefit-description">
+            All materials must meet TxDOT specifications. We provide guidance and
+            support to ensure your products qualify.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <div class="how-it-works">
+      <h2 class="section-title">How It Works</h2>
+
+      <ol class="steps-list">
+        <li class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Register Your Mine or Quarry</div>
+            <div class="step-description">
+              Complete the registration form below with your operation details,
+              available materials, and TxDOT certifications. We verify your
+              credentials within 48 hours.
+            </div>
+          </div>
+        </li>
+
+        <li class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Authorize H. H. Holdings as Contractor</div>
+            <div class="step-description">
+              Sign a simple contractor agreement allowing us to represent your
+              materials in county government bids. You retain full control over
+              pricing and availability.
+            </div>
+          </div>
+        </li>
+
+        <li class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">List Your Materials</div>
+            <div class="step-description">
+              We add your aggregates, gravel, limestone, and other materials to our
+              catalog with live pricing. County procurement offices see your products
+              immediately.
+            </div>
+          </div>
+        </li>
+
+        <li class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">Receive Orders & Fulfill</div>
+            <div class="step-description">
+              When counties place orders, we handle contracts and invoicing. You receive
+              order confirmations, fulfill directly to the project site, and get paid
+              promptly upon delivery.
+            </div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="registration-section">
+      <div class="form-intro">
+        <h2 class="form-title">Register Your Operation</h2>
+        <p class="form-subtitle">
+          Join our network of Texas suppliers and start selling to county governments today
+        </p>
+      </div>
+
+      <form id="supplierForm">
+        <!-- Company Information -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="companyName">Company / Mine Name *</label>
+            <input type="text" id="companyName" name="companyName" required>
+          </div>
+          <div class="form-group">
+            <label for="taxId">Tax ID / EIN *</label>
+            <input type="text" id="taxId" name="taxId" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="operationType">Operation Type *</label>
+            <select id="operationType" name="operationType" required>
+              <option value="">Select Type</option>
+              <option value="quarry">Quarry / Mine</option>
+              <option value="aggregate">Aggregate Producer</option>
+              <option value="asphalt">Asphalt Plant</option>
+              <option value="concrete">Concrete Batch Plant</option>
+              <option value="recycling">Recycling Facility</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="yearsOperation">Years in Operation</label>
+            <input type="text" id="yearsOperation" name="yearsOperation">
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="address">Physical Address *</label>
+            <input type="text" id="address" name="address" required>
+          </div>
+          <div class="form-group">
+            <label for="city">City *</label>
+            <input type="text" id="city" name="city" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="county">County *</label>
+            <input type="text" id="county" name="county" required>
+          </div>
+          <div class="form-group">
+            <label for="zipCode">Zip Code *</label>
+            <input type="text" id="zipCode" name="zipCode" required>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contactName">Primary Contact Name *</label>
+            <input type="text" id="contactName" name="contactName" required>
+          </div>
+          <div class="form-group">
+            <label for="title">Title / Position *</label>
+            <input type="text" id="title" name="title" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+        </div>
+
+        <!-- Materials Available -->
+        <div class="form-group full-width">
+          <label>Available Materials *</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat1" name="materials" value="gravel">
+              <label for="mat1">River Gravel / Base Material</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat2" name="materials" value="limestone">
+              <label for="mat2">Limestone / Crushed Rock</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat3" name="materials" value="sand">
+              <label for="mat3">Sand / Fine Aggregates</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat4" name="materials" value="asphalt">
+              <label for="mat4">Hot Mix Asphalt</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat5" name="materials" value="concrete">
+              <label for="mat5">Ready-Mix Concrete</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat6" name="materials" value="recycled">
+              <label for="mat6">Recycled Materials</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat7" name="materials" value="soil">
+              <label for="mat7">Fill Dirt / Topsoil</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mat8" name="materials" value="other">
+              <label for="mat8">Other Materials</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Production Capacity -->
+        <div class="form-group full-width">
+          <label for="capacity">Monthly Production Capacity (Tons)</label>
+          <input type="text" id="capacity" name="capacity" placeholder="e.g., 10,000 tons/month">
+        </div>
+
+        <!-- TxDOT Certifications -->
+        <div class="form-group full-width">
+          <label for="certifications">TxDOT Certifications & Item Numbers</label>
+          <textarea id="certifications" name="certifications" placeholder="List any TxDOT certifications, approved item numbers, or quality control certifications your operation holds..."></textarea>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="form-group full-width">
+          <label for="additionalInfo">Additional Information</label>
+          <textarea id="additionalInfo" name="additionalInfo" placeholder="Tell us about your delivery capabilities, equipment, service area, or any other relevant information..."></textarea>
+        </div>
+
+        <!-- Agreement -->
+        <div class="form-group full-width">
+          <div class="checkbox-item">
+            <input type="checkbox" id="agreement" name="agreement" required>
+            <label for="agreement">
+              I authorize Hamilton Hayduke Holdings Co. to represent our materials as a
+              licensed contractor for Texas county government procurement. I understand
+              we retain control over pricing and order fulfillment.
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Registration</button>
+
+        <p class="form-note">
+          Our team will review your registration within 48 hours. You'll receive
+          contractor authorization documents and portal access via email. Questions?
+          Call (254) 555-0100 or email suppliers@hhholdings.com
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-text">
+      H. H. Holdings Co. | Licensed Texas Contractor<br>
+      TX-AG-2024-00123 | Building Partnerships with Texas Suppliers
+    </div>
+    <div class="footer-copyright">
+      © 2026 Hamilton Hayduke Holdings Co. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      }
+    });
+
+    // Close menu when clicking a link
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+      });
+    });
+
+    // Form submission
+    document.getElementById('supplierForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      const materials = Array.from(document.querySelectorAll('input[name="materials"]:checked'))
+        .map(cb => cb.value);
+
+      console.log('Supplier Registration:', { ...data, materials });
+
+      alert('Thank you for registering! Our team will review your application and contact you within 48 hours with contractor authorization documents and portal access.');
+
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
