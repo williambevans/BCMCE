@@ -263,9 +263,58 @@
       margin: 50px auto;
     }
 
+    /* Texas Map */
+    .texas-map-section {
+      padding: 100px 0 40px;
+      background: var(--darker);
+      text-align: center;
+    }
+
+    .texas-map-container {
+      max-width: 400px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .texas-outline {
+      fill: none;
+      stroke: var(--light);
+      stroke-width: 2;
+      opacity: 0.9;
+    }
+
+    .office-marker {
+      fill: var(--gold);
+      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+      animation: pulse-star 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-star {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+    }
+
+    .location-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 20px;
+    }
+
+    .location-address {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 200;
+      color: var(--gray);
+      margin-top: 5px;
+      letter-spacing: 0.5px;
+    }
+
     /* Materials Terminal Section */
     .materials-terminal {
-      padding: 120px 0 80px;
+      padding: 60px 0 80px;
       background: var(--terminal-bg);
       border-top: 2px solid var(--gold);
       border-bottom: 2px solid rgba(212, 175, 55, 0.3);
@@ -659,6 +708,24 @@
       </div>
     </div>
   </nav>
+
+  <!-- Texas Map -->
+  <section class="texas-map-section">
+    <div class="texas-map-container">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Texas Outline (simplified) -->
+        <path class="texas-outline" d="M 150 30 L 170 35 L 175 45 L 180 55 L 185 70 L 188 85 L 190 100 L 188 115 L 185 125 L 180 135 L 175 142 L 165 148 L 150 152 L 135 155 L 120 157 L 105 158 L 90 157 L 75 155 L 60 152 L 50 148 L 42 142 L 35 135 L 30 125 L 25 110 L 22 95 L 20 80 L 18 65 L 15 50 L 12 40 L 10 35 L 15 32 L 25 30 L 35 28 L 50 27 L 65 26 L 80 25 L 95 25 L 110 26 L 125 27 L 140 28 Z M 30 70 L 20 75 L 15 82 L 12 90 L 15 95 L 20 98 L 25 95 L 28 88 L 30 78 Z M 185 60 L 190 65 L 192 72 L 188 77 L 183 75 L 185 68 Z" />
+
+        <!-- Gold Star at Clifton, TX (central Texas, slightly west) -->
+        <g class="office-marker" transform="translate(95, 90)">
+          <path d="M 0,-8 L 2.4,-2.4 L 8,-2.4 L 3.2,1.6 L 5.6,7.2 L 0,3.2 L -5.6,7.2 L -3.2,1.6 L -8,-2.4 L -2.4,-2.4 Z" />
+        </g>
+      </svg>
+
+      <div class="location-label">Office Location</div>
+      <div class="location-address">397 TX-22 · Clifton, Texas 76634</div>
+    </div>
+  </section>
 
   <!-- Materials Terminal -->
   <section class="materials-terminal" id="materials">
