@@ -1,0 +1,305 @@
+{
+  "materials": [
+    {
+      "item": "Grade 1 Flex Base",
+      "txdot_item": "247-F",
+      "unit": "TON",
+      "price": 18.50,
+      "keywords": ["flex base", "flexible base", "grade 1", "247"]
+    },
+    {
+      "item": "Grade 2 Flex Base",
+      "txdot_item": "247-F",
+      "unit": "TON",
+      "price": 16.75,
+      "keywords": ["flex base", "flexible base", "grade 2", "247"]
+    },
+    {
+      "item": "Type A Crushed Limestone",
+      "txdot_item": "247",
+      "unit": "TON",
+      "price": 19.25,
+      "keywords": ["crushed limestone", "type a", "limestone", "247"]
+    },
+    {
+      "item": "Type B Crushed Limestone",
+      "txdot_item": "247",
+      "unit": "TON",
+      "price": 17.50,
+      "keywords": ["crushed limestone", "type b", "limestone", "247"]
+    },
+    {
+      "item": "3/4\" Clean Stone",
+      "txdot_item": "421",
+      "unit": "TON",
+      "price": 22.00,
+      "keywords": ["clean stone", "3/4", "stone", "421"]
+    },
+    {
+      "item": "1-1/2\" Clean Stone",
+      "txdot_item": "421",
+      "unit": "TON",
+      "price": 20.50,
+      "keywords": ["clean stone", "1-1/2", "1.5", "stone", "421"]
+    },
+    {
+      "item": "Crusher Run",
+      "txdot_item": "247",
+      "unit": "TON",
+      "price": 15.25,
+      "keywords": ["crusher run", "crusher", "247"]
+    },
+    {
+      "item": "Pea Gravel",
+      "txdot_item": "421",
+      "unit": "TON",
+      "price": 24.75,
+      "keywords": ["pea gravel", "pea", "gravel", "421"]
+    },
+    {
+      "item": "Hot Mix Asphalt Type D",
+      "txdot_item": "340",
+      "unit": "TON",
+      "price": 95.00,
+      "keywords": ["hot mix", "asphalt", "type d", "hma", "340"]
+    },
+    {
+      "item": "Hot Mix Asphalt Type C",
+      "txdot_item": "340",
+      "unit": "TON",
+      "price": 98.50,
+      "keywords": ["hot mix", "asphalt", "type c", "hma", "340"]
+    },
+    {
+      "item": "Cold Mix Asphalt",
+      "txdot_item": "316",
+      "unit": "TON",
+      "price": 105.00,
+      "keywords": ["cold mix", "asphalt", "cold", "316"]
+    },
+    {
+      "item": "Emulsified Asphalt CSS-1H",
+      "txdot_item": "300",
+      "unit": "GAL",
+      "price": 4.25,
+      "keywords": ["emulsified", "asphalt", "css-1h", "css", "300"]
+    },
+    {
+      "item": "Tack Coat SS-1H",
+      "txdot_item": "300",
+      "unit": "GAL",
+      "price": 3.95,
+      "keywords": ["tack coat", "ss-1h", "ss", "tack", "300"]
+    },
+    {
+      "item": "Prime Coat MC-30",
+      "txdot_item": "300",
+      "unit": "GAL",
+      "price": 4.50,
+      "keywords": ["prime coat", "mc-30", "mc", "prime", "300"]
+    },
+    {
+      "item": "Concrete 3000 PSI",
+      "txdot_item": "421",
+      "unit": "CY",
+      "price": 145.00,
+      "keywords": ["concrete", "3000", "psi", "421"]
+    },
+    {
+      "item": "Concrete 4000 PSI",
+      "txdot_item": "421",
+      "unit": "CY",
+      "price": 165.00,
+      "keywords": ["concrete", "4000", "psi", "421"]
+    },
+    {
+      "item": "Flowable Fill",
+      "txdot_item": "421",
+      "unit": "CY",
+      "price": 85.00,
+      "keywords": ["flowable fill", "flowable", "fill", "421"]
+    },
+    {
+      "item": "15\" RCP Class III",
+      "txdot_item": "520",
+      "unit": "LF",
+      "price": 18.50,
+      "keywords": ["rcp", "concrete pipe", "15", "class iii", "520"]
+    },
+    {
+      "item": "18\" RCP Class III",
+      "txdot_item": "520",
+      "unit": "LF",
+      "price": 22.75,
+      "keywords": ["rcp", "concrete pipe", "18", "class iii", "520"]
+    },
+    {
+      "item": "24\" RCP Class III",
+      "txdot_item": "520",
+      "unit": "LF",
+      "price": 35.50,
+      "keywords": ["rcp", "concrete pipe", "24", "class iii", "520"]
+    },
+    {
+      "item": "30\" RCP Class III",
+      "txdot_item": "520",
+      "unit": "LF",
+      "price": 52.00,
+      "keywords": ["rcp", "concrete pipe", "30", "class iii", "520"]
+    },
+    {
+      "item": "15\" HDPE Pipe",
+      "txdot_item": "533",
+      "unit": "LF",
+      "price": 14.25,
+      "keywords": ["hdpe", "pipe", "15", "533"]
+    },
+    {
+      "item": "18\" HDPE Pipe",
+      "txdot_item": "533",
+      "unit": "LF",
+      "price": 19.50,
+      "keywords": ["hdpe", "pipe", "18", "533"]
+    },
+    {
+      "item": "24\" HDPE Pipe",
+      "txdot_item": "533",
+      "unit": "LF",
+      "price": 28.75,
+      "keywords": ["hdpe", "pipe", "24", "533"]
+    },
+    {
+      "item": "Select Fill Material",
+      "txdot_item": "132",
+      "unit": "CY",
+      "price": 22.50,
+      "keywords": ["select fill", "select", "fill", "132"]
+    },
+    {
+      "item": "Embankment Material",
+      "txdot_item": "132",
+      "unit": "CY",
+      "price": 18.75,
+      "keywords": ["embankment", "material", "132"]
+    },
+    {
+      "item": "Topsoil",
+      "txdot_item": "161",
+      "unit": "CY",
+      "price": 32.00,
+      "keywords": ["topsoil", "top soil", "soil", "161"]
+    },
+    {
+      "item": "Thermoplastic Striping",
+      "txdot_item": "666",
+      "unit": "LF",
+      "price": 0.85,
+      "keywords": ["thermoplastic", "striping", "stripe", "666"]
+    },
+    {
+      "item": "Paint Striping",
+      "txdot_item": "666",
+      "unit": "LF",
+      "price": 0.35,
+      "keywords": ["paint", "striping", "stripe", "666"]
+    },
+    {
+      "item": "Raised Pavement Markers",
+      "txdot_item": "670",
+      "unit": "EA",
+      "price": 4.50,
+      "keywords": ["raised", "pavement", "markers", "670"]
+    },
+    {
+      "item": "Erosion Control Blanket",
+      "txdot_item": "162",
+      "unit": "SY",
+      "price": 2.25,
+      "keywords": ["erosion", "control", "blanket", "162"]
+    },
+    {
+      "item": "Silt Fence",
+      "txdot_item": "162",
+      "unit": "LF",
+      "price": 3.50,
+      "keywords": ["silt", "fence", "162"]
+    },
+    {
+      "item": "Inlet Protection",
+      "txdot_item": "162",
+      "unit": "EA",
+      "price": 125.00,
+      "keywords": ["inlet", "protection", "162"]
+    },
+    {
+      "item": "Geotextile Fabric Type 1",
+      "txdot_item": "161",
+      "unit": "SY",
+      "price": 1.85,
+      "keywords": ["geotextile", "fabric", "type 1", "161"]
+    },
+    {
+      "item": "Geotextile Fabric Type 2",
+      "txdot_item": "161",
+      "unit": "SY",
+      "price": 2.45,
+      "keywords": ["geotextile", "fabric", "type 2", "161"]
+    },
+    {
+      "item": "Traffic Control Signs",
+      "txdot_item": "678",
+      "unit": "SF",
+      "price": 12.50,
+      "keywords": ["traffic", "control", "signs", "678"]
+    },
+    {
+      "item": "Barricades Type III",
+      "txdot_item": "502",
+      "unit": "EA",
+      "price": 185.00,
+      "keywords": ["barricades", "type iii", "type 3", "502"]
+    },
+    {
+      "item": "Traffic Cones 28\"",
+      "txdot_item": "502",
+      "unit": "EA",
+      "price": 22.50,
+      "keywords": ["traffic", "cones", "28", "502"]
+    },
+    {
+      "item": "Caliche",
+      "txdot_item": "247",
+      "unit": "TON",
+      "price": 14.50,
+      "keywords": ["caliche", "247"]
+    },
+    {
+      "item": "Sand",
+      "txdot_item": "421",
+      "unit": "TON",
+      "price": 19.75,
+      "keywords": ["sand", "421"]
+    },
+    {
+      "item": "Gabion Baskets",
+      "txdot_item": "423",
+      "unit": "CY",
+      "price": 95.00,
+      "keywords": ["gabion", "baskets", "423"]
+    },
+    {
+      "item": "Riprap Grade 1",
+      "txdot_item": "423",
+      "unit": "TON",
+      "price": 42.00,
+      "keywords": ["riprap", "grade 1", "423"]
+    },
+    {
+      "item": "Riprap Grade 2",
+      "txdot_item": "423",
+      "unit": "TON",
+      "price": 38.50,
+      "keywords": ["riprap", "grade 2", "423"]
+    }
+  ]
+}
