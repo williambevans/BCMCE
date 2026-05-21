@@ -328,6 +328,35 @@
       text-align: center;
     }
 
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .footer-nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--gray);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: all 0.3s ease;
+    }
+
+    .footer-nav a:hover {
+      color: var(--gold);
+    }
+
+    .footer-nav a.active {
+      color: var(--gold);
+    }
+
     .footer-line {
       width: 60px;
       height: 1px;
@@ -1613,6 +1642,13 @@
   <!-- Footer -->
   <footer>
     <div class="container">
+      <nav class="footer-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="index.html#materials">Materials</a>
+        <a href="request-bid.html">Request Bid</a>
+        <a href="supplier-signup.html">Supplier Network</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
       <div class="footer-line"></div>
       <div class="footer-text">
         Hamilton Hayduke Holdings Co.<br>

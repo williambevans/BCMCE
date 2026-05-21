@@ -337,6 +337,35 @@
       text-align: center;
     }
 
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .footer-nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--gray);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: all 0.3s ease;
+    }
+
+    .footer-nav a:hover {
+      color: var(--gold);
+    }
+
+    .footer-nav a.active {
+      color: var(--gold);
+    }
+
     .footer-text {
       font-size: 11px;
       font-weight: 200;
@@ -688,6 +717,13 @@
 
   <!-- Footer -->
   <footer>
+    <nav class="footer-nav">
+      <a href="index.html">Home</a>
+      <a href="index.html#materials">Materials</a>
+      <a href="request-bid.html">Request Bid</a>
+      <a href="supplier-signup.html" class="active">Supplier Network</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
     <div class="footer-text">
       H. H. Holdings Co. | Licensed Texas Contractor<br>
       TX-AG-2024-00123 | Building Partnerships with Texas Suppliers
