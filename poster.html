@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamilton Hayduke Holdings Co. - Poster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @page {
+      size: 8.5in 11in;
+      margin: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #000000;
+      color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+    }
+
+    .poster {
+      width: 8.5in;
+      height: 11in;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+      border: 3px solid #d4af37;
+      padding: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poster::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo-line {
+      width: 80px;
+      height: 2px;
+      background: #d4af37;
+      margin: 0 auto 30px;
+    }
+
+    .company-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      color: #d4af37;
+      letter-spacing: 4px;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    .tagline {
+      font-size: 14px;
+      font-weight: 200;
+      color: #888888;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: #f5f5f5;
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+
+    .headline .accent {
+      color: #d4af37;
+      font-style: italic;
+    }
+
+    .description {
+      font-size: 16px;
+      font-weight: 300;
+      color: #cccccc;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 40px 0;
+    }
+
+    .benefit-item {
+      text-align: center;
+      padding: 20px;
+      background: rgba(212, 175, 55, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .benefit-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      color: #d4af37;
+      margin-bottom: 8px;
+    }
+
+    .benefit-label {
+      font-size: 13px;
+      font-weight: 300;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .divider {
+      width: 120px;
+      height: 1px;
+      background: #d4af37;
+      margin: 40px auto;
+    }
+
+    .features {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin: 30px 0;
+    }
+
+    .feature {
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+
+    .feature-text {
+      font-size: 12px;
+      font-weight: 300;
+      color: #cccccc;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .cta {
+      text-align: center;
+      margin: 40px 0 30px;
+    }
+
+    .cta-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: #d4af37;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+
+    .cta-subtitle {
+      font-size: 13px;
+      font-weight: 300;
+      color: #888888;
+      letter-spacing: 1px;
+    }
+
+    .footer {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      font-size: 12px;
+      font-weight: 300;
+      color: #888888;
+    }
+
+    .contact-item strong {
+      color: #d4af37;
+      font-weight: 400;
+    }
+
+    .license {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: #d4af37;
+      letter-spacing: 2px;
+      margin-top: 15px;
+    }
+
+    .launch {
+      margin-top: 15px;
+      font-size: 11px;
+      font-weight: 300;
+      color: #666666;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    @media print {
+      body {
+        background: #000000;
+      }
+      .poster {
+        width: 8.5in;
+        height: 11in;
+        page-break-after: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="poster">
+    <div class="content">
+
+      <!-- Header -->
+      <div class="header">
+        <div class="logo-line"></div>
+        <h1 class="company-name">Hamilton Hayduke<br>Holdings Co.</h1>
+        <p class="tagline">Licensed Texas Contractor</p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <h2 class="headline">
+          Connecting <span class="accent">Local Mines</span><br>
+          with Texas County Government Contracts
+        </h2>
+
+        <p class="description">
+          We bridge the gap between aggregate producers and county infrastructure projects
+          across all 254 Texas counties. As your licensed contractor, we handle compliance,
+          bidding, and contracts while you focus on production and fulfillment.
+        </p>
+
+        <!-- Benefits Grid -->
+        <div class="benefits">
+          <div class="benefit-item">
+            <div class="benefit-number">254</div>
+            <div class="benefit-label">Texas Counties</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-number">43+</div>
+            <div class="benefit-label">TxDOT Materials</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-number">100%</div>
+            <div class="benefit-label">Compliance Handled</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-number">Real-Time</div>
+            <div class="benefit-label">Pricing Control</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Features -->
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">◆</div>
+            <div class="feature-text">Direct Access</div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">◆</div>
+            <div class="feature-text">No Upfront Costs</div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">◆</div>
+            <div class="feature-text">TxDOT Certified</div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+          <p class="cta-text">Now Accepting Supplier Partners</p>
+          <p class="cta-subtitle">Mines • Quarries • Asphalt Plants • Concrete Facilities</p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <div class="contact-info">
+          <div class="contact-item">
+            <strong>397 Highway 22</strong> Clifton, TX 76634
+          </div>
+          <div class="contact-item">
+            <strong>Phone</strong> (254) 555-0100
+          </div>
+          <div class="contact-item">
+            <strong>Email</strong> suppliers@hhholdings.com
+          </div>
+        </div>
+        <div class="license">TX-AG-2024-00123</div>
+        <div class="launch">Launching Q2 2026</div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
