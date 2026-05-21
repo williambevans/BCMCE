@@ -1,446 +1,252 @@
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║   ██╗  ██╗    ██╗  ██╗          ██╗  ██╗ ██████╗ ██╗     ██████╗ ██╗███╗   ██╗ ██████╗ ███████╗  ║
-║   ██║  ██║    ██║  ██║          ██║  ██║██╔═══██╗██║     ██╔══██╗██║████╗  ██║██╔════╝ ██╔════╝  ║
-║   ███████║    ███████║          ███████║██║   ██║██║     ██║  ██║██║██╔██╗ ██║██║  ███╗███████╗  ║
-║   ██╔══██║    ██╔══██║          ██╔══██║██║   ██║██║     ██║  ██║██║██║╚██╗██║██║   ██║╚════██║  ║
-║   ██║  ██║    ██║  ██║          ██║  ██║╚██████╔╝███████╗██████╔╝██║██║ ╚████║╚██████╔╝███████║  ║
-║   ╚═╝  ╚═╝    ╚═╝  ╚═╝          ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝  ║
-║                                                                           ║
-║                    HH COUNTY CONTRACTOR PLATFORM                          ║
-║             Professional Contractor Services for Central Texas            ║
-║                                                                           ║
-║   Operator:    Hamilton Hayduke Holdings Co. / Bevans Real Estate        ║
-║   Location:    397 Highway 22, Clifton, TX 76634                         ║
-║   Broker:      Biri Bevans, Designated Broker                            ║
-║   Status:      Licensed & Registered Contractor                          ║
-║                                                                           ║
-║   Built with:  FastAPI • PostgreSQL • JavaScript • WebSocket             ║
-║   Version:     2.0.0 - Production Ready                                  ║
-║   Copyright:   © 2026 Hamilton Hayduke Holdings Co. All rights reserved. ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
-```
+# Hamilton Hayduke Holdings Co. — BCMCE Platform
 
-# HH County Contractor Platform (HCCP)
+**Registered Texas Vendor** providing materials meeting TxDOT specifications for county procurement under Tex. Loc. Gov't Code Ch. 262.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Licensed%20Contractor-ff9500?style=for-the-badge&labelColor=0a0a0a" alt="Status">
-  <img src="https://img.shields.io/badge/Region-Central%20Texas-00a8ff?style=for-the-badge&labelColor=0a0a0a" alt="Region">
-  <img src="https://img.shields.io/badge/License-Proprietary-ff3b3b?style=for-the-badge&labelColor=0a0a0a" alt="License">
-</p>
-
-<p align="center">
-  <strong>Professional contractor management platform with legal authority to solicit county government business</strong>
-</p>
-
-<p align="center">
-  <em>Serving rural Texas counties through licensed contractor operations</em>
-</p>
-
-```
-════════════════════════════════════════════════════════════════════════════════
-                         CONTRACTOR TERMINAL ACCESS GRANTED
-════════════════════════════════════════════════════════════════════════════════
-```
-
-## 🔗 PLATFORM ACCESS
-
-**Live Platform**: [https://williambevans.github.io/BCMCE/frontend/hh-dashboard.html](https://williambevans.github.io/BCMCE/frontend/hh-dashboard.html)
+**Website:** [williambevans.github.io/BCMCE](https://williambevans.github.io/BCMCE)
 
 ---
 
-## 📋 TABLE OF CONTENTS
+## Platform Overview
 
-- [Overview](#-overview)
-- [Contractor Authority](#-contractor-authority)
-- [Platform Features](#-platform-features)
-- [Materials & Services](#-materials--services)
-- [Technology Stack](#-technology-stack)
-- [Getting Started](#-getting-started)
-- [Platform Modules](#-platform-modules)
-- [Target Counties](#-target-counties)
-- [Performance Metrics](#-performance-metrics)
-- [Contact](#-contact)
+The BCMCE (Bosque County Materials & Contracting Exchange) platform is a dual-purpose system:
 
----
+1. **Public-Facing Website**: Materials catalog and vendor registration portal
+2. **Bid Intelligence System**: Automated procurement opportunity discovery and matching
 
-## 🎯 OVERVIEW
+### Critical Compliance Rules
 
-**Hamilton Hayduke Holdings Co.** operates a comprehensive contractor management platform designed to streamline county government procurement operations across Central Texas. As a **licensed, registered contractor**, we have full legal authority to bid on, win, and fulfill county construction contracts.
+This platform operates under strict compliance constraints:
 
-### Mission Statement
+1. **No Auto-Submission**: The system produces print-ready packets; humans deliver them. Never auto-submit registrations or bids.
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ PROFESSIONAL CONTRACTOR SERVICES                                            │
-│                                                                             │
-│ Hamilton Hayduke Holdings Co. operates as a licensed, registered contractor │
-│ with legal authority to solicit, bid on, and fulfill county government     │
-│ construction and materials contracts throughout Texas.                      │
-│                                                                             │
-│ We serve rural Texas counties that face infrastructure maintenance          │
-│ challenges by providing competitive bids, reliable materials supply,        │
-│ and professional project execution.                                         │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+2. **No Fictional Data**: All `[PENDING]` fields must be filled by human before packet generation. The generator refuses to build packets with missing data.
 
-### Why This Platform Exists
+3. **Honest Language**: 
+   - ❌ Never: "licensed contractor", "TxDOT certified", "certified materials"
+   - ✅ Always: "registered vendor", "TxDOT spec-compliant", "meets TxDOT specifications"
 
-Rural Texas counties face critical challenges:
-- **Competitive Bidding Crisis**: Some counties unable to secure competitive bids for 3-4 consecutive years
-- **Infrastructure Deterioration**: Road maintenance deferred due to procurement difficulties
-- **Budget Constraints**: Limited visibility into multi-year project costs
-- **Vendor Fragmentation**: Multiple suppliers with inconsistent pricing and availability
+4. **CIQ Ch. 176 Honesty**: The Conflict of Interest Questionnaire requires disclosure of relationships with local government officers as defined in §176.001(1). For Bosque County specifically:
+   - Principal (Biri) is a constituent and active complainant on county matters
+   - Principal is **NOT** an officer, employee, or family member of a county officer
+   - No business or financial relationship exists with county officials
+   - Therefore: "No relationship requiring disclosure under §176.003"
+   - This reasoning is documented in `company_profile.json` and preserved in generated CIQ forms
 
-**Our Solution**: A professional contractor platform that provides competitive bids, transparent pricing, reliable materials supply, and proven project execution.
+5. **Bosque Deployment Strategy**: Bosque County is the reference implementation for code purposes. However, **do not auto-submit** a Bosque registration packet from cron jobs. Bosque registration is a manual decision made after reviewing the political landscape.
 
 ---
 
-## ⚖️ CONTRACTOR AUTHORITY
+## Platform Components
 
-### Legal Credentials
+### Part 1: Public Website
+
+Static HTML site hosted on GitHub Pages with elegant gold/black design.
+
+**Pages:**
+- `index.html` — Materials catalog (43 TxDOT items, Bloomberg terminal aesthetic)
+- `request-bid.html` — Bid request form for counties
+- `supplier-signup.html` — Registration form for mines/aggregates to register HHH as contractor
+- `poster.html` — Print-ready promotional poster (8.5" × 11")
+
+**Compliance Updates (2026-05-21):**
+- Removed all fictional licensing: "TX-AG-2024-00123" → "Texas SOS Filing: [PENDING]"
+- Removed 555 phone numbers: "(254) 555-0100" → "(254) [PENDING]"
+- Changed "Licensed Texas Contractor" → "Registered Texas Vendor" globally
+- Changed "TxDOT Certified" → "TxDOT Spec-Compliant"
+- Added pricing timestamp with JavaScript date
+- Added legal disclaimer in footer documenting TxDOT MPL sourcing and Tex. Loc. Gov't Code Ch. 262 basis
+
+### Part 2: Vendor Registration System
+
+Python-based packet generator for county vendor registration.
+
+**Location:** `vendor_registration/`
+
+**Usage:**
+```bash
+cd vendor_registration
+
+# First: Fill all [PENDING] fields in company_profile.json
+# DO NOT run generator until all required fields are filled
+
+# Validate profile without generating
+python build_packet.py --county bosque --validate-only
+
+# Generate packet (only works if no PENDING fields)
+python build_packet.py --county bosque
+
+# Output: packets/bosque_HHH_VendorRegistration_YYYY-MM-DD.pdf
+```
+
+**Generated Packet Includes:**
+1. Cover letter addressed to county purchasing
+2. Vendor information form
+3. IRS Form W-9 placeholder
+4. Certificate of Insurance placeholder
+5. Conflict of Interest Questionnaire (Ch. 176 Form CIQ) with honest disclosure
+6. Form 1295 instructions (per-contract basis)
+7. Debarment certification
+8. Business references
+9. Signature page
+
+**Manual Delivery Required:** Print packet and deliver to county purchasing office. No electronic auto-submission.
+
+**County Templates:** Directory structure created for:
+- Bosque (reference implementation)
+- Hill, Erath, Hamilton (stubs for future development)
+- McLennan, Comanche, Somervell, Coryell (stubs)
+
+### Part 3: Bid Intelligence System
+
+Automated procurement opportunity discovery and matching.
+
+**Location:** `bid_intel/`
+
+**Architecture:**
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ CREDENTIAL                      │ NUMBER              │ STATUS              │
-├─────────────────────────────────┼─────────────────────┼─────────────────────┤
-│ Texas Contractor License        │ TX-AG-2024-00123    │ ✅ Active          │
-│ Texas Materials Supplier        │ TX-MIN-2024-00456   │ ✅ Active          │
-│ Federal Tax ID (EIN)            │ XX-XXXXXXX          │ ✅ Registered      │
-│ DUNS Number                     │ XX-XXX-XXXX         │ ✅ Verified        │
-│ Texas Comptroller ID            │ 32XXXXXXXXX         │ ✅ Active          │
-│ Business Entity                 │ Hamilton Hayduke    │ ✅ LLC Registered  │
-│                                 │ Holdings Co.        │                     │
-└─────────────────────────────────┴─────────────────────┴─────────────────────┘
+bid_intel/
+├── scrapers/
+│   ├── bosque_clerk.py      # Bosque County Clerk + Commissioner Court
+│   ├── bidnet_tx.py          # Bidnet Direct platform
+│   ├── publicpurchase.py     # Public Purchase platform
+│   └── ionwave.py            # Ion Wave platform
+├── matcher.py                # Scoring algorithm (0-110 points)
+├── brief.py                  # PDF + HTML brief generator
+├── run_daily.py              # Orchestrator (called by cron)
+├── catalog.json              # Materials catalog (43 items)
+└── briefs/                   # Generated briefs (PDF + HTML)
+    └── latest.html           # Latest brief (GitHub Pages)
 ```
 
-### Authorized Activities
+**Scoring Algorithm (0-110 points):**
+- **Keyword match**: 0-50 points (2 points per catalog keyword found)
+- **TxDOT item match**: +30 points if TxDOT item number referenced
+- **County priority**: +20 for Tier 1 (Bosque/Hill/Erath), +10 for Tier 2
+- **Deadline urgency**: +10 if deadline within 14 days
 
-As a licensed contractor, Hamilton Hayduke Holdings Co. has **full legal authority** to:
+**Priority Levels:**
+- **High (80-110)**: Auto-draft recommended (score ≥ 80)
+- **Medium (60-79)**: Review recommended
+- **Low (40-59)**: Monitor only
+- **None (0-39)**: Ignore
 
-✅ **Solicit Business** from Texas county governments  
-✅ **Advertise Services** to county officials and commissioners courts  
-✅ **Submit Competitive Bids** on county RFPs and procurement opportunities  
-✅ **Execute Contracts** with county commissioners courts  
-✅ **Supply Materials** (aggregates, asphalt, concrete, road base, etc.)  
-✅ **Perform Construction** and road maintenance services  
-✅ **Manage Projects** from bid to completion  
-✅ **Maintain Records** per Texas Public Information Act requirements  
+**Automation:**
+- GitHub Actions cron: 6 AM and 6 PM Central daily
+- Scrapes all sources, matches against catalog, generates briefs
+- Commits briefs to repo (PDF + HTML + JSON)
+- Latest brief always at: `williambevans.github.io/BCMCE/bid_intel/briefs/latest.html`
+
+**Manual Testing:**
+```bash
+cd bid_intel
+
+# Test individual scrapers
+python scrapers/bosque_clerk.py
+python scrapers/bidnet_tx.py
+
+# Test matcher
+python matcher.py
+
+# Test brief generator
+python brief.py
+
+# Run full daily pipeline
+python run_daily.py
+```
+
+**GitHub Actions Workflow:** `.github/workflows/bid_intel.yml`
+- Scheduled runs: `0 12 * * *` (6 AM Central) and `0 0 * * *` (6 PM Central)
+- Manual trigger: Available via workflow_dispatch
+- Artifact retention: 90 days for PDF briefs
 
 ---
 
-## 🚀 PLATFORM FEATURES
+## Development Setup
 
-### Core Capabilities
-
-```
-┌────────────────────────┬──────────────────────────────────────────────────┐
-│ CAPABILITY             │ DESCRIPTION                                      │
-├────────────────────────┼──────────────────────────────────────────────────┤
-│ RFP Management         │ Automated monitoring of 254 Texas counties       │
-│ Bid Calculator         │ Materials cost + margin optimization             │
-│ Contract Tracking      │ Active project monitoring and reporting          │
-│ Materials Pricing      │ Real-time cost intelligence (40+ materials)      │
-│ County Intelligence    │ Procurement patterns and commissioner schedules  │
-│ Compliance Tools       │ TxDOT specifications and reporting               │
-│ Performance Analytics  │ Win rates, margins, and contract fulfillment     │
-└────────────────────────┴──────────────────────────────────────────────────┘
-```
-
-### Platform Architecture
-
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│                        HCCP PLATFORM ARCHITECTURE                        │
-│                                                                          │
-│  ┌──────────────────┐         ┌──────────────────┐                     │
-│  │  Contractor      │ ─────▶  │  RFP Monitoring  │                     │
-│  │  Dashboard       │         │  Engine          │                     │
-│  └──────────────────┘         └──────────────────┘                     │
-│           │                             │                               │
-│           ▼                             ▼                               │
-│  ┌──────────────────┐         ┌──────────────────┐                     │
-│  │  Materials       │ ─────▶  │  Bid Calculator  │                     │
-│  │  Pricing         │         │  & Optimizer     │                     │
-│  └──────────────────┘         └──────────────────┘                     │
-│           │                             │                               │
-│           ▼                             ▼                               │
-│  ┌──────────────────┐         ┌──────────────────┐                     │
-│  │  County          │ ─────▶  │  Contract        │                     │
-│  │  Intelligence    │         │  Management      │                     │
-│  └──────────────────┘         └──────────────────┘                     │
-│                                                                          │
-│                    Bloomberg Terminal Aesthetic                          │
-│                    Real-time WebSocket Updates                           │
-└──────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 📊 MATERIALS & SERVICES
-
-### Primary Materials (Phase 1)
-
-```
-┌──────────┬─────────────────────────┬────────────────┬──────────────────────┐
-│ CODE     │ MATERIAL                │ TxDOT SPEC     │ COST BASIS*          │
-├──────────┼─────────────────────────┼────────────────┼──────────────────────┤
-│ GRVL-RB  │ Road Base Gravel        │ Type A         │ $28.50/ton           │
-│ FLEX-12  │ Flexible Base Gr 1-2    │ Item 247       │ $32.00/ton           │
-│ CALC-STD │ Caliche                 │ Standard       │ $45.00/ton           │
-│ LIME-SLR │ Lime Slurry             │ Hydrated Comm. │ $143.00/ton          │
-│ LMST-CR  │ Crushed Limestone       │ 3/4" Minus     │ $35.00/ton           │
-│ GRVL-PEA │ Pea Gravel              │ 3/8" Washed    │ $42.00/ton           │
-│ GRVL-TOP │ Topping Gravel          │ Surface Grade  │ $38.00/ton           │
-│ CLAY-FIL │ Fill Clay               │ Compactable    │ $18.00/ton           │
-│ CMNT-PRT │ Portland Cement         │ Type I         │ $153.25/ton          │
-│ CRSH-RUN │ Crusher Run             │ Dense Grade    │ $26.00/ton           │
-│ LIME-QK  │ Quicklime (Dry)         │ TxDOT Type C   │ $170.85/ton          │
-│ HMAC-STD │ Hot Mix Asphalt         │ Type D PG64    │ $109.58/ton          │
-└──────────┴─────────────────────────┴────────────────┴──────────────────────┘
-
-*Cost basis for bid calculation and procurement planning (January 2026)
-```
-
-### Contractor Services
-
-#### ✅ Materials Supply
-- Road base and aggregates
-- Asphalt and paving materials  
-- Concrete and cement products
-- Lime and stabilization materials
-- Drainage materials
-
-#### ✅ Construction Services
-- Road base installation
-- Asphalt paving and overlay
-- Road maintenance and repair
-- Drainage and culvert work
-- Project management
-
-#### ✅ Logistics
-- Materials delivery
-- Equipment coordination
-- Site preparation
-- Quality control
-- Compliance documentation
-
----
-
-## 🛠️ TECHNOLOGY STACK
-
-### Backend
-
-```python
-# FastAPI - Modern async Python web framework
-- FastAPI 0.109.0
-- Uvicorn ASGI server
-- Pydantic data validation
-- SQLAlchemy ORM
-- PostgreSQL database
-- WebSocket real-time
-- JWT authentication
-```
-
-### Frontend
-
-```javascript
-// Bloomberg Terminal Aesthetic
-- HTML5 / CSS3 / ES6
-- IBM Plex Mono font
-- CRT scanline effects
-- Real-time WebSocket
-- Responsive grid layout
-- No framework dependencies
-```
-
-### Infrastructure
-
-```yaml
-Infrastructure:
-  - Docker containerization
-  - PostgreSQL 15+ database
-  - Nginx reverse proxy
-  - GitHub Actions CI/CD
-  - Linux (Ubuntu) servers
-```
-
----
-
-## 🚦 GETTING STARTED
-
-### Prerequisites
+### Local Development
 
 ```bash
-# System Requirements
-- Docker & Docker Compose 20+
-- PostgreSQL 15+
-- Python 3.11+
-- Git 2.40+
-```
-
-### Quick Start
-
-```bash
-# 1. Clone the repository
+# Clone repository
 git clone https://github.com/williambevans/BCMCE.git
 cd BCMCE
 
-# 2. Set up environment
-cp .env.example .env
-# Edit .env with your configuration
+# Install vendor registration dependencies
+pip install -r vendor_registration/requirements.txt
 
-# 3. Start backend
-cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
+# Install bid intelligence dependencies
+pip install -r bid_intel/requirements.txt
 
-# 4. Initialize database
-alembic upgrade head
-
-# 5. Start API server
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-
-# 6. Serve frontend (separate terminal)
-cd ../frontend
-python -m http.server 8080
-
-# Access platform:
-# Frontend: http://localhost:8080/hh-dashboard.html
-# API Docs: http://localhost:8000/docs
+# Serve website locally
+python -m http.server 8000
+# Visit: http://localhost:8000
 ```
+
+### Git Workflow
+
+Development branches must follow format: `claude/bcmce-platform-build-<sessionID>`
+
+**Push commands:**
+```bash
+# Always use -u flag for first push
+git push -u origin claude/bcmce-platform-build-nmObJ
+
+# Network retry logic built into automation (4 retries with exponential backoff)
+```
+
+**Branch protection:**
+- Main branch is protected
+- All changes via PR merge through GitHub UI
+- Feature branches start with `claude/` prefix
 
 ---
 
-## 📱 PLATFORM MODULES
+## Contact Information
 
-### 1. Contractor Dashboard
-Main operational hub - **[Access Here](https://williambevans.github.io/BCMCE/frontend/hh-dashboard.html)**
+**Company:** Hamilton Hayduke Holdings Co.  
+**Address:** 397 Highway 22, Clifton, TX 76634  
+**Email:** bids@hhholdings.com  
+**Website:** https://williambevans.github.io/BCMCE  
 
-### 2. RFP Management  
-Automated RFP monitoring - **[Access Here](https://williambevans.github.io/BCMCE/frontend/rfp-alerts.html)**
+**Texas Registrations:**
+- SOS Filing: `[PENDING]`
+- TX Comptroller TIN: `[PENDING]`
+- TEC Form 1295: Per-contract basis
 
-### 3. Materials Terminal
-Real-time pricing - **[Access Here](https://williambevans.github.io/BCMCE/frontend/txdot.html)**
-
-### 4. County Intelligence
-254 Texas counties - **[Access Here](https://williambevans.github.io/BCMCE/frontend/maicounty.html)**
-
-### 5. Contract Tracking
-Active contracts - **[Access Here](https://williambevans.github.io/BCMCE/frontend/contract-history.html)**
-
-### 6. Settings
-Platform configuration - **[Access Here](https://williambevans.github.io/BCMCE/frontend/settings.html)**
+**Phone:** `[PENDING]` — To be filled before vendor registration
 
 ---
 
-## 🗺️ TARGET COUNTIES
+## Legal Disclaimers
 
-### Phase 1: Central Texas (Tier 1) - **ACTIVE**
+### Materials Sourcing
+HHH is a registered Texas business entity. Materials sourced from TxDOT Material Producer List (MPL) approved producers. HHH bids county procurement contracts pursuant to Tex. Loc. Gov't Code Ch. 262.
 
-```
-County          | Population | Budget    | Status
-----------------|-----------|-----------|----------
-Bosque County   | 18,212    | $2.1M     | ⭐⭐⭐⭐⭐
-Hamilton County | 8,222     | $1.4M     | ⭐⭐⭐⭐
-Erath County    | 42,545    | $5.8M     | ⭐⭐⭐
-Ellis County    | 192,455   | $12.4M    | ⭐⭐⭐
-Johnson County  | 179,927   | $11.2M    | ⭐⭐
-```
+### Procurement Compliance
+All county procurement activities follow Texas Local Government Code Chapter 262 (county purchasing). Form 1295 Certificate of Interested Parties filed on per-contract basis per Tex. Gov't Code §2252.908.
 
-### Phase 2: Regional Expansion (Tier 2)
-Hood, Somervell, Hill, McLennan, Tarrant (rural), Dallas (rural)
-
-### Phase 3: Statewide (254 Counties)
-Selective bidding based on project size, distance, and profitability
+### Conflict of Interest
+Conflict of Interest Questionnaire (Ch. 176 Form CIQ) completed honestly based on actual relationships as defined in Tex. Loc. Gov't Code §176.001(1). See `company_profile.json` for documented reasoning.
 
 ---
 
-## 📈 PERFORMANCE METRICS
+## Revision History
 
-```
-┌─────────────────────────┬──────────────────────────────────────────┐
-│ METRIC                  │ VALUE                                    │
-├─────────────────────────┼──────────────────────────────────────────┤
-│ Active RFP Alerts       │ 15 opportunities                         │
-│ Bid Win Rate            │ 67.9% (won 19 of 28 bids)                │
-│ Contract Value (YTD)    │ $854,300                                 │
-│ Counties Monitored      │ 254 (All Texas)                          │
-│ Materials Tracked       │ 40+ TxDOT items                          │
-│ Average Profit Margin   │ 12.8%                                    │
-│ Contract Fulfillment    │ 98.4% on-time                            │
-│ Platform Uptime         │ 98.7% last 30 days                       │
-└─────────────────────────┴──────────────────────────────────────────┘
-```
+- **2026-05-21**: Platform compliance overhaul
+  - Removed all fictional data (fake licenses, 555 numbers)
+  - Updated language (licensed → registered, certified → spec-compliant)
+  - Built vendor registration packet generator
+  - Built bid intelligence scraping and matching system
+  - Deployed GitHub Actions automation
+
+- **2026-05 (Earlier)**: Initial platform build
+  - Materials catalog with 43 TxDOT items
+  - Bloomberg terminal design aesthetic
+  - Request bid and supplier signup pages
+  - Print-ready promotional poster
 
 ---
 
-## 🤝 CONTACT & SUPPORT
+## License
 
-### Hamilton Hayduke Holdings Co.
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                                                                             │
-│  📍 Address:         397 Highway 22, Clifton, TX 76634                      │
-│  📞 Phone:           (254) 555-0100                                         │
-│  📱 Emergency:       (254) 555-0199 (24/7)                                  │
-│  📧 Email:           biri@hhholdings.com                                    │
-│  🌐 Website:         https://hhholdings.com                                 │
-│                                                                             │
-│  👤 Contact:         Biri Bevans, Designated Broker                         │
-│  🏢 Entity:          Hamilton Hayduke Holdings Co. (LLC)                    │
-│  📜 Status:          Licensed & Registered Texas Contractor                 │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### Support Channels
-
-- **Technical Issues**: support@hhholdings.com
-- **Bid Inquiries**: bids@hhholdings.com  
-- **County Relations**: counties@hhholdings.com
-- **Emergency**: (254) 555-0199 (24/7)
-
----
-
-## 📜 LICENSE & COPYRIGHT
-
-```
-════════════════════════════════════════════════════════════════════════════════
-
-Copyright © 2026 Hamilton Hayduke Holdings Co. All rights reserved.
-
-This is proprietary software owned by Hamilton Hayduke Holdings Co. 
-Unauthorized copying, distribution, modification, or use of this software 
-is strictly prohibited.
-
-For licensing inquiries: legal@hhholdings.com
-
-════════════════════════════════════════════════════════════════════════════════
-```
-
----
-
-```
-════════════════════════════════════════════════════════════════════════════════
-                     HH COUNTY CONTRACTOR PLATFORM v2.0.0
-                    Professional. Licensed. Authorized.
-════════════════════════════════════════════════════════════════════════════════
-```
-
-<p align="center">
-  <strong>Built for Texas Counties. By Texans.</strong><br>
-  <em>Serving rural infrastructure needs through professional contractor services</em>
-</p>
-
----
-
-<p align="center">
-  <sub>Last Updated: January 29, 2026</sub><br>
-  <sub>Platform Version: 2.0.0</sub><br>
-  <sub>Licensed Contractor: TX-AG-2024-00123</sub>
-</p>
+© 2026 Hamilton Hayduke Holdings Co. All Rights Reserved.
