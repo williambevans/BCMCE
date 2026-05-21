@@ -1,0 +1,65 @@
+{
+  "company_name": "Hamilton Hayduke Holdings Co.",
+  "dba": null,
+  "ein": "[PENDING]",
+  "sos_file_number": "[PENDING]",
+  "tx_comptroller_tin": "[PENDING]",
+  "address": {
+    "street": "397 Highway 22",
+    "city": "Clifton",
+    "state": "TX",
+    "zip": "76634"
+  },
+  "phone": "[PENDING]",
+  "email": "bids@hhholdings.com",
+  "website": "https://williambevans.github.io/BCMCE",
+  "principal": {
+    "name": "William H. Bevans Jr.",
+    "title": "Principal",
+    "email": "bids@hhholdings.com",
+    "phone": "[PENDING]"
+  },
+  "naics_codes": [
+    "423320",
+    "423390"
+  ],
+  "services": [
+    "TxDOT-specification aggregates and base materials",
+    "Asphalt paving materials",
+    "Concrete materials",
+    "Erosion control products",
+    "Drainage materials"
+  ],
+  "ciq_176": {
+    "relationship": "No relationship requiring disclosure under §176.003",
+    "reason": "Principal is a constituent and active complainant in Bosque County matters but is not an officer, employee, or family member of a local government officer as defined in Tex. Loc. Gov't Code §176.001(1). No financial, business, or family relationship with county officials exists."
+  },
+  "insurance": {
+    "general_liability": "[PENDING - COI to be provided]",
+    "workers_comp": "[PENDING - COI to be provided]",
+    "auto_liability": "[PENDING - COI to be provided]"
+  },
+  "references": [
+    {
+      "name": "[PENDING]",
+      "organization": "[PENDING]",
+      "phone": "[PENDING]",
+      "email": "[PENDING]",
+      "relationship": "[PENDING]"
+    },
+    {
+      "name": "[PENDING]",
+      "organization": "[PENDING]",
+      "phone": "[PENDING]",
+      "email": "[PENDING]",
+      "relationship": "[PENDING]"
+    },
+    {
+      "name": "[PENDING]",
+      "organization": "[PENDING]",
+      "phone": "[PENDING]",
+      "email": "[PENDING]",
+      "relationship": "[PENDING]"
+    }
+  ]
+}
